@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Quick Cash</string>
+
+    <!-- Values for role selection Spinner -->
+    <string-array name="role_array">
+        <item>Select Role</item>
+        <item>Employee</item>
+        <item>Employer</item>
+    </string-array>
 </resources>
