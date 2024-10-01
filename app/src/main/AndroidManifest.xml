@@ -13,6 +13,12 @@
         android:theme="@style/Theme.QuickCash"
         tools:targetApi="31">
         <activity
+            android:name=".EmployeeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".EmployerActivity"
+            android:exported="true" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true" />
         <activity
