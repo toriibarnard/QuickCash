@@ -8,7 +8,7 @@
       <SelectionState runConfigName="Registration">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="fillOutRegistrationForm()">
+      <SelectionState runConfigName="RegistrationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
