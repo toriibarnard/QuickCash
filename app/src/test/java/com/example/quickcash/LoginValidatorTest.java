@@ -35,6 +35,7 @@ public class LoginValidatorTest {
         assertFalse(lv.isValidEmail("ab350922@smu.c"));
         assertFalse(lv.isValidEmail(""));
         assertFalse(lv.isValidEmail("      "));
+        assertFalse(lv.isValidEmail(null));
     }
 
     @Test
