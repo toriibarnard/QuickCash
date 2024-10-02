@@ -46,10 +46,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Invalid email", Toast.LENGTH_LONG).show();
                 } else if (!loginValidator.isValidPassword(password)) {
                     Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_LONG).show();
+                } else {
+                    LoginUserCheck loginUserCheck = new LoginUserCheck(LoginActivity.this, email, password, role);
+                    loginUserCheck.checkUserInFirebase();
                 }
-
-                LoginUserCheck loginUserCheck = new LoginUserCheck(email, password, role);
-                loginUserCheck.checkUserInFirebase();
             }
         });
     }
