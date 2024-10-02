@@ -1,9 +1,11 @@
 package com.example.quickcash;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,15 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class LoginActivity extends AppCompatActivity {
-
-    private FirebaseAuth authenticator;
-    private Spinner roleSelection;
-    private EditText emailAddress;
-    private EditText passwordField;
-    private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +26,33 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        authenticator = FirebaseAuth.getInstance();
-        roleSelection = findViewById(R.id.roleSelectionSpinner);
-        emailAddress = findViewById(R.id.emailAddressEditField);
-        passwordField = findViewById(R.id.passwordEditField);
-        loginButton = findViewById(R.id.loginButton);
+
+        LoginValidator loginValidator = new LoginValidator();
+        Spinner roleSelection = findViewById(R.id.roleSelectionSpinner);
+        EditText emailAddress = findViewById(R.id.emailAddressEditField);
+        EditText passwordField = findViewById(R.id.passwordEditField);
+        Button loginButton = findViewById(R.id.loginButton);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailAddress.getText().toString().trim();
+                String password = passwordField.getText().toString().trim();
+                String role = roleSelection.getSelectedItem().toString();
+
+                if (!loginValidator.haveSelectedRole(role)) {
+                    Toast.makeText(LoginActivity.this, "Please select a role", Toast.LENGTH_LONG).show();
+                } else if (!loginValidator.isValidEmail(email)) {
+                    Toast.makeText(LoginActivity.this, "Invalid email", Toast.LENGTH_LONG).show();
+                } else if (!loginValidator.isValidPassword(password)) {
+                    Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_LONG).show();
+                }
+
+                LoginUserCheck loginUserCheck = new LoginUserCheck(email, password, role);
+                loginUserCheck.checkUserInFirebase();
+            }
+        });
     }
+
+
 }
