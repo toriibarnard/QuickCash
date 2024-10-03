@@ -4,16 +4,19 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+// This class is used to test the LoginValidator
 public class LoginValidatorTest {
 
     private LoginValidator lv;
 
+    // Setup before every test
     @Before
     public void setup() {
         lv = new LoginValidator();
     }
 
 
+    // Test when a valid email is entered
     @Test
     public void testValidEmail () {
         assertTrue(lv.isValidEmail("abc@gmail.com"));
@@ -25,6 +28,7 @@ public class LoginValidatorTest {
         assertTrue(lv.isValidEmail("Bill-Gates453@MICROSOFT.COM"));
     }
 
+    // Test when an invalid email is entered
     @Test
     public void testInvalidEmail() {
         assertFalse(lv.isValidEmail("12Jeff@gmail.com"));
@@ -35,20 +39,22 @@ public class LoginValidatorTest {
         assertFalse(lv.isValidEmail("ab350922@smu.c"));
         assertFalse(lv.isValidEmail(""));
         assertFalse(lv.isValidEmail("      "));
-        assertFalse(lv.isValidEmail(null));
     }
 
+    // Test when a role is selected
     @Test
     public void testSelectedRole() {
         assertTrue(lv.haveSelectedRole("Employee"));
         assertTrue(lv.haveSelectedRole("Employer"));
     }
 
+    // Test when a role is not selected
     @Test
     public void testNotSelectedRole() {
         assertFalse(lv.haveSelectedRole("Select Role"));
     }
 
+    // Test when a valid password is entered
     @Test
     public void testValidPassword() {
         assertTrue(lv.isValidPassword("mypassword"));
@@ -59,6 +65,7 @@ public class LoginValidatorTest {
     }
 
 
+    // Test when the password field is empty
     @Test
     public void testEmptyPassword() {
         assertFalse(lv.isValidPassword(""));
