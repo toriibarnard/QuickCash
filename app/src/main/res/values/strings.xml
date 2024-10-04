@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Quick Cash</string>
+
+    <string-array name="job_types">
+        <item>Select Job Type</item>
+        <item>Full-time</item>
+        <item>Part-time</item>
+        <item>Contract</item>
+        <item>Internship</item>
+    </string-array>
+
+    <string-array name="experience_levels">
+        <item>Select Experience level</item>
+        <item>Entry-Level</item>
+        <item>Mid-Level</item>
+        <item>Senior-Level</item>
+        <item>Manager</item>
+        <item>Internship</item>
+    </string-array>
 </resources>
