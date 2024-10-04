@@ -48,6 +48,11 @@ public class UIAutomatorTest {
         jobTitleBox.setText(jobTitle);
         jobPosting.setTitle(jobTitle);
 
+        UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
+        String jobCompany = "Software Engineer";
+        jobCompanyBox.setText(jobCompany);
+        jobPosting.setJobCompany(jobCompany);
+
         UiObject jobDescriptionBox = device.findObject(new UiSelector().text("Job Description"));
         String jobDescription = "We are looking for a talented and motivated Software Engineer to join our growing team.";
         jobDescriptionBox.setText(jobDescription);
@@ -61,14 +66,14 @@ public class UIAutomatorTest {
         UiObject typeSpinner = device.findObject(new UiSelector().textContains("Select your job type"));
         typeSpinner.click();
         List<UiObject2> types = device.findObjects(By.res("android:id/jobTypeSpinner"));
-        String jobType = "Full-Time"; // Assuming this is the selected type
+        String jobType = "Full-Time";
         types.get(1).click();
         jobPosting.setJobType(jobType);
 
         UiObject experienceSpinner = device.findObject(new UiSelector().textContains("Select your experience level"));
         experienceSpinner.click();
         List<UiObject2> experiences = device.findObjects(By.res("android:id/experienceSpinner"));
-        String experienceLevel = "Junior"; // Assuming this is the selected level
+        String experienceLevel = "Junior";
         experiences.get(1).click();
         jobPosting.setExperienceLevel(experienceLevel);
 
@@ -93,6 +98,11 @@ public class UIAutomatorTest {
         jobTitleBox.setText(jobTitle);
         jobPosting.setTitle(jobTitle);
 
+        UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
+        String jobCompany = "Software Engineer";
+        jobCompanyBox.setText(jobCompany);
+        jobPosting.setJobCompany(jobCompany);
+
         UiObject jobDescriptionBox = device.findObject(new UiSelector().text("Job Description"));
         String jobDescription = "We are looking for a talented and motivated Software Engineer to join our growing team.";
         jobDescriptionBox.setText(jobDescription);
@@ -106,14 +116,14 @@ public class UIAutomatorTest {
         UiObject typeSpinner = device.findObject(new UiSelector().textContains("Select your job type"));
         typeSpinner.click();
         List<UiObject2> types = device.findObjects(By.res("android:id/jobTypeSpinner"));
-        String jobType = "Full-Time"; // Assuming this is the selected type
+        String jobType = "Full-Time";
         types.get(1).click();
         jobPosting.setJobType(jobType);
 
         UiObject experienceSpinner = device.findObject(new UiSelector().textContains("Select your experience level"));
         experienceSpinner.click();
         List<UiObject2> experiences = device.findObjects(By.res("android:id/experienceSpinner"));
-        String experienceLevel = "Junior"; // Assuming this is the selected level
+        String experienceLevel = "Junior";
         experiences.get(1).click();
         jobPosting.setExperienceLevel(experienceLevel);
 

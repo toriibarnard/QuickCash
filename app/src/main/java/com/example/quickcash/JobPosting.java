@@ -15,6 +15,7 @@ public class JobPosting extends AppCompatActivity {
 
     private String jobId;
     private String jobTitle;
+    private String jobCompany;
     private String jobDescription;
     private String jobLocation;
     private String jobType;
@@ -36,6 +37,7 @@ public class JobPosting extends AppCompatActivity {
     public JobPosting(){
         this.jobId = generateJobID(); // Generate a unique ID
         this.jobTitle = "";
+        this.jobCompany = "";
         this.jobDescription = "";
         this.jobLocation = "";
         this.jobType = "";
@@ -43,10 +45,11 @@ public class JobPosting extends AppCompatActivity {
         this.industry = "";
     }
 
-    public JobPosting(String jobTitle, String jobDescription, String jobLocation,
+    public JobPosting(String jobTitle, String jobCompany, String jobDescription, String jobLocation,
                       String jobType, String experienceLevel, String industry) {
         this.jobId = generateJobID();// Generate a unique ID
         this.jobTitle = jobTitle;
+        this.jobCompany = jobCompany;
         this.jobDescription = jobDescription;
         this.jobLocation = jobLocation;
         this.jobType = jobType;
@@ -73,6 +76,14 @@ public class JobPosting extends AppCompatActivity {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public String getJobCompany() {
+        return jobCompany;
+    }
+
+    public void setJobCompany(String jobCompany) {
+        this.jobCompany = jobCompany;
     }
 
     public String getJobDescription() {

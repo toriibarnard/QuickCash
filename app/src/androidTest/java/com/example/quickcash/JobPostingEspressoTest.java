@@ -40,6 +40,9 @@ public class JobPostingEspressoTest {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
 
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
+
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
                         "Software Engineer to join our growing team. The ideal candidate will work " +
@@ -74,6 +77,9 @@ public class JobPostingEspressoTest {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
 
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
+
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
                         "Software Engineer to join our growing team"));
@@ -98,6 +104,9 @@ public class JobPostingEspressoTest {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
 
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
+
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
                         "Software Engineer to join our growing team."));
@@ -118,6 +127,9 @@ public class JobPostingEspressoTest {
 
     @Test
     public void checkIfEmptyJobTitle() {
+
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
 
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
@@ -144,10 +156,43 @@ public class JobPostingEspressoTest {
                 .check(matches(withText(R.string.EMPTY_JOB_TITLE)));
     }
 
+    public void checkIfEmptyJobCompany() {
+
+        onView(withId(R.id.jobTitleBox))
+                .perform(typeText("Software Engineer"));
+
+        onView(withId(R.id.jobDescriptionBox))
+                .perform(typeText("We are looking for a talented and motivated " +
+                        "Software Engineer to join our growing team."));
+
+        onView(withId(R.id.jobLocationBox))
+                .perform(typeText("Halifax, Nova Scotia, Canada"));
+
+        onView(withId(R.id.jobTypeSpinner))
+                .perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Full-Time"))).perform(click());
+
+        onView(withId(R.id.experienceSpinner))
+                .perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
+
+        onView(withId(R.id.jobIndustry))
+                .perform(typeText("Technology"));
+
+        onView(withId(R.id.submitButton))
+                .perform(click());
+
+        onView(withId(R.id.statusLabel))
+                .check(matches(withText(R.string.EMPTY_JOB_COMPANY)));
+    }
+
     @Test
     public void checkIfEmptyJobDescription() {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
+
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
 
         onView(withId(R.id.jobLocationBox))
                 .perform(typeText("Halifax, Nova Scotia, Canada"));
@@ -175,6 +220,9 @@ public class JobPostingEspressoTest {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
 
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
+
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
                         "Software Engineer to join our growing team."));
@@ -201,6 +249,9 @@ public class JobPostingEspressoTest {
     public void checkIfInvalidJobLocation() {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
+
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
 
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
@@ -231,6 +282,9 @@ public class JobPostingEspressoTest {
     public void checkIfEmptyJobIndustry() {
         onView(withId(R.id.jobTitleBox))
                 .perform(typeText("Software Engineer"));
+
+        onView(withId(R.id.jobCompanyBox))
+                .perform(typeText("Dash Hudson"));
 
         onView(withId(R.id.jobDescriptionBox))
                 .perform(typeText("We are looking for a talented and motivated " +
