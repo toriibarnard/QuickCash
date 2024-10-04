@@ -126,6 +126,7 @@ public class JobPosting extends AppCompatActivity {
         this.industry = industry;
     }
 
+    // is this the right spot for this?
     public boolean isJobLocationValid(String location) {
         // Format: City, State, Country
         String locationRegex = "^[a-zA-Z\\s]+,\\s*[a-zA-Z\\s]+,\\s*[a-zA-Z\\s]+$";
