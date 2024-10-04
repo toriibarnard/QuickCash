@@ -17,4 +17,15 @@
         <item>Manager</item>
         <item>Internship</item>
     </string-array>
+
+    <string name="EMPTY_STRING"></string>
+    <string name="INVALID_JOB_TYPE">Invalid job type</string>
+    <string name="INVALID_EXPERIENCE_LEVEL">Invalid experience level</string>
+    <string name="INVALID_JOB_LOCATION">Invalid job location (must follow City, Province, Country)</string>
+    <string name="EMPTY_JOB_TITLE">Job title cannot be empty.</string>
+    <string name="EMPTY_JOB_COMPANY">Job company cannot be empty.</string>
+    <string name="EMPTY_JOB_DESCRIPTION">Job description cannot be empty.</string>
+    <string name="EMPTY_JOB_LOCATION">Job location cannot be empty.</string>
+    <string name="EMPTY_JOB_INDUSTRY">Industry must be selected.</string>
+
 </resources>
