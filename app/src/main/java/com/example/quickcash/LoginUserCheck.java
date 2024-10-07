@@ -2,7 +2,6 @@ package com.example.quickcash;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -18,14 +17,17 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginUserCheck {
     // Instance variables
     private Context context;
-    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    private LoginActivity login;
+    private DatabaseReference dbRef;
     private String email;
     private String password;
     private String role;
 
     // Constructor
-    public LoginUserCheck(Context context, String email, String password, String role) {
+    public LoginUserCheck(Context context, LoginActivity login, String email, String password, String role) {
         this.context = context;
+        this.login = login;
+        this.dbRef = FirebaseDatabase.getInstance().getReference();
         this.email = email;
         this.password = password;
         this.role = role;
@@ -54,16 +56,16 @@ public class LoginUserCheck {
                         if (dbPassword != null && dbPassword.equals(this.password)) {
                             // Redirect the user to the activity based on their role
                             if (role.equals("Employee")) {
+                                login.setStatusMessage("Login Successful!");
                                 Intent employee = new Intent(context, EmployeeActivity.class);
                                 context.startActivity(employee);
                             } else if (role.equals("Employer")) {
+                                login.setStatusMessage("Login Successful!");
                                 Intent employer = new Intent(context, EmployerActivity.class);
                                 context.startActivity(employer);
                             }
-                            // Display the success message
-                            Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(context, "Incorrect password", Toast.LENGTH_SHORT).show();
+                            login.setStatusMessage("Incorrect Password!");
                         }
                         // No need to search more users
                         break;
@@ -72,10 +74,10 @@ public class LoginUserCheck {
 
                 // If there exists no user with the provided email, display an error message
                 if (!found) {
-                    Toast.makeText(context, "User does not exist!", Toast.LENGTH_SHORT).show();
+                    login.setStatusMessage("User does not exist!");
                 }
             } else {
-                Toast.makeText(context, "Error checking user!", Toast.LENGTH_SHORT).show();
+                login.setStatusMessage("Error checking User");
             }
         });
     }

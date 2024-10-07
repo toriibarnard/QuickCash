@@ -2,11 +2,10 @@ package com.example.quickcash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,38 +36,42 @@ public class LoginActivity extends AppCompatActivity {
         Button forgotPassword = findViewById(R.id.forgotPasswordButton);
 
         // Actions to perform when "Login" button is clicked
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get the String values from each field
-                String email = emailAddress.getText().toString().trim();
-                String password = passwordField.getText().toString().trim();
-                String role = roleSelection.getSelectedItem().toString();
+        loginButton.setOnClickListener(view -> {
+            // Get the String values from each field
+            String role = roleSelection.getSelectedItem().toString().trim();
+            String email = emailAddress.getText().toString().trim();
+            String password = passwordField.getText().toString().trim();
+            String errorMessage = "";
 
-                // Ensure all fields have valid values and validate login
-                if (!loginValidator.haveSelectedRole(role)) {
-                    Toast.makeText(LoginActivity.this, "Please select a role", Toast.LENGTH_LONG).show();
-                } else if (!loginValidator.isValidEmail(email)) {
-                    Toast.makeText(LoginActivity.this, "Invalid email", Toast.LENGTH_LONG).show();
-                } else if (!loginValidator.isValidPassword(password)) {
-                    Toast.makeText(LoginActivity.this, "Invalid password", Toast.LENGTH_LONG).show();
-                } else {
-                    // Call checkUserInFirebase() method from LoginUserCheck class to authenticate login
-                    LoginUserCheck loginUserCheck = new LoginUserCheck(LoginActivity.this, email, password, role);
-                    loginUserCheck.checkUserInFirebase();
-                }
+            // Ensure all fields have valid values and validate login
+            if (!loginValidator.haveSelectedRole(role)) {
+                errorMessage = getResources().getString(R.string.INVALID_ROLE);
+            } else if (!loginValidator.isValidEmail(email)) {
+                errorMessage = getResources().getString(R.string.INVALID_EMAIL);
+            } else if (!loginValidator.isValidPassword(password)) {
+                errorMessage = getResources().getString(R.string.INVALID_PASSWORD);
+            } else {
+                // Call checkUserInFirebase() method from LoginUserCheck class to authenticate login
+                LoginUserCheck loginUserCheck = new LoginUserCheck(LoginActivity.this, this, email, password, role);
+                loginUserCheck.checkUserInFirebase();
             }
+
+            // set the status label to the stored message
+            setStatusMessage(errorMessage);
         });
 
         // Actions to perform when "Forgot Password" password button is clicked
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Redirect to the Reset password page
-                Intent resetPassword = new Intent(LoginActivity.this, ResetPasswordActivity.class);
-                LoginActivity.this.startActivity(resetPassword);
-            }
+        forgotPassword.setOnClickListener(view -> {
+            // Redirect to the Reset password page
+            Intent resetPassword = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+            LoginActivity.this.startActivity(resetPassword);
         });
+    }
+
+    // This method is used to set the status label to a given message
+    public void setStatusMessage(String message) {
+        TextView statusLabel = findViewById(R.id.statusLabel);
+        statusLabel.setText(message.trim());
     }
 
 }

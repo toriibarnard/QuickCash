@@ -2,27 +2,23 @@ package com.example.quickcash;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
-import androidx.test.ext.junit.runners.AndroidJUnit4; // specifies that the test will run with AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiDevice; // used to simulate user interactions with the device
-import androidx.test.uiautomator.UiObject; // acts as a UI element in the app that can be interacted with
-import androidx.test.uiautomator.UiObjectNotFoundException; // thrown when a UI element cannot be found
-import androidx.test.uiautomator.UiSelector; // used to locate UI elements
-import androidx.test.platform.app.InstrumentationRegistry; // provides instrumentation context accessibility
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Rule;
 import org.junit.runner.RunWith;
 
-import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation; // accesses instrumentation context
-import static org.junit.Assert.assertTrue; // used for assertions in the test
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;

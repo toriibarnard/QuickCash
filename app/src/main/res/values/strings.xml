@@ -1,8 +1,16 @@
 <resources>
     <string name="app_name">Quick Cash</string>
 
+    <string name="INVALID_ROLE">Please select a role!</string>
+    <string name="INVALID_EMAIL">Invalid Email!</string>
+    <string name="INVALID_PASSWORD">Please enter password!</string>
+    <string name="INCORRECT_PASSWORD">Incorrect Password!</string>
+    <string name="SUCCESSFUL">Login Successful!</string>
+    <string name="CHECKING_ERROR">Error checking user!</string>
+
+
     <!-- Values for role selection Spinner -->
-    <string-array name="role_array">
+    <string-array name="ROLE_VALUES">
         <item>Select Role</item>
         <item>Employee</item>
         <item>Employer</item>
