@@ -89,10 +89,11 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         setStatusMessage(errorMessage);
 
         if(errorMessage.isEmpty()){
-            firebaseRegistration.createAccount(name, email, phoneNumber, password, new FirebaseRegistration.RegistrationCallback() {
+
+            firebaseRegistration.createAccount(name, email, phoneNumber, password, role, new FirebaseRegistration.RegistrationCallback() {
                 @Override
                 public void onAccountCreated() {
-                    Toast.makeText(Registration.this, "Check you email to verify yor account", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Registration.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -105,7 +106,8 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(Registration.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
-            firebaseRegistration.verifyEmailAndAddUserToDatabase(name, email, phoneNumber, new FirebaseRegistration.RegistrationCallback() {
+
+            firebaseRegistration.verifyEmailAndAddUserToDatabase(name, email, phoneNumber,password, role,new FirebaseRegistration.RegistrationCallback() {
                 @Override
                 public void onAccountCreated() {
                 }

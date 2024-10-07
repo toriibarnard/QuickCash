@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
+import java.util.HashMap;
+
 public class FirebaseRegistration {
 
     private FirebaseAuth auth;
@@ -26,40 +28,57 @@ public class FirebaseRegistration {
     }
 
     // Method to create a new account with name, email, phone, and password
-    public void createAccount(final String name, final String email, final String phone, String password, final RegistrationCallback callback) {
+    public void createAccount(final String name, final String email, final String phone, String password, final String role, final RegistrationCallback callback) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Send email verification
-                        sendEmailVerification(auth.getCurrentUser(), new VerificationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.d("FirebaseRegistration", "Verification email sent.");
-                                // User created but not yet added to the database until verification
-                                callback.onAccountCreated();
-                            }
+                        FirebaseUser user = auth.getCurrentUser();
+                        if (user != null) {
+                            String uid = user.getUid();
 
-                            @Override
-                            public void onFailure(Exception e) {
-                                Log.d("FirebaseRegistration", "Failed to send verification email.");
-                                callback.onFailure(e);
-                            }
-                        });
-                    } else {
-                        // Throw exceptions for unique cases
-                        Exception exception = task.getException();
-                        if (exception instanceof FirebaseAuthWeakPasswordException) {
-                            callback.onFailure(new Exception("Weak password."));
-                        } else if (exception instanceof FirebaseAuthInvalidCredentialsException) {
-                            callback.onFailure(new Exception("Invalid email."));
-                        } else if (exception instanceof FirebaseAuthUserCollisionException) {
-                            callback.onFailure(new Exception("Email already in use."));
+                            // Prepare user data
+                            HashMap<String, String> userData = new HashMap<>();
+                            userData.put("name", name);
+                            userData.put("email", email);
+                            userData.put("phone", phone);
+                            userData.put("password",password);
+
+                            // Send verification email
+                            sendEmailVerification(user, new VerificationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    // Notify the user that the email verification was sent
+                                    callback.onAccountCreated();  // Inform user to check their email
+
+                                    // Save the user data to the correct Firebase table based on role
+                                    if (role.equalsIgnoreCase("employee")) {
+                                        usersRef.child("employee").child(uid).setValue(userData)
+                                                .addOnSuccessListener(aVoid -> callback.onSuccess())
+                                                .addOnFailureListener(e -> callback.onFailure(e));
+                                    } else if (role.equalsIgnoreCase("employer")) {
+                                        usersRef.child("employer").child(uid).setValue(userData)
+                                                .addOnSuccessListener(aVoid -> callback.onSuccess())
+                                                .addOnFailureListener(e -> callback.onFailure(e));
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+                                    // Handle failure in sending the verification email
+                                    callback.onFailure(e);
+                                }
+                            });
                         } else {
-                            callback.onFailure(exception);
+                            callback.onFailure(new Exception("User is null."));
                         }
+                    } else {
+                        // Handle account creation failure
+                        callback.onFailure(task.getException());
                     }
                 });
     }
+
+
 
     // Method to send verification email
     private void sendEmailVerification(FirebaseUser user, final VerificationCallback callback) {
@@ -78,29 +97,18 @@ public class FirebaseRegistration {
     }
 
     // Method to check if email is verified and add user to database
-    public void verifyEmailAndAddUserToDatabase(final String name, final String email, final String phone, final RegistrationCallback callback) {
+    public void verifyEmailAndAddUserToDatabase(final String name, final String email, final String phone,final String password, final String role, final RegistrationCallback callback) {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            user.reload().addOnCompleteListener(task -> {
-                if (user.isEmailVerified()) {
-                    // Add user to database
-                    String userId = user.getUid();
-                    User userModel = new User(name, email, phone);
-                    usersRef.child(userId).setValue(userModel).addOnCompleteListener(dbTask -> {
-                        if (dbTask.isSuccessful()) {
-                            callback.onSuccess();
-                        } else {
-                            callback.onFailure(dbTask.getException());
-                        }
+            user.sendEmailVerification()
+                    .addOnCompleteListener(task -> {
+
                     });
-                } else {
-                    callback.onFailure(new Exception("Email not verified."));
-                }
-            });
         } else {
-            callback.onFailure(new Exception("No user logged in."));
+            callback.onFailure(new Exception("User is null"));
         }
     }
+
 
     // Callback interfaces
     public interface RegistrationCallback {
@@ -112,20 +120,5 @@ public class FirebaseRegistration {
     public interface VerificationCallback {
         void onSuccess();
         void onFailure(Exception e);
-    }
-
-    // User model class
-    public static class User {
-        public String name;
-        public String email;
-        public String phone;
-
-        public User() { }
-
-        public User(String name, String email, String phone) {
-            this.name = name;
-            this.email = email;
-            this.phone = phone;
-        }
     }
 }
