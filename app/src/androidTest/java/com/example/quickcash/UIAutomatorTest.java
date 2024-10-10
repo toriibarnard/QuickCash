@@ -25,7 +25,7 @@ import java.util.List;
 public class UIAutomatorTest {
 
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final String launcherPackageName = "com.example.quickcash"; // Update with your actual package name
+    private static final String launcherPackageName = "com.example.quickcash";
     private UiDevice device;
 
     @Before
@@ -49,7 +49,7 @@ public class UIAutomatorTest {
         jobPosting.setTitle(jobTitle);
 
         UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
-        String jobCompany = "Software Engineer";
+        String jobCompany = "Dash Hudson";
         jobCompanyBox.setText(jobCompany);
         jobPosting.setJobCompany(jobCompany);
 
@@ -99,7 +99,7 @@ public class UIAutomatorTest {
         jobPosting.setTitle(jobTitle);
 
         UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
-        String jobCompany = "Software Engineer";
+        String jobCompany = "Dash Hudson";
         jobCompanyBox.setText(jobCompany);
         jobPosting.setJobCompany(jobCompany);
 
