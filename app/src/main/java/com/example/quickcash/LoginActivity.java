@@ -27,51 +27,70 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initializing objects and variable fields
-        LoginValidator loginValidator = new LoginValidator();
-        Spinner roleSelection = findViewById(R.id.roleSelectionSpinner);
-        EditText emailAddress = findViewById(R.id.emailAddressEditField);
-        EditText passwordField = findViewById(R.id.passwordEditField);
-        Button loginButton = findViewById(R.id.loginButton);
-        Button forgotPassword = findViewById(R.id.forgotPasswordButton);
-
-        // Actions to perform when "Login" button is clicked
-        loginButton.setOnClickListener(view -> {
-            // Get the String values from each field
-            String role = roleSelection.getSelectedItem().toString().trim();
-            String email = emailAddress.getText().toString().trim();
-            String password = passwordField.getText().toString().trim();
-            String errorMessage = "";
-
-            // Ensure all fields have valid values and validate login
-            if (!loginValidator.haveSelectedRole(role)) {
-                errorMessage = getResources().getString(R.string.INVALID_ROLE);
-            } else if (!loginValidator.isValidEmail(email)) {
-                errorMessage = getResources().getString(R.string.INVALID_EMAIL);
-            } else if (!loginValidator.isValidPassword(password)) {
-                errorMessage = getResources().getString(R.string.INVALID_PASSWORD);
-            } else {
-                // Call checkUserInFirebase() method from LoginUserCheck class to authenticate login
-                LoginUserCheck loginUserCheck = new LoginUserCheck(LoginActivity.this, this, email, password, role);
-                loginUserCheck.checkUserInFirebase();
-            }
-
-            // set the status label to the stored message
-            setStatusMessage(errorMessage);
-        });
-
-        // Actions to perform when "Forgot Password" password button is clicked
-        forgotPassword.setOnClickListener(view -> {
-            // Redirect to the Reset password page
-            Intent resetPassword = new Intent(LoginActivity.this, ResetPasswordActivity.class);
-            LoginActivity.this.startActivity(resetPassword);
-        });
+        setLoginButton();
+        setForgotPasswordButton();
     }
 
-    // This method is used to set the status label to a given message
+    public void handelLogin() {
+        // Initializing objects and variable fields
+        LoginValidator loginValidator = new LoginValidator();
+
+        // Get the String values from each field
+        String role = getSelectedRole();
+        String email = getEmailAddress();
+        String password = getPassword();
+        String errorMessage = "";
+
+        // Ensure all fields have valid values and validate login
+        if (!loginValidator.haveSelectedRole(role)) {
+            errorMessage = getResources().getString(R.string.INVALID_ROLE);
+        } else if (!loginValidator.isValidEmail(email)) {
+            errorMessage = getResources().getString(R.string.INVALID_EMAIL);
+        } else if (!loginValidator.isValidPassword(password)) {
+            errorMessage = getResources().getString(R.string.INVALID_PASSWORD);
+        } else {
+            // Call checkUserInFirebase() method from LoginUserCheck class to authenticate login
+            LoginUserCheck loginUserCheck = new LoginUserCheck();
+            loginUserCheck.checkUserInFirebase(LoginActivity.this, this, email, password, role);
+        }
+
+        // set the status label to the stored message
+        setStatusMessage(errorMessage);
+    }
+
+    public void handelForgotPassword() {
+        // Redirect to the Reset password page
+        Intent resetPassword = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+        LoginActivity.this.startActivity(resetPassword);
+    }
+
     public void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.statusLabel);
         statusLabel.setText(message.trim());
     }
 
+    public String getSelectedRole() {
+        Spinner roleSelection = findViewById(R.id.roleSelectionSpinner);
+        return roleSelection.getSelectedItem().toString().trim();
+    }
+
+    public String getEmailAddress() {
+        EditText emailAddress = findViewById(R.id.emailAddressEditField);
+        return emailAddress.getText().toString().trim();
+    }
+
+    public String getPassword() {
+        EditText passwordField = findViewById(R.id.passwordEditField);
+        return passwordField.getText().toString().trim();
+    }
+
+    public void setLoginButton() {
+        Button loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(view -> handelLogin());
+    }
+
+    public void setForgotPasswordButton() {
+        Button forgotPassword = findViewById(R.id.forgotPasswordButton);
+        forgotPassword.setOnClickListener(view -> handelForgotPassword());
+    }
 }

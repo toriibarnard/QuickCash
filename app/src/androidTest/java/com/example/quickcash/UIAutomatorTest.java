@@ -59,10 +59,10 @@ public class UIAutomatorTest {
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employee")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("Torii.Barnard@dal.ca"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("ABC@gmail.com"));
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("CSCI3130"));
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
@@ -78,10 +78,10 @@ public class UIAutomatorTest {
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employer")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("Shivam.Shah@dal.ca"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("vbn@gmail.com"));
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Iteration1"));
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());

@@ -6,6 +6,7 @@
     <string name="INVALID_PASSWORD">Please enter password!</string>
     <string name="INCORRECT_PASSWORD">Incorrect Password!</string>
     <string name="SUCCESSFUL">Login Successful!</string>
+    <string name="USER_NOT_FOUND">Sorry, we could not find your account!</string>
     <string name="CHECKING_ERROR">Error checking user!</string>
 
 

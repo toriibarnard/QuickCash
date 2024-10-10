@@ -85,6 +85,6 @@ public class LoginEspressoTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
         Thread.sleep(5000);
-        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.NO_USER_FOUND)));
+        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.USER_NOT_FOUND)));
     }
 }

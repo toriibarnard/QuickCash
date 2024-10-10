@@ -3,83 +3,89 @@ package com.example.quickcash;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-/*
- * This class is used to validate login depending on whether the user exists in the database.
- * Provided the role, email and password, it first checks if the user exists in the specified role
- * node by searching for their email. If the email is found, it checks whether the password matches.
- * If everything matches, the login is validated, else appropriate error message is shown.
- */
+// This class is used to check and sign in a user using Firebase
 public class LoginUserCheck {
     // Instance variables
-    private Context context;
-    private LoginActivity login;
+    private FirebaseAuth auth;
     private DatabaseReference dbRef;
-    private String email;
-    private String password;
-    private String role;
 
     // Constructor
-    public LoginUserCheck(Context context, LoginActivity login, String email, String password, String role) {
-        this.context = context;
-        this.login = login;
-        this.dbRef = FirebaseDatabase.getInstance().getReference();
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    public LoginUserCheck() {
+        this.dbRef = FirebaseDatabase.getInstance().getReference("users");
+        this.auth = FirebaseAuth.getInstance();
     }
 
-    // This method is used to retrieve data from the database to validate login
-    public void checkUserInFirebase() {
-        // Get the node named by the role that stores users with that role
-        dbRef.child(role).get().addOnCompleteListener(task -> {
-            // If we found the role named node continue searching or else throw an error message
+    // This method is used to authenticate sign in depending on whether the user has an account
+    public void checkUserInFirebase(Context context, LoginActivity loginActivity, String email,
+                                    String password, String role) {
+        String searchRole = role.toLowerCase();
+        String searchEmail = email.toLowerCase();
+
+        /* Search for the user under the role node using their email by querying the database to
+           return results based on the email
+         */
+        dbRef.child(searchRole).orderByChild("email").equalTo(searchEmail).get()
+                .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Fetch data from the role node
+                // Get the results returned by the query
                 DataSnapshot snapshot = task.getResult();
-                boolean found = false;
 
-                // For each user in the role node fetch their email and password
-                for (DataSnapshot users : snapshot.getChildren()) {
-                    String dbEmail = users.child("email").getValue(String.class);
-                    String dbPassword = users.child("password").getValue(String.class);
+                /* Check if there is any data in the returned results
+                 * If yes then sign in. If no then the user does not have an account
+                 */
+                if(snapshot.exists()) {
+                    auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(signIn -> {
+                        // If the email and password matches without any errors, login is successful
+                        if (signIn.isSuccessful()) {
+                            loginActivity.setStatusMessage("Login Successful!");
 
-                    // If the email provided and the email fetched matches, the user is found
-                    if (dbEmail != null && dbEmail.equalsIgnoreCase(email)) {
-                        found = true;
-
-                        // If the password provided and the password fetched matches, login is successful
-                        if (dbPassword != null && dbPassword.equals(this.password)) {
                             // Redirect the user to the activity based on their role
                             if (role.equals("Employee")) {
-                                login.setStatusMessage("Login Successful!");
                                 Intent employee = new Intent(context, EmployeeActivity.class);
                                 context.startActivity(employee);
-                            } else if (role.equals("Employer")) {
-                                login.setStatusMessage("Login Successful!");
+                            } else {
                                 Intent employer = new Intent(context, EmployerActivity.class);
                                 context.startActivity(employer);
                             }
-                        } else {
-                            login.setStatusMessage("Incorrect Password!");
                         }
-                        // No need to search more users
-                        break;
-                    }
+                        // If there is an error while signing in the user then get the error string
+                        else {
+                            String errorMessage = getString(signIn);
+                            loginActivity.setStatusMessage(errorMessage);
+                        }
+                    });
+                } else {
+                    loginActivity.setStatusMessage("Sorry, we could not find your account!");
                 }
 
-                // If there exists no user with the provided email, display an error message
-                if (!found) {
-                    login.setStatusMessage("User does not exist!");
-                }
             } else {
-                login.setStatusMessage("Error checking User");
+                loginActivity.setStatusMessage("Error checking user!");
             }
         });
+    }
+
+    // Get the error message if the authentication fails
+    private String getString(Task<AuthResult> signIn) {
+        String errorMessage;
+        try {
+            throw signIn.getException();
+        } catch (FirebaseAuthInvalidCredentialsException e) {
+            // Incorrect password
+            errorMessage = "Incorrect Password!";
+        } catch (Exception e) {
+            // General error
+            errorMessage = "Login failed: " + e.getMessage();
+        }
+        return errorMessage;
     }
 
 }
