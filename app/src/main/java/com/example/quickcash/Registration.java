@@ -1,5 +1,7 @@
 package com.example.quickcash;
 
+import static com.example.quickcash.R.layout.activity_registration;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,7 +28,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(activity_registration);
 
         this.loadRoleSpinner();
         this.setupRegistrationButton();
@@ -137,7 +139,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     protected String getEmailAddress() {
         EditText emailBox = findViewById(R.id.emailBox);
-        return emailBox.getText().toString().trim();
+        return emailBox.getText().toString().trim().toLowerCase();
     }
 
     protected String getPassword() {

@@ -29,7 +29,7 @@ public class FirebaseRegistration {
 
     // Method to create a new account with name, email, phone, and password
     public void createAccount(final String name, final String email, final String phone, String password, final String role, final RegistrationCallback callback) {
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email.toLowerCase(), password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
@@ -39,7 +39,7 @@ public class FirebaseRegistration {
                             // Prepare user data
                             HashMap<String, String> userData = new HashMap<>();
                             userData.put("name", name);
-                            userData.put("email", email);
+                            userData.put("email", email.toLowerCase());
                             userData.put("phone", phone);
                             userData.put("password",password);
 
