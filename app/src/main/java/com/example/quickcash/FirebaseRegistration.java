@@ -41,7 +41,6 @@ public class FirebaseRegistration {
                             userData.put("name", name);
                             userData.put("email", email.toLowerCase());
                             userData.put("phone", phone);
-                            userData.put("password",password);
 
                             // Send verification email
                             sendEmailVerification(user, new VerificationCallback() {

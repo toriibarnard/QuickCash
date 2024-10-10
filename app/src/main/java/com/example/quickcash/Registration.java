@@ -30,29 +30,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(activity_registration);
 
-        this.loadRoleSpinner();
         this.setupRegistrationButton();
         this.connectToDB();
 
         firebaseRegistration = new FirebaseRegistration();
-    }
-
-    protected void loadRoleSpinner() {
-        ArrayList<String> roles = new ArrayList<>();
-        roles.add("select your role");
-        roles.add("employer");
-        roles.add("employee");
-
-        // Use built-in android layout resource
-        ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                roles
-        );
-        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Spinner roleSpinner = findViewById(R.id.roleSpinner);
-        roleSpinner.setAdapter(roleAdapter);
     }
 
     protected void setupRegistrationButton() {
