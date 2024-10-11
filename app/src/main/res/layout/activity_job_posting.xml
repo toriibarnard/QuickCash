@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".JobPosting">
+    tools:context=".CreateJobPosting">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,122 +16,106 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingHorizontal="24dp"
             tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/jobPostingUiTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginVertical="24dp"
                 android:text="Create Job Posting"
                 android:textColor="#2196F3"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/companyNameEditField"
+                app:layout_constraintBottom_toTopOf="@+id/jobCompanyBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/companyNameEditField"
+                android:id="@+id/jobCompanyBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="16dp"
-                android:ems="10"
                 android:hint="Company Name"
                 android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@+id/jobTitleEditField"
+                app:layout_constraintBottom_toTopOf="@+id/jobTitleBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/jobPostingUiTitle" />
 
             <EditText
-                android:id="@+id/jobTitleEditField"
+                android:id="@+id/jobTitleBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:ems="10"
+                android:layout_marginVertical="16dp"
                 android:hint="Job Title"
-                android:inputType="text"
-                app:layout_constraintBottom_toTopOf="@+id/jobDescriptionMultiLineField"
+                app:layout_constraintBottom_toTopOf="@+id/jobDescriptionBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/companyNameEditField" />
+                app:layout_constraintTop_toBottomOf="@+id/jobCompanyBox" />
 
             <EditText
-                android:id="@+id/jobDescriptionMultiLineField"
+                android:id="@+id/jobDescriptionBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:ems="10"
+                android:layout_marginVertical="16dp"
                 android:hint="Job Description"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:maxLines="3"
                 android:overScrollMode="always"
                 android:scrollbars="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/jobLocationPostalAddressField"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobTitleEditField" />
-
-            <EditText
-                android:id="@+id/jobLocationPostalAddressField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:ems="10"
-                android:hint="City, Province, Country"
-                android:inputType="textPostalAddress"
                 app:layout_constraintBottom_toTopOf="@+id/jobTypeSpinner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobDescriptionMultiLineField" />
+                app:layout_constraintTop_toBottomOf="@+id/jobTitleBox" />
 
             <Spinner
                 android:id="@+id/jobTypeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginVertical="16dp"
                 android:entries="@array/job_types"
-                app:layout_constraintBottom_toTopOf="@+id/jobExperienceSpinner"
+                app:layout_constraintBottom_toTopOf="@+id/experienceSpinner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobLocationPostalAddressField" />
+                app:layout_constraintTop_toBottomOf="@+id/jobDescriptionBox" />
 
             <Spinner
-                android:id="@+id/jobExperienceSpinner"
+                android:id="@+id/experienceSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginVertical="16dp"
                 android:entries="@array/experience_levels"
-                app:layout_constraintBottom_toTopOf="@+id/jobIndustryEditField"
+                app:layout_constraintBottom_toTopOf="@+id/jobIndustryBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/jobTypeSpinner" />
 
             <EditText
-                android:id="@+id/jobIndustryEditField"
+                android:id="@+id/jobIndustryBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
-                android:ems="10"
-                android:hint="Job Category (e.g. Technology)"
-                android:inputType="text"
+                android:layout_marginVertical="16dp"
+                android:hint="Job Industry (e.g. Technology)"
+                app:layout_constraintBottom_toTopOf="@+id/jobLocationBox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/experienceSpinner" />
+
+            <EditText
+                android:id="@+id/jobLocationBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:hint="City, Province, Country"
                 app:layout_constraintBottom_toTopOf="@+id/submitButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobExperienceSpinner" />
+                app:layout_constraintTop_toBottomOf="@+id/jobIndustryBox" />
 
             <Button
                 android:id="@+id/submitButton"
@@ -144,14 +128,17 @@
                 app:layout_constraintBottom_toTopOf="@+id/statusLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobIndustryEditField" />
+                app:layout_constraintTop_toBottomOf="@+id/jobLocationBox" />
 
             <TextView
                 android:id="@+id/statusLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginTop="20dp"
+                android:text="Status message!"
+                android:animateLayoutChanges="true"
+                android:textColor="#D90317"
+                android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

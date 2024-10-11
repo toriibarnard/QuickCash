@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JobDetailsView">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <!-- Title Bar with Job ID and Job Title -->
+            <!-- Concatenate title and id -->
+            <TextView
+                android:id="@+id/jobDetailsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Senior Developer - #2367784"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#2196F3"
+                android:gravity="center"
+                android:layout_marginVertical="24dp" />
+
+            <!-- Company Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/companyNameLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Company Name:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/companyNameDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Sample Company"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Job Description -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/jobDescriptionLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Job Description:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/jobDescriptionDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="This is a sample job description for the Senior Developer position."
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Job Type -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/jobTypeLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Job Type:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/jobTypeDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Full-Time"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Experience Level -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/experienceLevelLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Experience Level:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/experienceLevelDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Senior Level"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Industry -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/industryLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Industry:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/industryDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Information Technology"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Location -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/locationLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Location:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/locationDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Haifax, NS, Canada"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Posted Date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/postedDateLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Posted Date:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/postedDateDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="October 10, 2024"
+                    android:layout_weight="2" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

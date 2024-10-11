@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.UUID;
 
 
-public class JobPosting extends AppCompatActivity {
+public class CreateJobPosting extends AppCompatActivity {
 
     private String jobId;
     private String jobTitle;
@@ -34,7 +34,7 @@ public class JobPosting extends AppCompatActivity {
         });
     }
 
-    public JobPosting(){
+    public CreateJobPosting(){
         this.jobId = generateJobID(); // Generate a unique ID
         this.jobTitle = "";
         this.jobCompany = "";
@@ -45,8 +45,8 @@ public class JobPosting extends AppCompatActivity {
         this.industry = "";
     }
 
-    public JobPosting(String jobTitle, String jobCompany, String jobDescription, String jobLocation,
-                      String jobType, String experienceLevel, String industry) {
+    public CreateJobPosting(String jobTitle, String jobCompany, String jobDescription, String jobLocation,
+                            String jobType, String experienceLevel, String industry) {
         this.jobId = generateJobID();// Generate a unique ID
         this.jobTitle = jobTitle;
         this.jobCompany = jobCompany;

@@ -23,14 +23,14 @@ import static org.hamcrest.Matchers.allOf;
 // https://chatgpt.com/share/66fffba7-3430-800d-a524-d15de06cf1be
 
 @RunWith(AndroidJUnit4.class)
-public class JobPostingEspressoTest {
+public class CreateJobPostingEspressoTest {
 
     @Rule
-    public ActivityScenario<JobPosting> activityScenario;
+    public ActivityScenario<CreateJobPosting> activityScenario;
 
     @Before
     public void setup() {
-        activityScenario = ActivityScenario.launch(JobPosting.class);
+        activityScenario = ActivityScenario.launch(CreateJobPosting.class);
         activityScenario.onActivity(activity -> {
         });
     }
@@ -62,7 +62,7 @@ public class JobPostingEspressoTest {
                 .perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
 
-        onView(withId(R.id.jobIndustry))
+        onView(withId(R.id.jobIndustryBox))
                 .perform(typeText("Technology"));
 
         onView(withId(R.id.submitButton))
@@ -146,7 +146,7 @@ public class JobPostingEspressoTest {
                 .perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
 
-        onView(withId(R.id.jobIndustry))
+        onView(withId(R.id.jobIndustryBox))
                 .perform(typeText("Technology"));
 
         onView(withId(R.id.submitButton))
@@ -176,7 +176,7 @@ public class JobPostingEspressoTest {
                 .perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
 
-        onView(withId(R.id.jobIndustry))
+        onView(withId(R.id.jobIndustryBox))
                 .perform(typeText("Technology"));
 
         onView(withId(R.id.submitButton))
@@ -205,7 +205,7 @@ public class JobPostingEspressoTest {
                 .perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
 
-        onView(withId(R.id.jobIndustry))
+        onView(withId(R.id.jobIndustryBox))
                 .perform(typeText("Technology"));
 
         onView(withId(R.id.submitButton))
@@ -235,7 +235,7 @@ public class JobPostingEspressoTest {
                 .perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
 
-        onView(withId(R.id.jobIndustry))
+        onView(withId(R.id.jobIndustryBox))
                 .perform(typeText("Technology"));
 
         onView(withId(R.id.submitButton))
@@ -268,7 +268,7 @@ public class JobPostingEspressoTest {
                 .perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Junior"))).perform(click());
 
-        onView(withId(R.id.jobIndustry))
+        onView(withId(R.id.jobIndustryBox))
                 .perform(typeText("Technology"));
 
         onView(withId(R.id.submitButton))

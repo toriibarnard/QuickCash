@@ -41,46 +41,46 @@ public class UIAutomatorTest {
 
     @Test
     public void checkIfNavigatesToJobSearchResultsAfterSubmission() throws UiObjectNotFoundException {
-        JobPosting jobPosting = new JobPosting();
+        CreateJobPosting createJobPosting = new CreateJobPosting();
 
         UiObject jobTitleBox = device.findObject(new UiSelector().text("Job Title"));
         String jobTitle = "Software Engineer";
         jobTitleBox.setText(jobTitle);
-        jobPosting.setTitle(jobTitle);
+        createJobPosting.setTitle(jobTitle);
 
         UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
         String jobCompany = "Dash Hudson";
         jobCompanyBox.setText(jobCompany);
-        jobPosting.setJobCompany(jobCompany);
+        createJobPosting.setJobCompany(jobCompany);
 
         UiObject jobDescriptionBox = device.findObject(new UiSelector().text("Job Description"));
         String jobDescription = "We are looking for a talented and motivated Software Engineer to join our growing team.";
         jobDescriptionBox.setText(jobDescription);
-        jobPosting.setJobDescription(jobDescription);
+        createJobPosting.setJobDescription(jobDescription);
 
         UiObject jobLocationBox = device.findObject(new UiSelector().text("Job Location"));
         String jobLocation = "Halifax, Nova Scotia, Canada";
         jobLocationBox.setText(jobLocation);
-        jobPosting.setJobLocation(jobLocation);
+        createJobPosting.setJobLocation(jobLocation);
 
         UiObject typeSpinner = device.findObject(new UiSelector().textContains("Select your job type"));
         typeSpinner.click();
         List<UiObject2> types = device.findObjects(By.res("android:id/jobTypeSpinner"));
         String jobType = "Full-Time";
         types.get(1).click();
-        jobPosting.setJobType(jobType);
+        createJobPosting.setJobType(jobType);
 
         UiObject experienceSpinner = device.findObject(new UiSelector().textContains("Select your experience level"));
         experienceSpinner.click();
         List<UiObject2> experiences = device.findObjects(By.res("android:id/experienceSpinner"));
         String experienceLevel = "Junior";
         experiences.get(1).click();
-        jobPosting.setExperienceLevel(experienceLevel);
+        createJobPosting.setExperienceLevel(experienceLevel);
 
         UiObject jobIndustryBox = device.findObject(new UiSelector().text("Job Industry"));
         String jobIndustry = "Technology";
         jobIndustryBox.setText(jobIndustry);
-        jobPosting.setIndustry(jobIndustry);
+        createJobPosting.setIndustry(jobIndustry);
 
         UiObject submitButton = device.findObject(new UiSelector().text("SUBMIT"));
         submitButton.clickAndWaitForNewWindow();
@@ -91,46 +91,46 @@ public class UIAutomatorTest {
 
     @Test
     public void checkIfNewJobPostingIsDisplayed() throws UiObjectNotFoundException {
-        JobPosting jobPosting = new JobPosting();
+        CreateJobPosting createJobPosting = new CreateJobPosting();
 
         UiObject jobTitleBox = device.findObject(new UiSelector().text("Job Title"));
         String jobTitle = "Software Engineer";
         jobTitleBox.setText(jobTitle);
-        jobPosting.setTitle(jobTitle);
+        createJobPosting.setTitle(jobTitle);
 
         UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
         String jobCompany = "Dash Hudson";
         jobCompanyBox.setText(jobCompany);
-        jobPosting.setJobCompany(jobCompany);
+        createJobPosting.setJobCompany(jobCompany);
 
         UiObject jobDescriptionBox = device.findObject(new UiSelector().text("Job Description"));
         String jobDescription = "We are looking for a talented and motivated Software Engineer to join our growing team.";
         jobDescriptionBox.setText(jobDescription);
-        jobPosting.setJobDescription(jobDescription);
+        createJobPosting.setJobDescription(jobDescription);
 
         UiObject jobLocationBox = device.findObject(new UiSelector().text("Job Location"));
         String jobLocation = "Halifax, Nova Scotia, Canada";
         jobLocationBox.setText(jobLocation);
-        jobPosting.setJobLocation(jobLocation);
+        createJobPosting.setJobLocation(jobLocation);
 
         UiObject typeSpinner = device.findObject(new UiSelector().textContains("Select your job type"));
         typeSpinner.click();
         List<UiObject2> types = device.findObjects(By.res("android:id/jobTypeSpinner"));
         String jobType = "Full-Time";
         types.get(1).click();
-        jobPosting.setJobType(jobType);
+        createJobPosting.setJobType(jobType);
 
         UiObject experienceSpinner = device.findObject(new UiSelector().textContains("Select your experience level"));
         experienceSpinner.click();
         List<UiObject2> experiences = device.findObjects(By.res("android:id/experienceSpinner"));
         String experienceLevel = "Junior";
         experiences.get(1).click();
-        jobPosting.setExperienceLevel(experienceLevel);
+        createJobPosting.setExperienceLevel(experienceLevel);
 
         UiObject jobIndustryBox = device.findObject(new UiSelector().text("Job Industry"));
         String jobIndustry = "Technology";
         jobIndustryBox.setText(jobIndustry);
-        jobPosting.setIndustry(jobIndustry);
+        createJobPosting.setIndustry(jobIndustry);
 
         UiObject submitButton = device.findObject(new UiSelector().text("SUBMIT"));
         submitButton.clickAndWaitForNewWindow();
