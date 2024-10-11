@@ -12,8 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuickCash"
         tools:targetApi="31">
+        <!--
+        ** IMPORTANT!
+        ** Changed launcher activity from MainActivity to Registration
+        ** so that UI could be tested and UI automator tests would run.
+        ** after this user story is complete change it back.
+        -->
+        <activity android:name=".MainActivity"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Registration"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
