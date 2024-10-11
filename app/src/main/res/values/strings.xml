@@ -3,12 +3,17 @@
 
     <string name="INVALID_ROLE">Please select a role!</string>
     <string name="INVALID_EMAIL">Invalid Email!</string>
-    <string name="INVALID_PASSWORD">Please enter password!</string>
+    <string name="INVALID_PASSWORD">Invalid Password!</string>
     <string name="INCORRECT_PASSWORD">Incorrect Password!</string>
     <string name="SUCCESSFUL">Login Successful!</string>
     <string name="USER_NOT_FOUND">Sorry, we could not find your account!</string>
     <string name="CHECKING_ERROR">Error checking user!</string>
 
+
+    <string name="INVALID_PHONE_NUMBER">Invalid phone number</string>
+    <string name="INVALID_EMAIL_ADDRESS">Invalid email address</string>
+    <string name="INVALID_NAME">Invalid name</string>
+    <string name="EMPTY_STRING"></string>
 
     <!-- Values for role selection Spinner -->
     <string-array name="ROLE_VALUES">
