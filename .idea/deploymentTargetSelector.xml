@@ -13,13 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="testLogoutButtonClickAndNavigateToNextPage()">
+      <SelectionState runConfigName="testLogoutEmployer()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testEmployeeLoginLogout()">
+      <SelectionState runConfigName="testLogoutEmployee()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testLogout()">
+      <SelectionState runConfigName="MainActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="UIAutomatorTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="testResetPassword()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
