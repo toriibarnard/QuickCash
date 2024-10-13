@@ -51,9 +51,11 @@ public class LoginUserCheck {
                             // Redirect the user to the activity based on their role
                             if (role.equals("Employee")) {
                                 Intent employee = new Intent(context, EmployeeActivity.class);
+                                employee.putExtra("jobSeekerId", email);
                                 context.startActivity(employee);
                             } else {
                                 Intent employer = new Intent(context, EmployerActivity.class);
+                                employer.putExtra("jobPosterId", email);
                                 context.startActivity(employer);
                             }
                         }

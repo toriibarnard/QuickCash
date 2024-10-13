@@ -1,6 +1,6 @@
 package com.example.quickcash;
 
-public class CredentialValidator {
+public class RegistrationValidator {
     protected boolean isValidEmail(String email) {
         return email.matches("^[A-Za-z0-9+.]+@[A-Za-z0-9]+.[A-Za-z][A-Za-z]+$");
     }
@@ -10,14 +10,14 @@ public class CredentialValidator {
     }
 
     protected boolean isValidName(String name) {
-        return name.matches("^[A-Za-z]+$");
+        return name.matches("^[A-Za-z\\s]+$");
     }
 
     protected boolean isValidPassword(String password) {
-        return password.matches("^[A-Za-z0-9]+$");
+        return password.matches("^[A-Za-z0-9!#$%&*+.<=>?@^_~]+$");
     }
 
     protected boolean isValidRole(String role) {
-        return !role.equals("select your role");
+        return !role.equals("Select Role");
     }
 }

@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoginButton();
         setForgotPasswordButton();
+        setCreateAccountButton();
     }
 
     public void handelLogin() {
@@ -58,8 +59,14 @@ public class LoginActivity extends AppCompatActivity {
         setStatusMessage(errorMessage);
     }
 
+    public void handelCreateAccount() {
+        // Redirect to the Create Account page
+        Intent createAccount = new Intent(LoginActivity.this, RegistrationActivity.class);
+        LoginActivity.this.startActivity(createAccount);
+    }
+
     public void handelForgotPassword() {
-        // Redirect to the Reset password page
+        // Redirect to the Reset Password page
         Intent resetPassword = new Intent(LoginActivity.this, ResetPasswordActivity.class);
         LoginActivity.this.startActivity(resetPassword);
     }
@@ -87,6 +94,11 @@ public class LoginActivity extends AppCompatActivity {
     public void setLoginButton() {
         Button loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(view -> handelLogin());
+    }
+
+    public void setCreateAccountButton() {
+        Button createAccount = findViewById(R.id.createAccountButton);
+        createAccount.setOnClickListener(vie -> handelCreateAccount());
     }
 
     public void setForgotPasswordButton() {
