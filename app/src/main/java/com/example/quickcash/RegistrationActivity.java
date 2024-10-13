@@ -2,9 +2,9 @@ package com.example.quickcash;
 
 import static com.example.quickcash.R.layout.activity_registration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -13,16 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
-import java.util.ArrayList;
-
-public class Registration extends AppCompatActivity implements View.OnClickListener {
-
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
-    String FIREBASE_DATABASE = "https://quick-cash-64e58-default-rtdb.firebaseio.com/";
     FirebaseRegistration firebaseRegistration;
 
     @Override
@@ -31,19 +23,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         setContentView(activity_registration);
 
         this.setupRegistrationButton();
-        this.connectToDB();
-
         firebaseRegistration = new FirebaseRegistration();
     }
 
     protected void setupRegistrationButton() {
         Button registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(this);
-    }
-
-    private void connectToDB() {
-        database = FirebaseDatabase.getInstance(FIREBASE_DATABASE);
-        databaseReference = database.getReference("message");
     }
 
     @Override
@@ -55,15 +40,15 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         String password = getPassword();
         String role = getRole();
         String errorMessage = new String();
-        CredentialValidator validator = new CredentialValidator();
+        RegistrationValidator validator = new RegistrationValidator();
 
         // verify all inputs are valid
-        if(!validator.isValidPhone(phoneNumber)){
-            errorMessage = getResources().getString(R.string.INVALID_PHONE_NUMBER).trim();
-        } else if(!validator.isValidName(name)){
+        if (!validator.isValidName(name)) {
             errorMessage = getResources().getString(R.string.INVALID_NAME).trim();
+        } else if(!validator.isValidPhone(phoneNumber)){
+            errorMessage = getResources().getString(R.string.INVALID_PHONE_NUMBER).trim();
         } else if(!validator.isValidEmail(email)){
-            errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS).trim();
+            errorMessage = getResources().getString(R.string.INVALID_EMAIL).trim();
         } else if(!validator.isValidPassword(password)){
             errorMessage = getResources().getString(R.string.INVALID_PASSWORD).trim();
         } else if(!validator.isValidRole(role)){
@@ -76,17 +61,17 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
             firebaseRegistration.createAccount(name, email, phoneNumber, password, role, new FirebaseRegistration.RegistrationCallback() {
                 @Override
                 public void onAccountCreated() {
-                    Toast.makeText(Registration.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrationActivity.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(Registration.this, "Account has been created!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrationActivity.this, "Account has been created!", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Toast.makeText(Registration.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrationActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -97,14 +82,18 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(Registration.this, "User successfully added to the database!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "User successfully added to the database!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Toast.makeText(Registration.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
+            // Redirect user to the login page
+            Intent loginActivity = new Intent(RegistrationActivity.this, LoginActivity.class);
+            RegistrationActivity.this.startActivity(loginActivity);
         }
     }
 

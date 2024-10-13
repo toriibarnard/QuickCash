@@ -91,6 +91,16 @@ public class UIAutomatorTest {
         assertTrue("Employer label exists", employerText.exists());
     }
 
+    // Test when a user clicks on "Create Account" button
+    @Test
+    public void testCreateAccount() {
+        Espresso.onView(withId(R.id.createAccountButton)).perform(click());
+        device.wait(Until.hasObject(By.textContains("Account Registration")), 5000);
+
+        UiObject registrationText = new UiObject(new UiSelector().textContains("Account Registration"));
+        assertTrue("Registration label exists", registrationText.exists());
+    }
+
     // Test when a user clicks on "Forgot Password?" button
     @Test
     public void testResetPassword() {
