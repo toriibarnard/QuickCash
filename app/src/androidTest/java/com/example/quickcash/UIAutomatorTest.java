@@ -1,146 +1,113 @@
 package com.example.quickcash;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiSelector;
+import androidx.test.uiautomator.Until;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObject2;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
-import androidx.test.uiautomator.Until;
-
-
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
-
-
+// This class is used to test how the whole application behaves
+@RunWith(AndroidJUnit4.class)
 public class UIAutomatorTest {
 
-    private static final int LAUNCH_TIMEOUT = 5000;
-    private static final String launcherPackageName = "com.example.quickcash";
+    private static final int LAUNCH_TIMEOUT = 10000;
+    final String launcherPackage = "com.example.quickcash";
     private UiDevice device;
 
+    // Setup before every tests
     @Before
     public void setup() {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        // Get an instance of UiDevice for interacting with the device
+        device = UiDevice.getInstance(getInstrumentation());
+
+        // Get the application context
         Context context = ApplicationProvider.getApplicationContext();
-        Intent launcherIntent = context.getPackageManager().getLaunchIntentForPackage(launcherPackageName);
-        assert launcherIntent != null;
-        launcherIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(launcherIntent);
-        device.wait(Until.hasObject(By.pkg(launcherPackageName).depth(0)), LAUNCH_TIMEOUT);
+
+        // Retrieve the launch intent for the specified package
+        final Intent appIntent = context.getPackageManager().getLaunchIntentForPackage(launcherPackage);
+
+        // Add the flag to clear the task before launching the application
+        appIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        // Start the application using the launch intent
+        context.startActivity(appIntent);
+
+        // Wait for the launcher package to be in the foreground
+        device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCH_TIMEOUT);
     }
 
+    // Test when login is successful for an Employee
     @Test
-    public void checkIfNavigatesToJobSearchResultsAfterSubmission() throws UiObjectNotFoundException {
-//        JobPostingActivity jobPostingActivity = new JobPostingActivity();
-//
-//        UiObject jobTitleBox = device.findObject(new UiSelector().text("Job Title"));
-//        String jobTitle = "Software Engineer";
-//        jobTitleBox.setText(jobTitle);
-//        jobPostingActivity.setTitle(jobTitle);
-//
-//        UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
-//        String jobCompany = "Dash Hudson";
-//        jobCompanyBox.setText(jobCompany);
-//        jobPostingActivity.setJobCompany(jobCompany);
-//
-//        UiObject jobDescriptionBox = device.findObject(new UiSelector().text("Job Description"));
-//        String jobDescription = "We are looking for a talented and motivated Software Engineer to join our growing team.";
-//        jobDescriptionBox.setText(jobDescription);
-//        jobPostingActivity.setJobDescription(jobDescription);
-//
-//        UiObject jobLocationBox = device.findObject(new UiSelector().text("Job Location"));
-//        String jobLocation = "Halifax, Nova Scotia, Canada";
-//        jobLocationBox.setText(jobLocation);
-//        jobPostingActivity.setJobLocation(jobLocation);
-//
-//        UiObject typeSpinner = device.findObject(new UiSelector().textContains("Select your job type"));
-//        typeSpinner.click();
-//        List<UiObject2> types = device.findObjects(By.res("android:id/jobTypeSpinner"));
-//        String jobType = "Full-Time";
-//        types.get(1).click();
-//        jobPostingActivity.setJobType(jobType);
-//
-//        UiObject experienceSpinner = device.findObject(new UiSelector().textContains("Select your experience level"));
-//        experienceSpinner.click();
-//        List<UiObject2> experiences = device.findObjects(By.res("android:id/experienceSpinner"));
-//        String experienceLevel = "Junior";
-//        experiences.get(1).click();
-//        jobPostingActivity.setExperienceLevel(experienceLevel);
-//
-//        UiObject jobIndustryBox = device.findObject(new UiSelector().text("Job Industry"));
-//        String jobIndustry = "Technology";
-//        jobIndustryBox.setText(jobIndustry);
-//        jobPostingActivity.setIndustry(jobIndustry);
-//
-//        UiObject submitButton = device.findObject(new UiSelector().text("SUBMIT"));
-//        submitButton.clickAndWaitForNewWindow();
-//        UiObject jobSearchResults = device.findObject(new UiSelector().textContains("Postings"));
-//        assertTrue(jobSearchResults.exists());
+    public void testLoginEmployee() {
+        Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
+        Espresso.onView(withText("Employee")).perform(click());
 
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("ABC@gmail.com"));
+        Espresso.closeSoftKeyboard();
+
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
+        Espresso.closeSoftKeyboard();
+
+        Espresso.onView(withId(R.id.loginButton)).perform(click());
+        device.wait(Until.hasObject(By.textContains("This will be Employee UI")), 5000);
+
+        UiObject employeeText = new UiObject(new UiSelector().textContains("This will be Employee UI"));
+        assertTrue("Employee label exists", employeeText.exists());
     }
 
+    // Test when login is successful for an Employer
     @Test
-    public void checkIfNewJobPostingIsDisplayed() throws UiObjectNotFoundException {
-//        JobPostingActivity jobPostingActivity = new JobPostingActivity();
-//
-//        UiObject jobTitleBox = device.findObject(new UiSelector().text("Job Title"));
-//        String jobTitle = "Software Engineer";
-//        jobTitleBox.setText(jobTitle);
-//        jobPostingActivity.setTitle(jobTitle);
-//
-//        UiObject jobCompanyBox = device.findObject(new UiSelector().text("Job Company"));
-//        String jobCompany = "Dash Hudson";
-//        jobCompanyBox.setText(jobCompany);
-//        jobPostingActivity.setJobCompany(jobCompany);
-//
-//        UiObject jobDescriptionBox = device.findObject(new UiSelector().text("Job Description"));
-//        String jobDescription = "We are looking for a talented and motivated Software Engineer to join our growing team.";
-//        jobDescriptionBox.setText(jobDescription);
-//        jobPostingActivity.setJobDescription(jobDescription);
-//
-//        UiObject jobLocationBox = device.findObject(new UiSelector().text("Job Location"));
-//        String jobLocation = "Halifax, Nova Scotia, Canada";
-//        jobLocationBox.setText(jobLocation);
-//        jobPostingActivity.setJobLocation(jobLocation);
-//
-//        UiObject typeSpinner = device.findObject(new UiSelector().textContains("Select your job type"));
-//        typeSpinner.click();
-//        List<UiObject2> types = device.findObjects(By.res("android:id/jobTypeSpinner"));
-//        String jobType = "Full-Time";
-//        types.get(1).click();
-//        jobPostingActivity.setJobType(jobType);
-//
-//        UiObject experienceSpinner = device.findObject(new UiSelector().textContains("Select your experience level"));
-//        experienceSpinner.click();
-//        List<UiObject2> experiences = device.findObjects(By.res("android:id/experienceSpinner"));
-//        String experienceLevel = "Junior";
-//        experiences.get(1).click();
-//        jobPostingActivity.setExperienceLevel(experienceLevel);
-//
-//        UiObject jobIndustryBox = device.findObject(new UiSelector().text("Job Industry"));
-//        String jobIndustry = "Technology";
-//        jobIndustryBox.setText(jobIndustry);
-//        jobPostingActivity.setIndustry(jobIndustry);
-//
-//        UiObject submitButton = device.findObject(new UiSelector().text("SUBMIT"));
-//        submitButton.clickAndWaitForNewWindow();
-//
-//        // Get the first job posting
-//        UiObject firstJobPosting = device.findObject(new UiSelector().index(0));
-//        firstJobPosting.clickAndWaitForNewWindow();
-//
-//        // Check if Job ID is displayed
-//        UiObject jobIdTextView = device.findObject(new UiSelector().resourceId("com.example.quickcash:id/jobIdTextView")); // Adjust resource ID as needed
-//        assertTrue(jobIdTextView.exists());
+    public void testLoginEmployer() {
+        Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
+        Espresso.onView(withText("Employer")).perform(click());
+
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("vbn@gmail.com"));
+        Espresso.closeSoftKeyboard();
+
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
+        Espresso.closeSoftKeyboard();
+
+        Espresso.onView(withId(R.id.loginButton)).perform(click());
+        device.wait(Until.hasObject(By.textContains("This will be Employer UI")), 5000);
+
+        UiObject employerText = new UiObject(new UiSelector().textContains("This will be Employer UI"));
+        assertTrue("Employer label exists", employerText.exists());
+    }
+
+    // Test when a user clicks on "Create Account" button
+    @Test
+    public void testCreateAccount() {
+        Espresso.onView(withId(R.id.createAccountButton)).perform(click());
+        device.wait(Until.hasObject(By.textContains("Account Registration")), 5000);
+
+        UiObject registrationText = new UiObject(new UiSelector().textContains("Account Registration"));
+        assertTrue("Registration label exists", registrationText.exists());
+    }
+
+    // Test when a user clicks on "Forgot Password?" button
+    @Test
+    public void testResetPassword() {
+        Espresso.onView(withId(R.id.forgotPasswordButton)).perform(click());
+        device.wait(Until.hasObject(By.textContains("This will be Employee UI")), 5000);
+
+        UiObject resetText = new UiObject(new UiSelector().textContains("This will be Reset Password Ui"));
+        assertTrue("Reset label exists", resetText.exists());
     }
 }

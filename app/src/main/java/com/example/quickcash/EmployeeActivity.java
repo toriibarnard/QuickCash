@@ -1,8 +1,8 @@
 package com.example.quickcash;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class EmployeeActivity extends AppCompatActivity {
+
+    TextView employeeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class EmployeeActivity extends AppCompatActivity {
             return insets;
         });
 
+        employeeText = findViewById(R.id.employeeText);
         setViewDetailsButton();
     }
 
