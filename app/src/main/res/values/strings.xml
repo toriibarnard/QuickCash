@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Quick Cash</string>
+
+    <string-array name="job_types">
+        <item>Select Job Type</item>
+        <item>Full-time</item>
+        <item>Part-time</item>
+        <item>Contract</item>
+    </string-array>
+
+    <string-array name="experience_levels">
+        <item>Select Experience level</item>
+        <item>Intern</item>
+        <item>Entry-Level</item>
+        <item>Junior-Level</item>
+        <item>Mid-Senior-Level</item>
+        <item>Senior-Level</item>
+        <item>Manager</item>
+    </string-array>
+
+    <string name="EMPTY_STRING"></string>
+    <string name="INVALID_JOB_TYPE">Invalid job type</string>
+    <string name="INVALID_EXPERIENCE_LEVEL">Invalid experience level</string>
+    <string name="INVALID_JOB_LOCATION">Invalid job location (must follow City, Province, Country)</string>
+    <string name="EMPTY_JOB_TITLE">Job title cannot be empty.</string>
+    <string name="EMPTY_JOB_COMPANY">Job company cannot be empty.</string>
+    <string name="EMPTY_JOB_DESCRIPTION">Job description cannot be empty.</string>
+    <string name="EMPTY_JOB_LOCATION">Job location cannot be empty.</string>
+    <string name="EMPTY_JOB_INDUSTRY">Industry must be selected.</string>
+    <string name="JOB_POSTING_ACTIVITY_TITLE">Create Job Posting</string>
+    <string name="SUCCESSFUL_JOB_POST_FEEDBACK">Job post created successfully!</string>
+    <string name="UNSUCCESSFUL_JOB_POST_FEEDBACK">Invalid input. Please check your entries.</string>
+
+    <string name="INVALID_ROLE">Please select a role!</string>
+    <string name="INVALID_EMAIL">Invalid Email!</string>
+    <string name="INVALID_PASSWORD">Invalid Password!</string>
+    <string name="INCORRECT_PASSWORD">Incorrect Password!</string>
+    <string name="SUCCESSFUL">Login Successful!</string>
+    <string name="USER_NOT_FOUND">Sorry, we could not find your account!</string>
+    <string name="CHECKING_ERROR">Error checking user!</string>
+    <string name="INVALID_PHONE_NUMBER">Invalid Phone!</string>
+    <string name="INVALID_NAME">Invalid Name!</string>
+
+    <!-- Values for role selection Spinner -->
+    <string-array name="ROLE_VALUES">
+        <item>Select Role</item>
+        <item>Employee</item>
+        <item>Employer</item>
+    </string-array>
+</resources>
