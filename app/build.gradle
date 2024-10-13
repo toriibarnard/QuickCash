@@ -36,14 +36,26 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.firebase.database
+    implementation libs.firebase.auth
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 
+    // for espresso test
+    androidTestImplementation libs.espresso.core.v350
+    androidTestImplementation libs.junit.v115
+    androidTestImplementation libs.rules
+    androidTestImplementation libs.runner
+
+    // for ui automator test
+    androidTestImplementation libs.uiautomator
+
     // Import the BoM for the Firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
+    implementation(platform(libs.firebase.bom))
+
     // Add the dependency for the Firebase Authentication library
-    implementation("com.google.firebase:firebase-auth")
+    implementation(libs.google.firebase.auth)
+
     // Also add the dependency for the Google Play services library and specify its version
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation(libs.play.services.auth)
 }
