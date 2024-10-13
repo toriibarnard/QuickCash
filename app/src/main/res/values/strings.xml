@@ -10,13 +10,12 @@
 
     <string-array name="experience_levels">
         <item>Select Experience level</item>
+        <item>Intern</item>
         <item>Entry-Level</item>
-        <item>Junior</item>
-        <item>Mid-Level</item>
+        <item>Junior-Level</item>
+        <item>Mid-Senior-Level</item>
         <item>Senior-Level</item>
-        <item>Mid-Senior Level</item>
         <item>Manager</item>
-        <item>Internship</item>
     </string-array>
 
     <string name="EMPTY_STRING"></string>
@@ -28,5 +27,8 @@
     <string name="EMPTY_JOB_DESCRIPTION">Job description cannot be empty.</string>
     <string name="EMPTY_JOB_LOCATION">Job location cannot be empty.</string>
     <string name="EMPTY_JOB_INDUSTRY">Industry must be selected.</string>
+    <string name="JOB_POSTING_ACTIVITY_TITLE">Create Job Posting</string>
+    <string name="SUCCESSFUL_JOB_POST_FEEDBACK">Job post created successfully!</string>
+    <string name="UNSUCCESSFUL_JOB_POST_FEEDBACK">Invalid input. Please check your entries.</string>
 
 </resources>

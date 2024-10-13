@@ -32,7 +32,7 @@ public class EmployeeActivity extends AppCompatActivity {
     }
 
     public void viewJobDetails() {
-        Intent details = new Intent(EmployeeActivity.this, JobDetailsView.class);
+        Intent details = new Intent(EmployeeActivity.this, JobDetailsActivity.class);
         EmployeeActivity.this.startActivity(details);
     }
 }

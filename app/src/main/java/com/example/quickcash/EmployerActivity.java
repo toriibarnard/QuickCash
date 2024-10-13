@@ -34,7 +34,7 @@ public class EmployerActivity extends AppCompatActivity {
     }
 
     public void makeNewPost() {
-        Intent newPost = new Intent(EmployerActivity.this, CreateJobPosting.class);
+        Intent newPost = new Intent(EmployerActivity.this, JobPostingActivity.class);
         EmployerActivity.this.startActivity(newPost);
     }
 
@@ -44,7 +44,7 @@ public class EmployerActivity extends AppCompatActivity {
     }
 
     public void viewJobDetails() {
-        Intent details = new Intent(EmployerActivity.this, JobDetailsView.class);
+        Intent details = new Intent(EmployerActivity.this, JobDetailsActivity.class);
         EmployerActivity.this.startActivity(details);
     }
 }

@@ -23,14 +23,14 @@ import static org.hamcrest.Matchers.allOf;
 // https://chatgpt.com/share/66fffba7-3430-800d-a524-d15de06cf1be
 
 @RunWith(AndroidJUnit4.class)
-public class CreateJobPostingEspressoTest {
+public class JobPostingActivityEspressoTest {
 
     @Rule
-    public ActivityScenario<CreateJobPosting> activityScenario;
+    public ActivityScenario<JobPostingActivity> activityScenario;
 
     @Before
     public void setup() {
-        activityScenario = ActivityScenario.launch(CreateJobPosting.class);
+        activityScenario = ActivityScenario.launch(JobPostingActivity.class);
         activityScenario.onActivity(activity -> {
         });
     }

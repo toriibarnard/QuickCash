@@ -6,53 +6,53 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class CreateJobPostingTest {
-    CreateJobPosting createJobPosting;
+public class JobPostingActivityTest {
+    JobPostingActivity jobPostingActivity;
 
     @Before
     public void setup() {
-        createJobPosting = new CreateJobPosting();
+        jobPostingActivity = new JobPostingActivity();
     }
 
     @Test
     public void testValidJobLocation() {
         String validLocation = "Montreal, Quebec, Canada";
-        assertTrue(createJobPosting.isJobLocationValid(validLocation));
+        assertTrue(jobPostingActivity.isJobLocationValid(validLocation));
     }
 
     @Test
     public void testInvalidJobLocationWithoutCountry() {
         String invalidLocation = "Montreal, Quebec";
-        assertFalse(createJobPosting.isJobLocationValid(invalidLocation));
+        assertFalse(jobPostingActivity.isJobLocationValid(invalidLocation));
     }
 
     @Test
     public void testInvalidJobLocationWithoutProvince() {
         String invalidLocation = "Montreal, , Canada";
-        assertFalse(createJobPosting.isJobLocationValid(invalidLocation));
+        assertFalse(jobPostingActivity.isJobLocationValid(invalidLocation));
     }
 
     @Test
     public void testInvalidJobLocationWithoutCity() {
         String invalidLocation = "Quebec, Canada";
-        assertFalse(createJobPosting.isJobLocationValid(invalidLocation));
+        assertFalse(jobPostingActivity.isJobLocationValid(invalidLocation));
     }
 
     @Test
     public void testInvalidJobLocationWithExtraCommas() {
         String invalidLocation = "Montreal, Quebec,, Canada";
-        assertFalse(createJobPosting.isJobLocationValid(invalidLocation));
+        assertFalse(jobPostingActivity.isJobLocationValid(invalidLocation));
     }
 
     @Test
     public void testValidJobLocationWithExtraSpaces() {
         String validLocation = "Montreal,     Quebec, Canada";
-        assertTrue(createJobPosting.isJobLocationValid(validLocation));
+        assertTrue(jobPostingActivity.isJobLocationValid(validLocation));
     }
 
     @Test
     public void testEmptyJobLocation() {
         String emptyLocation = "";
-        assertFalse(createJobPosting.isJobLocationValid(emptyLocation));
+        assertFalse(jobPostingActivity.isJobLocationValid(emptyLocation));
     }
 }
