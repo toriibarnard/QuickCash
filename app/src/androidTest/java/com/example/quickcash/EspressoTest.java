@@ -28,7 +28,7 @@ public class EspressoTest {
     public void fillOutResetEmail() {
         // Context of the app under test.
 
-        ActivityScenario.launch(PasswordReset.class);
+        ActivityScenario.launch(ResetPasswordActivity.class);
 
         onView(withId(R.id.emailBox)).perform(ViewActions.typeText("johndoe@gmail.com"), ViewActions.closeSoftKeyboard());
 
