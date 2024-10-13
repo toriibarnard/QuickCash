@@ -1,12 +1,12 @@
 package com.example.quickcash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,8 +106,8 @@ public class JobPostingActivity extends AppCompatActivity {
 
         // Encapsulate the data collected into a JobPost object.
         JobPost jobPost = new JobPost(
-                getIntent().getStringExtra("jobPosterID"),
                 JobPost.generateJobID(),
+                getIntent().getStringExtra("jobPosterID"),
                 jobTitle,
                 location,
                 jobType,
@@ -127,13 +127,15 @@ public class JobPostingActivity extends AppCompatActivity {
 
             // Display success message.
             statusLabel.setText(R.string.SUCCESSFUL_JOB_POST_FEEDBACK);
+
+            // Go back to the Employer activity.
+            Intent intent = new Intent(this, EmployerActivity.class);
+            intent.putExtra("jobPosterID", getIntent().getStringExtra("jobPosterID"));
+            startActivity(intent);
         } else {
 
             // Display error message.
             statusLabel.setText(R.string.UNSUCCESSFUL_JOB_POST_FEEDBACK);
         }
-
-        // DEBUG: Verify if the job posting is written to the database.
-        Toast.makeText(this, firebaseCRUD.readJobPost(jobPost.getJobID()).getJobTitle(), Toast.LENGTH_LONG).show();
     }
 }

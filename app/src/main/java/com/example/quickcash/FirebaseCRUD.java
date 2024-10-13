@@ -92,6 +92,22 @@ public class FirebaseCRUD {
     }
 
     /**
+     * Retrieves all job posts from the cache that match the given jobPosterID.
+     *
+     * @param jobPosterID the ID of the job poster (employer email).
+     * @return an ArrayList of JobPost objects.
+     */
+    public ArrayList<JobPost> readJobPostsByPosterID(String jobPosterID) {
+        ArrayList<JobPost> jobPostsByPoster = new ArrayList<>();
+        for (JobPost jobPost : cachedJobPosts.values()) {
+            if (jobPosterID.equals(jobPost.getJobPosterID())) {
+                jobPostsByPoster.add(jobPost);
+            }
+        }
+        return jobPostsByPoster;
+    }
+
+    /**
      * Updates an existing job post in the database.
      * If the jobID exists, updates all fields from the updatedJobPost argument except the jobID.
      *
