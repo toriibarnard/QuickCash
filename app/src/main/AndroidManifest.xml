@@ -31,12 +31,6 @@
             android:name=".JobDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".EmployeeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EmployerActivity"
-            android:exported="true" />
-        <activity
             android:name=".JobPostingActivity"
             android:exported="true" />
         <activity
