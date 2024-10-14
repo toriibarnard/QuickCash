@@ -68,6 +68,8 @@ public class UIAutomatorTest {
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
 
+        device.wait(Until.hasObject(By.textContains("Available Jobs")), 5000);
+
         UiObject employeeActivityTitle = device.findObject(new UiSelector().text("Available Jobs"));
         Assert.assertTrue(employeeActivityTitle.exists());
     }
@@ -85,6 +87,8 @@ public class UIAutomatorTest {
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
+
+        device.wait(Until.hasObject(By.textContains("My Postings")), 5000);
 
         UiObject employeeActivityTitle = device.findObject(new UiSelector().text("My Postings"));
         Assert.assertTrue(employeeActivityTitle.exists());
