@@ -105,13 +105,13 @@ public class UIAutomatorTest {
     @Test
     public void testResetPassword() {
         Espresso.onView(withId(R.id.forgotPasswordButton)).perform(click());
-        device.wait(Until.hasObject(By.textContains("This will be Employee UI")), 5000);
+        device.wait(Until.hasObject(By.textContains("Reset Password")), 5000);
 
-        UiObject resetText = new UiObject(new UiSelector().textContains("This will be Reset Password Ui"));
+        UiObject resetText = new UiObject(new UiSelector().textContains("Reset Password"));
         assertTrue("Reset label exists", resetText.exists());
     }
 
-    // test when a user logs out as an employee
+    // Test when a user logs out as an employee
     @Test
     public void testLogoutEmployee() {
         // log in as Employee
@@ -142,7 +142,7 @@ public class UIAutomatorTest {
         assertTrue("Login screen appears after logout", loginText.exists());
     }
 
-    // test when a user logs out as an employer
+    // Test when a user logs out as an employer
     @Test
     public void testLogoutEmployer() {
         // login as employer
@@ -171,6 +171,18 @@ public class UIAutomatorTest {
 
         UiObject loginText = new UiObject(new UiSelector().textContains("Login"));
         assertTrue("Login screen appears after logout", loginText.exists());
+    }
 
+    // Test when a reset password email is sent to the user
+    @Test
+    public void testSuccessfulResetPassword() {
+        Espresso.onView(withId(R.id.forgotPasswordButton)).perform(click());
+        Espresso.onView(withId(R.id.resetEmailBox)).perform(typeText("abc@dal.ca"));
+        Espresso.onView(withId(R.id.sendButton)).perform(click());
+
+        device.wait(Until.hasObject(By.textContains("Quick Cash")), 5000);
+
+        UiObject loginText = new UiObject(new UiSelector().textContains("Quick Cash"));
+        assertTrue("Quick Cash label exists", loginText.exists());
     }
 }
