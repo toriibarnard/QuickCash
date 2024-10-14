@@ -1,11 +1,12 @@
 package com.example.quickcash;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Represents a job posting with relevant details such as title, location, job type, and more.
  */
-public class JobPost {
+public class JobPost implements Serializable {
     private String jobPosterID;
     private String jobID;
     private String jobTitle;

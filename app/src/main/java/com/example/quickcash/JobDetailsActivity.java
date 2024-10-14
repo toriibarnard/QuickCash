@@ -1,6 +1,7 @@
 package com.example.quickcash;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +21,35 @@ public class JobDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Get the jobPost from the intent.
+        JobPost jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
+
+        TextView jobID = findViewById(R.id.jobIDDetails);
+        jobID.setText(jobPost.getJobID());
+
+        TextView jobDetailsTitle = findViewById(R.id.jobDetailsTitle);
+        jobDetailsTitle.setText(jobPost.getJobTitle());
+
+        TextView companyName = findViewById(R.id.companyNameDetails);
+        companyName.setText(jobPost.getCompanyName());
+
+        TextView jobDescription = findViewById(R.id.jobDescriptionDetails);
+        jobDescription.setText(jobPost.getJobDescription());
+
+        TextView jobType = findViewById(R.id.jobTypeDetails);
+        jobType.setText(jobPost.getJobType());
+
+        TextView experienceLevel = findViewById(R.id.experienceLevelDetails);
+        experienceLevel.setText(jobPost.getExperienceLevel());
+
+        TextView industry = findViewById(R.id.industryDetails);
+        industry.setText(jobPost.getIndustry());
+
+        TextView location = findViewById(R.id.locationDetails);
+        location.setText(jobPost.getLocation());
+
+        TextView postedDate = findViewById(R.id.postedDateDetails);
+        postedDate.setText(jobPost.getPostedDate());
     }
 }
