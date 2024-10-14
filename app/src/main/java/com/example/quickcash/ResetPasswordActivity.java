@@ -1,5 +1,6 @@
 package com.example.quickcash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,31 +32,30 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     protected void setupPasswordResetButton() {
         Button resetPasswordButton = findViewById(R.id.sendButton);  // Updated to use sendButton ID
-        resetPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = getEmailAddress();
-                if (!email.isEmpty()) {
-                    firebasePasswordReset.sendPasswordResetEmail(email, new FirebasePasswordReset.ResetPasswordCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(ResetPasswordActivity.this, "Password reset email sent!", Toast.LENGTH_LONG).show();
-                        }
+        resetPasswordButton.setOnClickListener(view -> {
+            String email = getEmailAddress();
+            if (!email.isEmpty()) {
+                firebasePasswordReset.sendPasswordResetEmail(email, new FirebasePasswordReset.ResetPasswordCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(ResetPasswordActivity.this, "Password reset email sent!", Toast.LENGTH_LONG).show();
+                        Intent login = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                        ResetPasswordActivity.this.startActivity(login);
+                    }
 
-                        @Override
-                        public void onFailure(Exception e) {
-                            Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    Toast.makeText(ResetPasswordActivity.this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
-                }
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Toast.makeText(ResetPasswordActivity.this, "Please enter your email address.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     protected String getEmailAddress() {
-        EditText emailBox = findViewById(R.id.emailBox);  // Updated to use emailBox ID
+        EditText emailBox = findViewById(R.id.resetEmailBox);  // Updated to use emailBox ID
         return emailBox.getText().toString().trim().toLowerCase();
     }
 }
