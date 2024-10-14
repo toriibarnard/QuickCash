@@ -20,6 +20,10 @@ public class FirebaseCRUD {
     private final DatabaseReference databaseReference;
     private final Map<String, JobPost> cachedJobPosts;
 
+    public DatabaseReference getDatabaseReference() {
+        return databaseReference;
+    }
+
     /**
      * Constructor initializes the database reference and the cache.
      * It sets up a listener to keep the cache updated with any changes in the database.

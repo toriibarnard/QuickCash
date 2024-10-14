@@ -37,6 +37,29 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
+                    android:id="@+id/jobIDLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Job ID:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/jobIDDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Sample Job ID"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <!-- Company Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
                     android:id="@+id/companyNameLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
