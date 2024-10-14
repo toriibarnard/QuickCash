@@ -3,6 +3,10 @@ package com.example.quickcash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -18,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 public class EmployerActivity extends AppCompatActivity implements JobPostAdapter.OnItemClickListener {
@@ -29,6 +35,8 @@ public class EmployerActivity extends AppCompatActivity implements JobPostAdapte
     RecyclerView recyclerView;
     JobPostAdapter jobPostAdapter;
     ArrayList<JobPost> jobPostList;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,43 @@ public class EmployerActivity extends AppCompatActivity implements JobPostAdapte
         initializeFirebaseCRUD();
         setupRecyclerView();
         fetchJobPosts();
+
+        // initialize the firebase authorization
+        mAuth = FirebaseAuth.getInstance();
+
+        Button logoutButton = findViewById(R.id.logoutButton);
+
+        // set onClick listener for the logout button
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // log out
+                mAuth.signOut();
+                Toast.makeText(EmployerActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
+
+                // clear session data
+                clearSessionData();
+
+                // redirect to LoginActivity
+                Intent intent = new Intent(EmployerActivity.this, LoginActivity.class);
+                startActivity(intent);
+
+                // close the current activity
+                finish();
+            }
+        });
+    }
+
+    // method to clear session data
+    private void clearSessionData() {
+        // clear Firebase session
+        FirebaseAuth.getInstance().signOut();
+
+        // clear SharedPreferences session ( the locally stored data)
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();  // clear all data in the user_session file
+        editor.apply();
     }
 
     private void initializeFirebaseCRUD() {
