@@ -1,24 +1,41 @@
 package com.example.quickcash;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.ImageButton;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class EmployerActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    TextView employerText;
+public class EmployerActivity extends AppCompatActivity implements JobPostAdapter.OnItemClickListener {
+
+    FirebaseCRUD firebaseCRUD;
+    String jobPosterID;
+    ImageButton createPostButton;
+
+    RecyclerView recyclerView;
+    JobPostAdapter jobPostAdapter;
+    ArrayList<JobPost> jobPostList;
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -30,13 +47,22 @@ public class EmployerActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-
         });
+
+        // Extract employerID.
+        jobPosterID = getIntent().getStringExtra("jobPosterID");
+
+        // Initialize the UI components.
+        createPostButton = findViewById(R.id.createPostButton);
+        createPostButton.setOnClickListener(view -> changeToJobPostingActivity());
+
+        initializeFirebaseCRUD();
+        setupRecyclerView();
+        fetchJobPosts();
 
         // initialize the firebase authorization
         mAuth = FirebaseAuth.getInstance();
 
-        employerText = findViewById(R.id.employerText);
         Button logoutButton = findViewById(R.id.logoutButton);
 
         // set onClick listener for the logout button
@@ -70,5 +96,56 @@ public class EmployerActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();  // clear all data in the user_session file
         editor.apply();
+    }
+
+    private void initializeFirebaseCRUD() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_DATABASE_URL);
+        firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
+    }
+
+    private void changeToJobPostingActivity() {
+        Intent intent = new Intent(this, JobPostingActivity.class);
+        intent.putExtra("jobPosterID", jobPosterID);
+        startActivity(intent);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView = findViewById(R.id.employerRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        jobPostList = new ArrayList<>();
+        jobPostAdapter = new JobPostAdapter(jobPostList, this); // Pass 'this' as the listener
+        recyclerView.setAdapter(jobPostAdapter);
+    }
+
+    private void fetchJobPosts() {
+        firebaseCRUD.getDatabaseReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                jobPostList.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    JobPost jobPost = postSnapshot.getValue(JobPost.class);
+                    if (jobPost != null && jobPosterID.equals(jobPost.getJobPosterID())) {
+                        jobPostList.add(jobPost);
+                    }
+                }
+                jobPostAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Error fetching job posts: " + error.getMessage());
+            }
+        });
+    }
+
+    // Implement the interface method.
+    @Override
+    public void onViewDetailsClick(JobPost jobPost) {
+
+        // Start JobDetailsActivity and pass the jobPost data.
+        Intent intent = new Intent(this, JobDetailsActivity.class);
+        intent.putExtra("jobPost", jobPost);
+        startActivity(intent);
     }
 }

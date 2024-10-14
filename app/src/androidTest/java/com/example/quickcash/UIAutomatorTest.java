@@ -9,6 +9,7 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ import android.content.Intent;
 // This class is used to test how the whole application behaves
 @RunWith(AndroidJUnit4.class)
 public class UIAutomatorTest {
-    
+
     private static final int LAUNCH_TIMEOUT = 10000;
     final String launcherPackage = "com.example.quickcash";
     private UiDevice device;
@@ -53,23 +54,24 @@ public class UIAutomatorTest {
         device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCH_TIMEOUT);
     }
 
-    // Test when login is successful for an Employee
+    // Test when login is successful for an Employee.
     @Test
     public void testLoginEmployee() {
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employee")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("ABC@gmail.com"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("ab278106@dal.ca"));
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("SecretPassword"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
-        device.wait(Until.hasObject(By.textContains("This will be Employee UI")), 5000);
 
-        UiObject employeeText = new UiObject(new UiSelector().textContains("This will be Employee UI"));
-        assertTrue("Employee label exists", employeeText.exists());
+        device.wait(Until.hasObject(By.textContains("Available Jobs")), 5000);
+
+        UiObject employeeActivityTitle = device.findObject(new UiSelector().text("Available Jobs"));
+        Assert.assertTrue(employeeActivityTitle.exists());
     }
 
     // Test when login is successful for an Employer
@@ -78,17 +80,18 @@ public class UIAutomatorTest {
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employer")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("vbn@gmail.com"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("roni@dal.ca"));
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("SecretPassword"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
-        device.wait(Until.hasObject(By.textContains("This will be Employer UI")), 5000);
 
-        UiObject employerText = new UiObject(new UiSelector().textContains("This will be Employer UI"));
-        assertTrue("Employer label exists", employerText.exists());
+        device.wait(Until.hasObject(By.textContains("My Postings")), 5000);
+
+        UiObject employeeActivityTitle = device.findObject(new UiSelector().text("My Postings"));
+        Assert.assertTrue(employeeActivityTitle.exists());
     }
 
     // Test when a user clicks on "Create Account" button

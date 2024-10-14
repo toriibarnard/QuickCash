@@ -23,6 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Direct to the Login page when the user opens the application
         Intent login = new Intent(MainActivity.this, LoginActivity.class);
-        MainActivity.this.startActivity(login);
+        startActivity(login);
     }
 }

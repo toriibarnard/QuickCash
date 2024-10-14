@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class EmployeeActivity extends AppCompatActivity {
 
-    TextView employeeText;
     private FirebaseAuth mAuth;
 
     @Override
@@ -30,13 +29,10 @@ public class EmployeeActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-
         });
 
         // initialize the firebase authorization
         mAuth = FirebaseAuth.getInstance();
-
-        employeeText = findViewById(R.id.employeeText);
         Button logoutButton = findViewById(R.id.logoutButton);
 
         // set onClick listener for the logout button
