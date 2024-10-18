@@ -73,7 +73,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="24dp"
                     android:layout_marginHorizontal="10dp"
-                    android:t
                     android:text="No file selected" />
             </LinearLayout>
 
