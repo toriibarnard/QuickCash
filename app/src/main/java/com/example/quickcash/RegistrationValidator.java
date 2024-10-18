@@ -20,4 +20,6 @@ public class RegistrationValidator {
     protected boolean isValidRole(String role) {
         return !role.equals("Select Role");
     }
+
+    protected boolean isFileUploaded(String file) { return !file.equals("No file selected"); }
 }
