@@ -45,14 +45,15 @@
 
             </LinearLayout>
 
+            <!-- Updated RecyclerView ID -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/employerRecyclerView"
+                android:id="@+id/applicantsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeTopLayout"
+                app:layout_constraintTop_toBottomOf="@+id/jobApplicantsTopLayout"
                 tools:itemCount="3"
                 tools:listitem="@layout/applicant_item_view" />
 
