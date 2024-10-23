@@ -25,7 +25,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         });
 
 
-        // Get the jobPost from the intent.
+        // get the jobPost from the intent.
         Applicant applicant = getIntent().getSerializableExtra("applicant", Applicant.class);
 
         TextView applicantJobID = findViewById(R.id.applicantJobIDDetails);

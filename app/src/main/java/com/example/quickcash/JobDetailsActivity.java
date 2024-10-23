@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,24 +19,24 @@ public class JobDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_job_details_view);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // initialize the view applicants button
-        Button viewApplicantsButton = findViewById(R.id.viewApplicantsButton);
 
-        // set OnClickListener to handle navigation to JobApplicantsActivity
-        viewApplicantsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(JobDetailsActivity.this, JobApplicantsActivity.class);
-            intent.putExtra("jobID", getIntent().getStringExtra("jobID")); // Pass jobID to the next activity if needed
-            startActivity(intent);
-        });
+        // retrieve the JobPost object from the intent
+        JobPost jobPost = (JobPost) getIntent().getSerializableExtra("jobPost");
 
-        // Get the jobPost from the intent.
-        JobPost jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
+        if (jobPost == null) {
+            // handle case if jobPost is not passed correctly
+            Toast.makeText(this, "Job details not available", Toast.LENGTH_SHORT).show();
+            finish();  // close activity if no job details are available
+            return;
+        }
 
+        // Set the job details in the TextViews
         TextView jobID = findViewById(R.id.jobIDDetails);
         jobID.setText(jobPost.getJobID());
 
@@ -62,6 +63,22 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         TextView postedDate = findViewById(R.id.postedDateDetails);
         postedDate.setText(jobPost.getPostedDate());
-    }
 
+        // initialize the view applicants button
+        Button viewApplicantsButton = findViewById(R.id.viewApplicantsButton);
+
+        // set the OnClickListener to navigate to JobApplicantsActivity
+        viewApplicantsButton.setOnClickListener(v -> {
+            String jobIDStr = jobPost.getJobID();  // retrieve the jobID from the jobPost object
+
+            if (jobIDStr != null) {
+                // pass the jobID to JobApplicantsActivity
+                Intent intent = new Intent(JobDetailsActivity.this, JobApplicantsActivity.class);
+                intent.putExtra("jobID", jobIDStr);  // pass jobID to the next activity
+                startActivity(intent);
+            } else {
+                Toast.makeText(JobDetailsActivity.this, "No Job ID available", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

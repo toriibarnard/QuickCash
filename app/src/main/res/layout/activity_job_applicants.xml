@@ -45,7 +45,6 @@
 
             </LinearLayout>
 
-            <!-- Updated RecyclerView ID -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/applicantsRecyclerView"
                 android:layout_width="match_parent"
