@@ -11,13 +11,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class JobDetailsActivity extends AppCompatActivity {
+public class JobApplicantsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_job_details_view);
+        setContentView(R.layout.activity_job_applicants);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -28,7 +28,7 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         // set OnClickListener to handle navigation to JobApplicantsActivity
         viewApplicantsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(JobDetailsActivity.this, JobApplicantsActivity.class);
+            Intent intent = new Intent(JobApplicantsActivity.this, JobApplicantsActivity.class);
             intent.putExtra("jobID", getIntent().getStringExtra("jobID")); // Pass jobID to the next activity if needed
             startActivity(intent);
         });

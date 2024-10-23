@@ -33,6 +33,8 @@
         <activity
             android:name=".JobPostingActivity"
             android:exported="true" />
+        <activity android:name=".JobApplicantsActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
