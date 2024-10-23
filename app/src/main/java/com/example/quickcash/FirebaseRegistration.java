@@ -52,11 +52,9 @@ public class FirebaseRegistration {
                                     // Save the user data to the correct Firebase table based on role
                                     if (role.equalsIgnoreCase("employee")) {
                                         usersRef.child("employee").child(uid).setValue(userData)
-                                                .addOnSuccessListener(aVoid -> callback.onSuccess())
                                                 .addOnFailureListener(e -> callback.onFailure(e));
                                     } else if (role.equalsIgnoreCase("employer")) {
                                         usersRef.child("employer").child(uid).setValue(userData)
-                                                .addOnSuccessListener(aVoid -> callback.onSuccess())
                                                 .addOnFailureListener(e -> callback.onFailure(e));
                                     }
                                 }
@@ -98,7 +96,6 @@ public class FirebaseRegistration {
     // Callback interfaces
     public interface RegistrationCallback {
         void onAccountCreated();
-        void onSuccess();
         void onFailure(Exception e);
     }
 
