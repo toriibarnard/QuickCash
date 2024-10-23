@@ -75,22 +75,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
             });
 
-            firebaseRegistration.verifyEmailAndAddUserToDatabase(name, email, phoneNumber,password, role,new FirebaseRegistration.RegistrationCallback() {
-                @Override
-                public void onAccountCreated() {
-                }
-
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(RegistrationActivity.this, "User successfully added to the database!", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    Toast.makeText(RegistrationActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
             // Redirect user to the login page
             Intent loginActivity = new Intent(RegistrationActivity.this, LoginActivity.class);
             RegistrationActivity.this.startActivity(loginActivity);

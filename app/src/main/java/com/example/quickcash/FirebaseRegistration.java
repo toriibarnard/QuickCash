@@ -95,20 +95,6 @@ public class FirebaseRegistration {
         }
     }
 
-    // Method to check if email is verified and add user to database
-    public void verifyEmailAndAddUserToDatabase(final String name, final String email, final String phone,final String password, final String role, final RegistrationCallback callback) {
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            user.sendEmailVerification()
-                    .addOnCompleteListener(task -> {
-
-                    });
-        } else {
-            callback.onFailure(new Exception("User is null"));
-        }
-    }
-
-
     // Callback interfaces
     public interface RegistrationCallback {
         void onAccountCreated();
