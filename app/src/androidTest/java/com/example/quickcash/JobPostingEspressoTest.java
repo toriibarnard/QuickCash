@@ -20,7 +20,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 @RunWith(AndroidJUnit4.class)
-public class JobPostingActivityEspressoTest {
+public class JobPostingEspressoTest {
 
     @Rule
     public ActivityScenarioRule<JobPostingActivity> activityScenarioRule =

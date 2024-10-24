@@ -40,7 +40,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         String password = getPassword();
         String role = getRole();
         String errorMessage = new String();
-        RegistrationValidator validator = new RegistrationValidator();
+        CredentialsValidator validator = new CredentialsValidator();
 
         // verify all inputs are valid
         if (!validator.isValidName(name)) {

@@ -6,10 +6,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class JobApplicationTest {
-    RegistrationValidator validator;
+    CredentialsValidator validator;
 
     @Before
-    public void setup() { validator = new RegistrationValidator(); }
+    public void setup() { validator = new CredentialsValidator(); }
 
     @Test
     public void checkIsValidEmail() {
@@ -27,5 +27,7 @@ public class JobApplicationTest {
     }
 
     @Test
-    public void checkIsFileUploaded() {assertTrue(validator.isFileUploaded("resume.pdf"));}
+    public void checkIsFileUploaded() {
+        assertTrue(validator.isFileUploaded("resume.pdf"));
+    }
 }

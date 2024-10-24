@@ -99,7 +99,7 @@ public class EmployerActivity extends AppCompatActivity implements JobPostAdapte
     }
 
     private void initializeFirebaseCRUD() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_DATABASE_URL);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
     }
 

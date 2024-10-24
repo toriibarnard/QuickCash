@@ -19,10 +19,49 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class JobApplicationEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<RegistrationActivity> activityScenarioRule = new ActivityScenarioRule<>(RegistrationActivity.class);
+    public ActivityScenarioRule<JobApplicationActivity> activityScenarioRule = new ActivityScenarioRule<>(JobApplicationActivity.class);
 
     @Test
-    public void checkInvalidFile() throws InterruptedException {
+    public void testInvalidName() throws InterruptedException {
+        onView(withId(R.id.applicationNameBox)).perform(typeText("John119"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationPhoneBox)).perform(typeText("1234567890"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationEmailBox)).perform(typeText("johndoe@example.com"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationSubmitButton)).perform(click());
+        Thread.sleep(5000);
+        onView(withId(R.id.applicationStatusLabel)).check(matches(withText(R.string.INVALID_NAME)));
+    }
+
+    @Test
+    public void testInvalidPhone() throws InterruptedException {
+        onView(withId(R.id.applicationNameBox)).perform(typeText("John Doe"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationPhoneBox)).perform(typeText("123456789"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationEmailBox)).perform(typeText("johndoe@example.com"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationSubmitButton)).perform(click());
+        Thread.sleep(5000);
+        onView(withId(R.id.applicationStatusLabel)).check(matches(withText(R.string.INVALID_PHONE_NUMBER)));
+    }
+
+    @Test
+    public void testInvalidEmail() throws InterruptedException {
+        onView(withId(R.id.applicationNameBox)).perform(typeText("John Doe"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationPhoneBox)).perform(typeText("1234567890"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationEmailBox)).perform(typeText("johndoe.example.com"));
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applicationSubmitButton)).perform(click());
+        Thread.sleep(5000);
+        onView(withId(R.id.applicationStatusLabel)).check(matches(withText(R.string.INVALID_EMAIL)));
+    }
+
+    @Test
+    public void testResumeNotUploaded() throws InterruptedException {
         onView(withId(R.id.applicationNameBox)).perform(typeText("John Doe"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.applicationPhoneBox)).perform(typeText("1234567890"));
@@ -31,19 +70,6 @@ public class JobApplicationEspressoTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.applicationSubmitButton)).perform(click());
         Thread.sleep(5000);
-        onView(withId(R.id.applicationStatusLabel)).check(matches(withText(R.string.INVALID_FILE)));
-    }
-
-    @Test
-    public void checkValidFile() {
-        onView(withId(R.id.applicationNameBox)).perform(typeText("John Doe"));
-        Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applicationPhoneBox)).perform(typeText("1234567890"));
-        Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applicationEmailBox)).perform(typeText("johndoe@example.com"));
-        Espresso.closeSoftKeyboard();
-        onView(withId(R.id.fileNameTextView)).perform(replaceText("resume.pdf"));
-        onView(withId(R.id.applicationSubmitButton)).perform(click());
-        onView(withId(R.id.applicationSubmitButton)).check(matches(withText(R.string.EMPTY_STRING)));
+        onView(withId(R.id.applicationStatusLabel)).check(matches(withText(R.string.RESUME_NOT_SELECTED)));
     }
 }
