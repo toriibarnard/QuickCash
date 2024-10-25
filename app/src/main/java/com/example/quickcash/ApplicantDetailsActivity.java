@@ -37,7 +37,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         TextView applicantEmail = findViewById(R.id.applicantEmailDetails);
         applicantEmail.setText(applicant.getApplicantEmail());
 
-        TextView applicantExperience = findViewById(R.id.applicantExperienceDetails);
-        applicantExperience.setText(applicant.getApplicantExperience());
+        TextView applicantPhone = findViewById(R.id.applicantPhoneDetails);
+        applicantPhone.setText(applicant.getApplicantPhone());
     }
 }

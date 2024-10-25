@@ -83,18 +83,18 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/applicantExperienceLabel"
+                    android:id="@+id/applicantPhoneLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Experience Level:"
+                    android:text="Phone: "
                     android:textStyle="bold"
                     android:layout_weight="1"/>
 
                 <TextView
-                    android:id="@+id/applicantExperienceDetails"
+                    android:id="@+id/applicantPhoneDetails"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Rookie"
+                    android:text="1234567890"
                     android:layout_weight="2"/>
             </LinearLayout>
         </LinearLayout>

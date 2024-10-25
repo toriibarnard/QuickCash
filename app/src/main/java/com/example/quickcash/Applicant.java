@@ -7,23 +7,39 @@ import java.util.UUID;
  * Represents a job posting with relevant details such as title, location, job type, and more.
  */
 public class Applicant implements Serializable {
+    private String applicantID;
     private String applicantJobID;
     private String applicantName;
     private String applicantEmail;
-    private String applicantExperience;
+    private String applicantPhone;
+    private String employerStatus = "pending";
+    private Boolean employeeStatus;
 
     // default constructor.
     public Applicant() {
     }
 
     // constructor.
-    public Applicant(String jobID, String applicantName, String applicantEmail, String applicantExperience) {
+    public Applicant(String applicantID, String applicantJobID, String applicantName, String applicantEmail,
+                     String applicantPhone, String employerStatus, Boolean employeeStatus) {
+        this.applicantID = applicantID;
+        this.applicantJobID = applicantJobID;
         this.applicantName = applicantName;
         this.applicantEmail = applicantEmail;
-        this.applicantExperience = applicantExperience;
+        this.applicantPhone = applicantPhone;
     }
 
     // getters and setters
+    public String generateApplicantID(){
+        return UUID.randomUUID().toString(); // generates a unique id for applicant
+    }
+    public void setApplicantID(String applicantJobID){
+        this.applicantID = applicantID;
+    }
+    public String getApplicantID(){
+        return applicantID;
+    }
+
     public void setApplicantJobID(String applicantJobID){
         this.applicantJobID = applicantJobID;
     }
@@ -45,10 +61,24 @@ public class Applicant implements Serializable {
         return applicantEmail;
     }
 
-    public void setApplicantExperience(String applicantExperience){
-        this.applicantExperience = applicantExperience;
+    public void setApplicantPhone(String applicantPhone){
+        this.applicantPhone = applicantPhone;
     }
-    public String getApplicantExperience(){
-        return applicantExperience;
+    public String getApplicantPhone(){
+        return applicantPhone;
+    }
+
+    public void setEmployerStatus(String employerStatus){
+        this.employerStatus = employerStatus;
+    }
+    public String getEmployerStatus(){
+        return employerStatus;
+    }
+
+    public void setEmployeeStatus(Boolean employeeStatus) {
+        this.employeeStatus = employeeStatus;
+    }
+    public Boolean getEmployeeStatus() {
+        return employeeStatus;
     }
 }
