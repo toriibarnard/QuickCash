@@ -36,6 +36,7 @@ public class JobApplicationActivity extends AppCompatActivity {
         setApplicationSubmitButton();
     }
 
+    // Getters to get name, phone, email and file
     protected String getName() {
         EditText name = findViewById(R.id.applicationNameBox);
         return name.getText().toString().trim();
@@ -56,33 +57,39 @@ public class JobApplicationActivity extends AppCompatActivity {
         return fileName.getText().toString().trim();
     }
 
+    // Set the file name field with uploaded file
     public void setFileName(String fName) {
         TextView fileName = findViewById(R.id.fileNameTextView);
         fileName.setText(fName);
     }
 
+    // Set the status message
     public void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.applicationStatusLabel);
         statusLabel.setText(message.trim());
     }
 
+    // Get the file name from the specified file path
     private String extractFileName(Uri fileUri) {
         String path = fileUri.getPath();
         File file = new File(path);
         return file.getName();
     }
 
+    // Set the upload resume button
     public void setUploadResumeButton() {
         Button uploadResume = findViewById(R.id.resumeUploadButton);
         uploadResume.setOnClickListener(view -> handelUploadResume());
     }
 
+    // Open file selection menu to upload a resume. Only pdf file allowed
     public void handelUploadResume() {
         Intent fileSelection = new Intent(Intent.ACTION_GET_CONTENT);
         fileSelection.setType("application/pdf");
         startActivityForResult(fileSelection, FILE_SELECTION_REQUEST);
     }
 
+    // Once file is selected, extract the file name to show the selected file
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -96,32 +103,32 @@ public class JobApplicationActivity extends AppCompatActivity {
         }
     }
 
+    // Setup application submission button
     public void setApplicationSubmitButton() {
         Button submitApplication = findViewById(R.id.applicationSubmitButton);
         submitApplication.setOnClickListener(view -> handelSubmitApplication());
     }
 
+    // On Submit, validate the credentials and submit the application
     public void handelSubmitApplication() {
-        validateFields();
-    }
-
-    protected void validateFields() {
         CredentialsValidator validator = new CredentialsValidator();
 
         String name = getName();
         String email = getEmail();
         String phone = getPhone();
         String file = getFile();
-        String errorMessage = "";
+        String errorMessage;
 
         if (!validator.isValidName(name)) {
             errorMessage = getResources().getString(R.string.INVALID_NAME);
-        } else if  (!validator.isValidPhone(phone)) {
+        } else if (!validator.isValidPhone(phone)) {
             errorMessage = getResources().getString(R.string.INVALID_PHONE_NUMBER);
         } else if (!validator.isValidEmail(email)) {
             errorMessage = getResources().getString(R.string.INVALID_EMAIL);
         } else if (!validator.isFileUploaded(file)) {
             errorMessage = getResources().getString(R.string.RESUME_NOT_SELECTED);
+        } else {
+            errorMessage = getResources().getString(R.string.SUBMIT_APPLICATION_SUCCESSFUL);
         }
 
         setStatusMessage(errorMessage);

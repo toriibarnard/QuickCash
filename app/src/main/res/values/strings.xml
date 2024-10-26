@@ -19,6 +19,7 @@
     </string-array>
 
     <string name="RESUME_NOT_SELECTED">Please upload a resume!</string>
+    <string name="SUBMIT_APPLICATION_SUCCESSFUL">Application submitted!</string>
 
     <string name="EMPTY_STRING"></string>
     <string name="INVALID_JOB_TYPE">Invalid job type</string>
