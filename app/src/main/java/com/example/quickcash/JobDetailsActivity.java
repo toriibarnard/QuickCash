@@ -1,6 +1,9 @@
 package com.example.quickcash;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +24,8 @@ public class JobDetailsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        setUpApplyButton();
 
         // Get the jobPost from the intent.
         JobPost jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
@@ -51,5 +56,20 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         TextView postedDate = findViewById(R.id.postedDateDetails);
         postedDate.setText(jobPost.getPostedDate());
+    }
+
+    // Set apply button only for an employee. Employer cannot apply to a job
+    protected void setUpApplyButton() {
+        String role = getIntent().getStringExtra("role");
+        if (role != null && role.equals("employee")) {
+            Button applyButton = findViewById(R.id.applyButton);
+            applyButton.setVisibility(View.VISIBLE);
+            applyButton.setOnClickListener(view -> handelApplication());
+        }
+    }
+
+    protected void handelApplication() {
+        Intent apply = new Intent(JobDetailsActivity.this, JobApplicationActivity.class);
+        startActivity(apply);
     }
 }
