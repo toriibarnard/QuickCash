@@ -2,6 +2,7 @@ package com.example.quickcash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -22,95 +24,106 @@ import java.util.ArrayList;
 
 public class JobApplicantsActivity extends AppCompatActivity implements ApplicantAdapter.OnItemClickListener {
 
-    RecyclerView applicantsRecyclerView; // recycler view to display list of applicants
-    ApplicantAdapter applicantAdapter; // adapter to bind applicants to recycler view
-    ArrayList<Applicant> applicantList; // list to hold applicants
-    FirebaseCRUD firebaseCRUD;
-    String jobID;
+    // UI Components
+    RecyclerView applicantsRecyclerView;  // RecyclerView to display the list of applicants
+    ApplicantAdapter applicantAdapter;    // Adapter to bind applicants to the RecyclerView
+    ArrayList<Applicant> applicantList;   // List to hold applicant data
+
+    // Firebase Database reference to "applications" node
+    DatabaseReference applicationsRef;  // Direct reference to "applications" node
+    String jobID;                       // ID of the job for which applicants are being viewed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_applicants);
+        EdgeToEdge.enable(this);  // Optional: Makes the activity UI edge-to-edge
+        setContentView(R.layout.activity_job_applicants);  // Set the layout for the activity
 
+        // Ensure the layout fits correctly with system insets (optional for edge-to-edge UI)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // get the jobID passed from JobDetailsActivity
+        // Get the jobID passed from JobDetailsActivity
         jobID = getIntent().getStringExtra("jobID");
+        Log.d("JobApplicantsActivity", "Received Job ID: " + jobID);
 
         if (jobID == null) {
-            // no jobID is passed
+            // Handle the case where no jobID is passed; show a message and finish the activity
             Toast.makeText(this, "No job ID provided", Toast.LENGTH_SHORT).show();
-            finish(); // end activity
+            finish();  // End the activity if no jobID is available to avoid errors
             return;
         }
 
-        // jobID is received confirmation message
+        // Display a confirmation message that jobID is received
         Toast.makeText(this, "Viewing applicants for Job ID: " + jobID, Toast.LENGTH_SHORT).show();
 
-        initializeFirebaseCRUD();
-        setupRecyclerView(); // initialize RecyclerView
+        // Initialize the DatabaseReference to the "applications" node
+        applicationsRef = FirebaseDatabase.getInstance().getReference("applications");
 
-        fetchApplicants(); // fetch the applicants for the specific jobID
+        setupRecyclerView();  // Initialize and set up the RecyclerView for displaying applicants
+
+        fetchApplicants();  // Fetch applicants from Firebase for the given jobID
     }
 
-    // initialize the firebaseCRUD helper class
-    private void initializeFirebaseCRUD() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_DATABASE_URL);
-        firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
-    }
-
-    // setup the RecyclerView to display the applicants
+    // Method to set up the RecyclerView which will display the list of applicants
     private void setupRecyclerView() {
-        // find the RecyclerView in the layout and set its layout manager to a LinearLayout
+        // Find the RecyclerView in the layout and set its layout manager to a LinearLayout
         applicantsRecyclerView = findViewById(R.id.applicantsRecyclerView);
         applicantsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // initialize the list of applicants and set up the adapter
+        // Initialize the list of applicants and set up the adapter
         applicantList = new ArrayList<>();
-        applicantAdapter = new ApplicantAdapter(applicantList, this);  // pass 'this' as listener
-        applicantsRecyclerView.setAdapter(applicantAdapter); // set the adapter to the RecyclerView
+        applicantAdapter = new ApplicantAdapter(applicantList, this);  // Pass 'this' as the click listener
+        applicantsRecyclerView.setAdapter(applicantAdapter);  // Set the adapter to the RecyclerView
     }
 
-    // fetch applicants from Firebase for the current jobID
+    // Method to fetch applicants from Firebase who applied for the specific jobID
     private void fetchApplicants() {
-        firebaseCRUD.getDatabaseReference().addValueEventListener(new ValueEventListener() {
+        // Access the "applications" node directly
+        applicationsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                applicantList.clear();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Applicant applicant = postSnapshot.getValue(Applicant.class);
+                applicantList.clear();  // Clear the current list to avoid duplicates
+
+                // Iterate through each child in "applications" (each applicant node)
+                for (DataSnapshot applicantSnapshot : snapshot.getChildren()) {
+                    // Convert each child into an Applicant object
+                    Applicant applicant = applicantSnapshot.getValue(Applicant.class);
+
+                    // Check if the applicant is not null and has the correct jobID
                     if (applicant != null && jobID.equals(applicant.getApplicantJobID())) {
-                        // add applicants who applied for the specific jobID
-                        applicantList.add(applicant);
+                        applicantList.add(applicant);  // Add to the list if jobID matches
+                        Log.d("JobApplicantsActivity", "Added applicant: " + applicant.getApplicantName() + " for Job ID: " + applicant.getApplicantJobID());
                     }
                 }
 
+                // If no applicants are found, show a message
                 if (applicantList.isEmpty()) {
-                    // no applicants found
                     Toast.makeText(JobApplicantsActivity.this, "No applicants found for this job", Toast.LENGTH_SHORT).show();
                 }
 
-                applicantAdapter.notifyDataSetChanged(); // update the RecyclerView
+                // Notify the adapter to update the RecyclerView
+                applicantAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                // Handle the error case where Firebase data fetching fails
                 Toast.makeText(JobApplicantsActivity.this, "Error fetching applicants: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // method to handle clicks on applicants in the RecyclerView
+    // This method is part of the OnItemClickListener interface, handling click events for applicants
     @Override
     public void onViewApplicantClick(Applicant applicant) {
-        // start ApplicantDetailsActivity and pass the applicants email
+        // Start ApplicantDetailsActivity when an applicant is clicked
         Intent intent = new Intent(this, ApplicantDetailsActivity.class);
-        intent.putExtra("applicantEmail", applicant.getApplicantEmail());
-        startActivity(intent);
+
+        intent.putExtra("applicant", applicant);  // Pass the entire applicant object
+        startActivity(intent);  // Launch the ApplicantDetailsActivity
     }
 }

@@ -12,7 +12,7 @@ public class Applicant implements Serializable {
     private String applicantName;
     private String applicantEmail;
     private String applicantPhone;
-    private String employerStatus = "pending";
+    private String employerStatus;
     private Boolean employeeStatus;
 
     // default constructor.
@@ -27,6 +27,8 @@ public class Applicant implements Serializable {
         this.applicantName = applicantName;
         this.applicantEmail = applicantEmail;
         this.applicantPhone = applicantPhone;
+        this.employerStatus = employerStatus;
+        this.employeeStatus = employeeStatus;
     }
 
     // getters and setters
