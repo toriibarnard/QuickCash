@@ -14,13 +14,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 // This class is used to check and sign in a user using Firebase
-public class LoginUserCheck {
+public class FirebaseLogin {
     // Instance variables
     private FirebaseAuth auth;
     private DatabaseReference dbRef;
 
     // Constructor
-    public LoginUserCheck() {
+    public FirebaseLogin() {
         this.dbRef = FirebaseDatabase.getInstance().getReference("users");
         this.auth = FirebaseAuth.getInstance();
     }
