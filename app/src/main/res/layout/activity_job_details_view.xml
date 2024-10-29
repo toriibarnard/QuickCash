@@ -75,6 +75,29 @@
                     android:layout_weight="2"/>
             </LinearLayout>
 
+            <!--Salary-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/jobSalaryLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Salary:"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/jobSalaryDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="100000"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
             <!-- Job Description -->
             <LinearLayout
                 android:layout_width="match_parent"

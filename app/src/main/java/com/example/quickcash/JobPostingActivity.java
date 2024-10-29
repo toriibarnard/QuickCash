@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +31,7 @@ public class JobPostingActivity extends AppCompatActivity {
     private EditText jobIndustryBox;
     private EditText jobLocationBox;
     private TextView statusLabel;
+    private EditText salaryBox;
 
     private FirebaseCRUD firebaseCRUD;
 
@@ -60,6 +62,7 @@ public class JobPostingActivity extends AppCompatActivity {
         jobIndustryBox = findViewById(R.id.jobIndustryBox);
         jobLocationBox = findViewById(R.id.jobLocationBox);
         statusLabel = findViewById(R.id.statusLabel);
+        salaryBox = findViewById(R.id.salaryBox);
         Button submitButton = findViewById(R.id.submitButton);
 
         // Set onClickListener for the button.
@@ -102,21 +105,27 @@ public class JobPostingActivity extends AppCompatActivity {
         String experienceLevel = experienceSpinner.getSelectedItem().toString().trim();
         String industry = jobIndustryBox.getText().toString().trim();
         String location = jobLocationBox.getText().toString().trim();
+        double salary = 0.0;
 
+        try {
+            salary = Double.parseDouble(salaryBox.getText().toString().trim());
+        } catch (NumberFormatException ignored) {}
 
         // Encapsulate the data collected into a JobPost object.
         JobPost jobPost = new JobPost(
                 JobPost.generateJobID(),
                 getIntent().getStringExtra("jobPosterID"),
                 jobTitle,
-                location,
+                Location.convertAddressToLocation(location),
                 jobType,
                 getCurrentUTCDate(),
                 companyName,
                 jobDescription,
                 experienceLevel,
-                industry
+                industry,
+                salary
         );
+
 
         // Validate user input.
         boolean isValidJobPost = JobPostValidator.validateJobPost(jobPost);

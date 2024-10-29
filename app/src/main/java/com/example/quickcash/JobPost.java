@@ -10,20 +10,31 @@ public class JobPost implements Serializable {
     private String jobPosterID;
     private String jobID;
     private String jobTitle;
-    private String location;
+    private Location location;
     private String jobType;
     private String postedDate;
     private String companyName;
     private String jobDescription;
     private String experienceLevel;
     private String industry;
+    private double salary;
 
     // Default constructor. (Required for use in DatabaseReference.setValue() method in FirebaseCRUD)
     public JobPost() {}
 
     // Constructor.
-    public JobPost(String jobID, String jobPosterID, String jobTitle, String location, String jobType, String postedDate, String companyName,
-                   String jobDescription, String experienceLevel, String industry) {
+    public JobPost(
+            String jobID,
+            String jobPosterID,
+            String jobTitle,
+            Location location,
+            String jobType,
+            String postedDate,
+            String companyName,
+            String jobDescription,
+            String experienceLevel,
+            String industry,
+            double salary) {
         this.jobID = jobID;
         this.jobPosterID = jobPosterID;
         this.jobTitle = jobTitle;
@@ -34,6 +45,7 @@ public class JobPost implements Serializable {
         this.jobDescription = jobDescription;
         this.experienceLevel = experienceLevel;
         this.industry = industry;
+        this.salary = salary;
     }
 
     /**
@@ -97,7 +109,7 @@ public class JobPost implements Serializable {
      * Gets the location of the job.
      * @return the location.
      */
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -105,7 +117,7 @@ public class JobPost implements Serializable {
      * Sets the location of the job.
      * @param location the location to set.
      */
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -203,5 +215,21 @@ public class JobPost implements Serializable {
      */
     public void setIndustry(String industry) {
         this.industry = industry;
+    }
+
+    /**
+     * Gets the salary.
+     * @return the salary.
+     */
+    public double getSalary() {
+        return this.salary;
+    }
+
+    /**
+     * Sets the salary.
+     * @param salary the salary to set.
+     */
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 }

@@ -14,24 +14,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class EmployeeActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+import kotlinx.coroutines.Job;
+
+public class EmployeeActivity extends AppCompatActivity implements JobPostAdapter.OnItemClickListener {
+    FirebaseCRUD firebaseCRUD;
+    RecyclerView recyclerView;
+    JobPostAdapter jobPostAdapter;
+    ArrayList<JobPost> jobPostList;
+    JobPostFilter jobPostFilter;
 
     private FirebaseAuth mAuth;
+
     private boolean isDropdownExpanded = false;
     private LinearLayout dropdownContent;
     private ImageView triangleIcon;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +135,11 @@ public class EmployeeActivity extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggleDropdown();
+                // TODO:
+                // 1. Get the selected filters from the UI
+                // 2. Create a new JobPostFilter with the selected filters
+                // 3. Apply the filter to the jobPostList.
+                // 4. Update the jobPostAdapter with the filtered jobPostList.
             }
         });
 
@@ -127,15 +147,22 @@ public class EmployeeActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: Reset all filter input fields.
+
                 salaryCheckBox.setChecked(false);
                 locationCheckBox.setChecked(false);
                 jobtypeCheckBox.setChecked(false);
                 highEditText.setText("");
                 lowEditText.setText("");
                 jobtypeSpinner.setSelection(0);
+
+                // TODO:
+                // 1. Get the selected filters from the UI
+                // 2. Create a new JobPostFilter with the selected filters
+                // 3. Apply the filter to the jobPostList.
+                // 4. Update the jobPostAdapter with the filtered jobPostList.
             }
         });
-
 
         // set onClick listener for the logout button
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +183,12 @@ public class EmployeeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        jobPostFilter = new JobPostFilter();
+
+        initializeFirebaseCRUD();
+        setupRecyclerView();
+        fetchJobPosts();
     }
 
     private void toggleDropdown() {
@@ -189,5 +222,59 @@ public class EmployeeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();  // clear all data in the user_session file
         editor.apply();
+    }
+
+    private void initializeFirebaseCRUD() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_DATABASE_URL);
+        firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
+    }
+
+    private void filterJobPostList() {
+        ArrayList<JobPost> filteredJobPostList = new ArrayList<>();
+        for (JobPost jobPost : jobPostList) {
+            if (jobPostFilter.satisfy(jobPost)) {
+                filteredJobPostList.add(jobPost);
+            }
+        }
+        jobPostList = filteredJobPostList;
+    }
+
+    private void setupRecyclerView() {
+        recyclerView = findViewById(R.id.employeeRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        jobPostList = new ArrayList<>();
+        jobPostAdapter = new JobPostAdapter(jobPostList, this); // Pass 'this' as the listener.
+        recyclerView.setAdapter(jobPostAdapter);
+    }
+
+    private void fetchJobPosts() {
+        firebaseCRUD.getDatabaseReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                jobPostList.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    JobPost jobPost = postSnapshot.getValue(JobPost.class);
+                    jobPostList.add(jobPost);
+                }
+
+                filterJobPostList();
+                jobPostAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Error fetching job posts: " + error.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void onViewDetailsClick(JobPost jobPost) {
+
+        // Start JobDetailsActivity and pass the jobPost data.
+        Intent intent = new Intent(this, JobDetailsActivity.class);
+        intent.putExtra("jobPost", jobPost);
+        startActivity(intent);
     }
 }

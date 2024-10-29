@@ -52,10 +52,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:hint="Job Title"
-                app:layout_constraintBottom_toTopOf="@+id/jobDescriptionBox"
+                app:layout_constraintBottom_toTopOf="@+id/salaryBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/jobCompanyBox" />
+
+            <EditText
+                android:id="@+id/salaryBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:hint="Salary"
+                app:layout_constraintBottom_toTopOf="@+id/jobDescriptionBox"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jobTitleBox" />
 
             <EditText
                 android:id="@+id/jobDescriptionBox"
@@ -71,7 +82,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/jobTypeSpinner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/jobTitleBox" />
+                app:layout_constraintTop_toBottomOf="@+id/salaryBox" />
 
             <Spinner
                 android:id="@+id/jobTypeSpinner"

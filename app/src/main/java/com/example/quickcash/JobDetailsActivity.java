@@ -47,7 +47,14 @@ public class JobDetailsActivity extends AppCompatActivity {
         industry.setText(jobPost.getIndustry());
 
         TextView location = findViewById(R.id.locationDetails);
-        location.setText(jobPost.getLocation());
+        location.setText(
+                Location.convertLocationToAddress(
+                        jobPost.getLocation()
+                )
+        );
+
+        TextView jobSalary = findViewById(R.id.jobSalaryDetails);
+        jobSalary.setText(String.valueOf(jobPost.getSalary()));
 
         TextView postedDate = findViewById(R.id.postedDateDetails);
         postedDate.setText(jobPost.getPostedDate());

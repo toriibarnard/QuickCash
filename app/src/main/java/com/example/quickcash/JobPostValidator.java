@@ -20,10 +20,15 @@ public class JobPostValidator {
                 companyNameValidator(jobPost.getCompanyName()) &&
                 jobDescriptionValidator(jobPost.getJobDescription()) &&
                 experienceLevelValidator(jobPost.getExperienceLevel()) &&
-                industryValidator(jobPost.getIndustry());
+                industryValidator(jobPost.getIndustry()) &&
+                jobSalaryValidator(jobPost.getSalary());
     }
 
     // Private validator methods for each instance variable.
+
+    private static boolean jobSalaryValidator(double salary) {
+        return salary >= 0;
+    }
 
     private static boolean jobIDValidator(String jobID) {
 
@@ -37,10 +42,10 @@ public class JobPostValidator {
         return jobTitle != null && !jobTitle.trim().isEmpty();
     }
 
-    private static boolean locationValidator(String location) {
+    private static boolean locationValidator(Location location) {
 
-        // Validate that location is not null or empty.
-        return location != null && !location.trim().isEmpty();
+        // Validate that location is not null.
+        return location != null;
     }
 
     private static boolean jobTypeValidator(String jobType) {
