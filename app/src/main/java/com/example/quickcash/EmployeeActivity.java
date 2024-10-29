@@ -65,6 +65,9 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         mAuth = FirebaseAuth.getInstance();
         Button logoutButton = findViewById(R.id.logoutButton);
 
+        // Search input.
+        EditText jobTitleEditText = findViewById(R.id.searchEditText);
+
         dropdownContent = findViewById(R.id.dropdownContent);
         triangleIcon = findViewById(R.id.triangleIcon);
 
@@ -179,6 +182,11 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                     jobPostFilter.add(new JobTypeFilter(selectedJobType));
                 }
 
+                // Add job-title filter if typed.
+                if (!jobTitleEditText.getText().toString().trim().isEmpty())
+                    jobPostFilter.add(new JobTitleFilter(jobTitleEditText.getText().toString().trim()));
+
+                // Apply all added filters.
                 filterJobPostList();
                 jobPostAdapter.notifyDataSetChanged();
             }
@@ -196,6 +204,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 highEditText.setText("");
                 lowEditText.setText("");
                 jobtypeSpinner.setSelection(0);
+                jobTitleEditText.setText("");
 
                 // Clear existing filters.
                 jobPostFilter.clear();
