@@ -173,7 +173,11 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                     }
                 }
 
-                // TODO: Add location filter and job-type filter.
+                // Add job-type filter if checked.
+                if (jobtypeCheckBox.isChecked()) {
+                    String selectedJobType = jobtypeSpinner.getSelectedItem().toString().trim();
+                    jobPostFilter.add(new JobTypeFilter(selectedJobType));
+                }
 
                 filterJobPostList();
                 jobPostAdapter.notifyDataSetChanged();
@@ -184,8 +188,8 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Reset all filter input fields.
 
+                // Reset UI.
                 salaryCheckBox.setChecked(false);
                 locationCheckBox.setChecked(false);
                 jobtypeCheckBox.setChecked(false);
@@ -193,11 +197,10 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 lowEditText.setText("");
                 jobtypeSpinner.setSelection(0);
 
-                // TODO:
-                // 1. Get the selected filters from the UI
-                // 2. Create a new JobPostFilter with the selected filters
-                // 3. Apply the filter to the jobPostList.
-                // 4. Update the jobPostAdapter with the filtered jobPostList.
+                // Clear existing filters.
+                jobPostFilter.clear();
+                filterJobPostList();
+                jobPostAdapter.notifyDataSetChanged();
             }
         });
 
@@ -267,6 +270,9 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
     }
 
     private void filterJobPostList() {
+        jobPostList.clear();
+        jobPostList.addAll(firebaseCRUD.readAllJobPosts());
+
         ArrayList<JobPost> filteredJobPostList = new ArrayList<>();
         for (JobPost jobPost : jobPostList) {
             if (jobPostFilter.satisfy(jobPost)) {
