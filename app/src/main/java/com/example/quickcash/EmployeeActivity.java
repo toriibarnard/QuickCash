@@ -64,27 +64,38 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         // initialize ui features and find views
         mAuth = FirebaseAuth.getInstance();
         Button logoutButton = findViewById(R.id.logoutButton);
-        Button resetButton = findViewById(R.id.resetButton);
+
+        dropdownContent = findViewById(R.id.dropdownContent);
+        triangleIcon = findViewById(R.id.triangleIcon);
+
+        // Filter checkboxes.
         CheckBox salaryCheckBox = findViewById(R.id.salaryCheckBox);
         CheckBox locationCheckBox = findViewById(R.id.locationCheckBox);
         CheckBox jobtypeCheckBox = findViewById(R.id.jobtypeCheckBox);
+
+        // Salary filter UI.
+        LinearLayout salaryInputLayout = findViewById(R.id.salaryInputLayout);
+        EditText highEditText = findViewById(R.id.highEditText);
+        EditText lowEditText = findViewById(R.id.lowEditText);
+
+        // Location filter UI.
+        TextView radiusTextView = findViewById(R.id.radiusTextView);
+        EditText locationEditText = findViewById(R.id.locationEditText);
+        EditText radiusEditText = findViewById(R.id.radiusEditText);
+
+        // JobType Filter UI.
         Spinner jobtypeSpinner = findViewById(R.id.jobtypeSpinner);
         String[] jobTypes = getResources().getStringArray(R.array.job_types);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, jobTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jobtypeSpinner.setAdapter(adapter);
-        LinearLayout dropdownHeader = findViewById(R.id.dropdownHeader);
-        dropdownContent = findViewById(R.id.dropdownContent);
-        triangleIcon = findViewById(R.id.triangleIcon);
+
+        // Apply and Reset filters UI.
         Button applyButton = findViewById(R.id.applyButton);
-        LinearLayout salaryInputLayout = findViewById(R.id.salaryInputLayout);
-        EditText highEditText = findViewById(R.id.highEditText);
-        EditText lowEditText = findViewById(R.id.lowEditText);
-        TextView radiusTextView = findViewById(R.id.radiusTextView);
-        EditText locationEditText = findViewById(R.id.locationEditText);
-        EditText radiusEditText = findViewById(R.id.radiusEditText);
+        Button resetButton = findViewById(R.id.resetButton);
 
         // Handle dropdown click
+        LinearLayout dropdownHeader = findViewById(R.id.dropdownHeader);
         dropdownHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +103,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
             }
         });
 
+        // Set listeners for checkboxes.
         salaryCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -103,7 +115,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 }
             }
         });
-
         locationCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -119,7 +130,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 }
             }
         });
-
         jobtypeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -131,15 +141,42 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
             }
         });
 
-        // Handle apply button click
+        // Handle apply button click.
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO:
+
+                // Algorithm:
                 // 1. Get the selected filters from the UI
                 // 2. Create a new JobPostFilter with the selected filters
                 // 3. Apply the filter to the jobPostList.
                 // 4. Update the jobPostAdapter with the filtered jobPostList.
+
+                // Clear existing filters.
+                jobPostFilter.clear();
+
+                // Add salary filter if checked.
+                if (salaryCheckBox.isChecked()) {
+                    try {
+
+                        double highSalary = Double.parseDouble(highEditText.getText().toString().trim());
+                        double lowSalary = Double.parseDouble(lowEditText.getText().toString().trim());
+                        if (highSalary < lowSalary) {
+                            throw new IllegalArgumentException();
+                        }
+
+                        jobPostFilter.add(new SalaryFilter(lowSalary, highSalary));
+                    } catch (NumberFormatException e) {
+                        // TODO: Handle invalid salary filter input.
+                    } catch (IllegalArgumentException e) {
+                        // TODO: handle if highSalary < lowSalary.
+                    }
+                }
+
+                // TODO: Add location filter and job-type filter.
+
+                filterJobPostList();
+                jobPostAdapter.notifyDataSetChanged();
             }
         });
 
@@ -236,7 +273,8 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 filteredJobPostList.add(jobPost);
             }
         }
-        jobPostList = filteredJobPostList;
+        jobPostList.clear();
+        jobPostList.addAll(filteredJobPostList);
     }
 
     private void setupRecyclerView() {
