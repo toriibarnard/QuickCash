@@ -12,7 +12,8 @@ public class JobPostValidator {
      * @return true if all fields are valid; false otherwise.
      */
     public static boolean validateJobPost(JobPost jobPost) {
-        return jobIDValidator(jobPost.getJobID()) &&
+        return jobPost != null &&
+                jobIDValidator(jobPost.getJobID()) &&
                 jobTitleValidator(jobPost.getJobTitle()) &&
                 locationValidator(jobPost.getLocation()) &&
                 jobTypeValidator(jobPost.getJobType()) &&

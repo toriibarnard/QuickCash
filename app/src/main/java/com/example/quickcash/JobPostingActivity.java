@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -112,19 +113,25 @@ public class JobPostingActivity extends AppCompatActivity {
         } catch (NumberFormatException ignored) {}
 
         // Encapsulate the data collected into a JobPost object.
-        JobPost jobPost = new JobPost(
-                JobPost.generateJobID(),
-                getIntent().getStringExtra("jobPosterID"),
-                jobTitle,
-                Location.convertAddressToLocation(location),
-                jobType,
-                getCurrentUTCDate(),
-                companyName,
-                jobDescription,
-                experienceLevel,
-                industry,
-                salary
-        );
+        JobPost jobPost = null;
+
+        try {
+
+
+            jobPost = new JobPost(
+                    JobPost.generateJobID(),
+                    getIntent().getStringExtra("jobPosterID"),
+                    jobTitle,
+                    Location.convertAddressToLocation(JobPostingActivity.this, location),
+                    jobType,
+                    getCurrentUTCDate(),
+                    companyName,
+                    jobDescription,
+                    experienceLevel,
+                    industry,
+                    salary
+            );
+        } catch (IOException ignored) {}
 
 
         // Validate user input.

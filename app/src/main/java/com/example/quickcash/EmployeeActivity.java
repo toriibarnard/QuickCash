@@ -186,6 +186,22 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 if (!jobTitleEditText.getText().toString().trim().isEmpty())
                     jobPostFilter.add(new JobTitleFilter(jobTitleEditText.getText().toString().trim()));
 
+                // Add location filter if checked.
+                if (locationCheckBox.isChecked()) {
+
+                    try {
+                        String address = locationEditText.getText().toString().trim();
+                        Location location = Location.convertAddressToLocation(EmployeeActivity.this, address);
+
+                        double radius = Double.parseDouble(radiusEditText.getText().toString().trim());
+                        if (radius < 0) {
+                            throw new NumberFormatException();
+                        }
+
+                        jobPostFilter.add(new LocationFilter(location, radius));
+                    } catch (Exception ignored) {}
+                }
+
                 // Apply all added filters.
                 filterJobPostList();
                 jobPostAdapter.notifyDataSetChanged();

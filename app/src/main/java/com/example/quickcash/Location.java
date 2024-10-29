@@ -1,6 +1,12 @@
 package com.example.quickcash;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 public class Location implements Serializable {
 
@@ -61,15 +67,34 @@ public class Location implements Serializable {
         return EARTH_RADIUS * c;
     }
 
-    public static Location convertAddressToLocation(String address) {
-        // TODO: Implement this method to convert an address to a Location object. We need to use google maps API.
+//    public static Location convertAddressToLocation(String address) {
+//        // TODO: Implement this method to convert an address to a Location object. We need to use google maps API.
+//        return new Location(0, 0);
+//    }
+//
+//    public static String convertLocationToAddress(Location location) {
+//        // TODO: Implement this method to convert a Location object to an address. We need to use google maps API.
+//        return "Middle Earth";
+//    }
 
-
-        return new Location(0, 0);
+    public static Location convertAddressToLocation(Context context, String address) throws IOException {
+        Geocoder geocoder = new Geocoder(context);
+        List<android.location.Address> addresses = geocoder.getFromLocationName(address, 1);
+        if (addresses != null && !addresses.isEmpty()) {
+            android.location.Address addr = addresses.get(0);
+            return new Location(addr.getLatitude(), addr.getLongitude());
+        } else {
+            throw new IOException("No results found");
+        }
     }
 
-    public static String convertLocationToAddress(Location location) {
-        // TODO: Implement this method to convert a Location object to an address. We need to use google maps API.
-        return "Middle Earth";
+    public static String convertLocationToAddress(Context context, Location location) throws IOException {
+        Geocoder geocoder = new Geocoder(context);
+        List<Address> addresses = geocoder.getFromLocation(location.getLat(), location.getLon(), 1);
+        if (addresses != null && !addresses.isEmpty()) {
+            return addresses.get(0).getAddressLine(0);
+        } else {
+            throw new IOException("No results found");
+        }
     }
 }

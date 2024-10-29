@@ -9,6 +9,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+
 public class JobDetailsActivity extends AppCompatActivity {
 
     @Override
@@ -47,11 +49,11 @@ public class JobDetailsActivity extends AppCompatActivity {
         industry.setText(jobPost.getIndustry());
 
         TextView location = findViewById(R.id.locationDetails);
-        location.setText(
-                Location.convertLocationToAddress(
-                        jobPost.getLocation()
-                )
-        );
+
+        try {
+            location.setText(Location.convertLocationToAddress(JobDetailsActivity.this, jobPost.getLocation()));
+        } catch (IOException ignored) {}
+
 
         TextView jobSalary = findViewById(R.id.jobSalaryDetails);
         jobSalary.setText(String.valueOf(jobPost.getSalary()));
