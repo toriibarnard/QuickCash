@@ -14,6 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class JobDetailsActivity extends AppCompatActivity {
 
+    JobPost jobPost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         setUpApplyButton();
 
         // Get the jobPost from the intent.
-        JobPost jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
+        this.jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
 
         TextView jobID = findViewById(R.id.jobIDDetails);
         jobID.setText(jobPost.getJobID());
@@ -70,6 +72,8 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     protected void handelApplication() {
         Intent apply = new Intent(JobDetailsActivity.this, JobApplicationActivity.class);
-        startActivity(apply);
+        apply.putExtra("jobId", jobPost.getJobID());
+        apply.putExtra("jobTitle", jobPost.getJobTitle());
+        JobDetailsActivity.this.startActivity(apply);
     }
 }

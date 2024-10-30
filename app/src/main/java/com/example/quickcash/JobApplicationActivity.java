@@ -20,6 +20,9 @@ public class JobApplicationActivity extends AppCompatActivity {
 
     private static final int FILE_SELECTION_REQUEST = 1;
     private Uri fileUri;
+    private FirebaseApplicationSubmission applicationSubmission;
+    private String jobId;
+    private String jobTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,13 @@ public class JobApplicationActivity extends AppCompatActivity {
             return insets;
         });
 
+        this.jobId = getIntent().getStringExtra("jobId");
+        this.jobTitle = getIntent().getStringExtra("jobTitle");
         setUploadResumeButton();
         setApplicationSubmitButton();
+        setPageTitle("Application for "+jobTitle);
     }
 
-    // Getters to get name, phone, email and file
     protected String getName() {
         EditText name = findViewById(R.id.applicationNameBox);
         return name.getText().toString().trim();
@@ -55,6 +60,11 @@ public class JobApplicationActivity extends AppCompatActivity {
     protected String getFile() {
         TextView fileName = findViewById(R.id.fileNameTextView);
         return fileName.getText().toString().trim();
+    }
+
+    public void setPageTitle(String title) {
+        TextView pageTitle = findViewById(R.id.applicationTitle);
+        pageTitle.setText(title);
     }
 
     // Set the file name field with uploaded file
@@ -95,7 +105,7 @@ public class JobApplicationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == FILE_SELECTION_REQUEST && resultCode == RESULT_OK && data.getData() != null) {
-            fileUri = data.getData();  // Get the Uri of the selected file
+            this.fileUri = data.getData();  // Get the Uri of the selected file
 
             // Extract the file name from the Uri and display it
             String fileName = extractFileName(fileUri);
@@ -129,6 +139,8 @@ public class JobApplicationActivity extends AppCompatActivity {
             errorMessage = getResources().getString(R.string.RESUME_NOT_SELECTED);
         } else {
             errorMessage = getResources().getString(R.string.SUBMIT_APPLICATION_SUCCESSFUL);
+            applicationSubmission = new FirebaseApplicationSubmission(name, phone, email, jobId, fileUri, JobApplicationActivity.this);
+            applicationSubmission.upload2Firebase();
         }
 
         setStatusMessage(errorMessage);
