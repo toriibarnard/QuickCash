@@ -139,6 +139,7 @@ public class JobApplicationActivity extends AppCompatActivity {
             errorMessage = getResources().getString(R.string.RESUME_NOT_SELECTED);
         } else {
             errorMessage = getResources().getString(R.string.SUBMIT_APPLICATION_SUCCESSFUL);
+            // Submit the application to Firebase
             applicationSubmission = new FirebaseApplicationSubmission(name, phone, email, jobId, fileUri, JobApplicationActivity.this);
             applicationSubmission.submit2Firebase();
         }
