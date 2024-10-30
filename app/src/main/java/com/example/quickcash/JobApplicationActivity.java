@@ -140,7 +140,7 @@ public class JobApplicationActivity extends AppCompatActivity {
         } else {
             errorMessage = getResources().getString(R.string.SUBMIT_APPLICATION_SUCCESSFUL);
             applicationSubmission = new FirebaseApplicationSubmission(name, phone, email, jobId, fileUri, JobApplicationActivity.this);
-            applicationSubmission.upload2Firebase();
+            applicationSubmission.submit2Firebase();
         }
 
         setStatusMessage(errorMessage);

@@ -34,6 +34,21 @@ public class FirebaseApplicationSubmission {
         this.stRef = FirebaseStorage.getInstance().getReference();
     }
 
+    public void submit2Firebase() {
+        upload2Firebase();
+
+        String applicationId = UUID.randomUUID().toString();
+        HashMap<String, String> applicationData = new HashMap<>();
+        applicationData.put("jobId", jobId);
+        applicationData.put("applicantEmail", appEmail);
+        applicationData.put("resumeUri", resumeUri);
+        applicationData.put("applicantName", appName);
+        applicationData.put("applicantPhone", appPhone);
+        applicationData.put("applicantStatus", "Submitted");
+
+        dbRef.child(applicationId).setValue(applicationData);
+    }
+
     public void upload2Firebase() {
         StorageReference resumeRef = stRef.child("resume/"+appEmail+"_"+jobId+".pdf");
         resumeRef.putFile(fileUri)
