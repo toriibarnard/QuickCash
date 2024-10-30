@@ -12,6 +12,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.UUID;
 
+// This class is used to perform Firebase tasks for Job Application
 public class FirebaseApplicationSubmission {
 
     // Instance variables

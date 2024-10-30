@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.File;
 
-
+// This class controls the behaviour of Job Application submission
 public class JobApplicationActivity extends AppCompatActivity {
 
     private static final int FILE_SELECTION_REQUEST = 1;
@@ -42,6 +42,7 @@ public class JobApplicationActivity extends AppCompatActivity {
         setPageTitle("Application for "+jobTitle);
     }
 
+    // Getters to get information from fields
     protected String getName() {
         EditText name = findViewById(R.id.applicationNameBox);
         return name.getText().toString().trim();
@@ -62,6 +63,7 @@ public class JobApplicationActivity extends AppCompatActivity {
         return fileName.getText().toString().trim();
     }
 
+    // Set the page title based on the Job Title
     public void setPageTitle(String title) {
         TextView pageTitle = findViewById(R.id.applicationTitle);
         pageTitle.setText(title);
