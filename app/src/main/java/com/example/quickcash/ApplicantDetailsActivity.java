@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JobApplicationDetailsActivity extends AppCompatActivity {
+public class ApplicantDetailsActivity extends AppCompatActivity {
 
     private TextView rejectedTextView;
     private LinearLayout inputLayout;
@@ -117,7 +116,7 @@ public class JobApplicationDetailsActivity extends AppCompatActivity {
         // Show a DatePickerDialog and set the selected date to startDateEditText
         Calendar calendar = Calendar.getInstance();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(JobApplicationDetailsActivity.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ApplicantDetailsActivity.this,
                 (view, year, month, day) -> {
                     month = month + 1;
                     String date = day + "/" + month + "/" + year;

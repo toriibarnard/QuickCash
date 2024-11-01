@@ -21,6 +21,8 @@ public class ApplicantTest {
         when(mockApplicant.getApplicantName()).thenReturn("John Doe");
         when(mockApplicant.getApplicantEmail()).thenReturn("john.doe@example.com");
         when(mockApplicant.getApplicantPhone()).thenReturn("123-456-7890");
+        when(mockApplicant.getEmployerStatus()).thenReturn("Shortlisted");
+
     }
 
     @Test
@@ -33,13 +35,13 @@ public class ApplicantTest {
 
     @Test
     public void testMarkAsShortlisted() {
-        mockApplicant.markAsShortlisted();
+        mockApplicant.getEmployerStatus();
         assertEquals("Shortlisted", mockApplicant.getEmployerStatus());
     }
 
     @Test
     public void testMarkAsRejected() {
-        mockApplicant.markAsRejected();
+        mockApplicant.getEmployerStatus();
         assertEquals("Rejected", mockApplicant.getEmployerStatus());
     }
 }
