@@ -19,6 +19,9 @@
             android:name=".EmployeeApplicationsActivity"
             android:exported="false" />
         <activity
+            android:name=".JobApplicationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
         <activity
@@ -38,7 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".JobPostingActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -7,19 +7,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 // This class is used to check and sign in a user using Firebase
-public class LoginUserCheck {
+public class FirebaseLogin {
     // Instance variables
     private FirebaseAuth auth;
     private DatabaseReference dbRef;
 
     // Constructor
-    public LoginUserCheck() {
+    public FirebaseLogin() {
         this.dbRef = FirebaseDatabase.getInstance().getReference("users");
         this.auth = FirebaseAuth.getInstance();
     }
@@ -46,17 +47,23 @@ public class LoginUserCheck {
                     auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(signIn -> {
                         // If the email and password matches without any errors, login is successful
                         if (signIn.isSuccessful()) {
-                            loginActivity.setStatusMessage("Login Successful!");
+                            FirebaseUser user = auth.getCurrentUser();
 
-                            // Redirect the user to the activity based on their role
-                            if (role.equals("Employee")) {
-                                Intent employee = new Intent(context, EmployeeActivity.class);
-                                employee.putExtra("jobSeekerID", email);
-                                context.startActivity(employee);
-                            } else {
-                                Intent employer = new Intent(context, EmployerActivity.class);
-                                employer.putExtra("jobPosterID", email);
-                                context.startActivity(employer);
+                            if( user != null && user.isEmailVerified()){
+                                loginActivity.setStatusMessage("Login Successful!");
+
+                                // Redirect the user to the activity based on their role
+                                if (role.equals("Employee")) {
+                                    Intent employee = new Intent(context, EmployeeActivity.class);
+                                    employee.putExtra("jobSeekerID", email);
+                                    context.startActivity(employee);
+                                } else {
+                                    Intent employer = new Intent(context, EmployerActivity.class);
+                                    employer.putExtra("jobPosterID", email);
+                                    context.startActivity(employer);
+                                }
+                            }else{
+                                loginActivity.setStatusMessage("Email not verified. Please check your inbox.");
                             }
                         }
                         // If there is an error while signing in the user then get the error string

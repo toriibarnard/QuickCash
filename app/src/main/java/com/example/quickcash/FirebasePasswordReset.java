@@ -13,14 +13,13 @@ public class FirebasePasswordReset {
 
     // Method to send password reset email
     public void sendPasswordResetEmail(String email, final ResetPasswordCallback callback) {
-        auth.sendPasswordResetEmail(email.toLowerCase())
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        callback.onSuccess();  // Notify that email has been sent
-                    } else {
-                        callback.onFailure(task.getException());  // Notify of failure
-                    }
-                });
+        auth.sendPasswordResetEmail(email.toLowerCase()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                callback.onSuccess();  // Notify that email has been sent
+            } else {
+                callback.onFailure(task.getException());  // Notify of failure
+            }
+        });
     }
 
     // Callback interface for password reset

@@ -52,11 +52,9 @@ public class FirebaseRegistration {
                                     // Save the user data to the correct Firebase table based on role
                                     if (role.equalsIgnoreCase("employee")) {
                                         usersRef.child("employee").child(uid).setValue(userData)
-                                                .addOnSuccessListener(aVoid -> callback.onSuccess())
                                                 .addOnFailureListener(e -> callback.onFailure(e));
                                     } else if (role.equalsIgnoreCase("employer")) {
                                         usersRef.child("employer").child(uid).setValue(userData)
-                                                .addOnSuccessListener(aVoid -> callback.onSuccess())
                                                 .addOnFailureListener(e -> callback.onFailure(e));
                                     }
                                 }
@@ -95,24 +93,9 @@ public class FirebaseRegistration {
         }
     }
 
-    // Method to check if email is verified and add user to database
-    public void verifyEmailAndAddUserToDatabase(final String name, final String email, final String phone,final String password, final String role, final RegistrationCallback callback) {
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            user.sendEmailVerification()
-                    .addOnCompleteListener(task -> {
-
-                    });
-        } else {
-            callback.onFailure(new Exception("User is null"));
-        }
-    }
-
-
     // Callback interfaces
     public interface RegistrationCallback {
         void onAccountCreated();
-        void onSuccess();
         void onFailure(Exception e);
     }
 

@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void handelLogin() {
         // Initializing objects and variable fields
-        LoginValidator loginValidator = new LoginValidator();
+        CredentialsValidator validator = new CredentialsValidator();
 
         // Get the String values from each field
         String role = getSelectedRole();
@@ -43,16 +43,16 @@ public class LoginActivity extends AppCompatActivity {
         String errorMessage = "";
 
         // Ensure all fields have valid values and validate login
-        if (!loginValidator.haveSelectedRole(role)) {
+        if (!validator.isValidRole(role)) {
             errorMessage = getResources().getString(R.string.INVALID_ROLE);
-        } else if (!loginValidator.isValidEmail(email)) {
+        } else if (!validator.isValidEmail(email)) {
             errorMessage = getResources().getString(R.string.INVALID_EMAIL);
-        } else if (!loginValidator.isValidPassword(password)) {
+        } else if (!validator.isValidPassword(password)) {
             errorMessage = getResources().getString(R.string.INVALID_PASSWORD);
         } else {
-            // Call checkUserInFirebase() method from LoginUserCheck class to authenticate login
-            LoginUserCheck loginUserCheck = new LoginUserCheck();
-            loginUserCheck.checkUserInFirebase(LoginActivity.this, this, email, password, role);
+            // Call checkUserInFirebase() method from FirebaseLogin class to authenticate login
+            FirebaseLogin firebaseLogin = new FirebaseLogin();
+            firebaseLogin.checkUserInFirebase(LoginActivity.this, this, email, password, role);
         }
 
         // set the status label to the stored message

@@ -40,7 +40,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         String password = getPassword();
         String role = getRole();
         String errorMessage = new String();
-        RegistrationValidator validator = new RegistrationValidator();
+        CredentialsValidator validator = new CredentialsValidator();
 
         // verify all inputs are valid
         if (!validator.isValidName(name)) {
@@ -65,29 +65,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
 
                 @Override
-                public void onSuccess() {
-                    Toast.makeText(RegistrationActivity.this, "Account has been created!", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
                 public void onFailure(Exception e) {
                     Toast.makeText(RegistrationActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-
-            firebaseRegistration.verifyEmailAndAddUserToDatabase(name, email, phoneNumber,password, role,new FirebaseRegistration.RegistrationCallback() {
-                @Override
-                public void onAccountCreated() {
-                }
-
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(RegistrationActivity.this, "User successfully added to the database!", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-                    Toast.makeText(RegistrationActivity.this, "Verification failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 

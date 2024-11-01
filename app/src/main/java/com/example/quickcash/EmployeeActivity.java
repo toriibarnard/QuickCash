@@ -5,18 +5,33 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class EmployeeActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class EmployeeActivity extends AppCompatActivity implements JobPostAdapter.OnItemClickListener {
+
+    FirebaseCRUD firebaseCRUD;
+    String jobSeekerID;
+
+    RecyclerView recyclerView;
+    JobPostAdapter jobPostAdapter;
+    ArrayList<JobPost> jobPostList;
 
     private FirebaseAuth mAuth;
 
@@ -31,29 +46,37 @@ public class EmployeeActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Extract employerID.
+        jobSeekerID = getIntent().getStringExtra("jobSeekerID");
+
         // initialize the firebase authorization
         mAuth = FirebaseAuth.getInstance();
+
+        initializeFirebaseCRUD();
+        setupRecyclerView();
+        fetchAllJobPosts();
+        setupLogoutButton();
+    }
+
+    private void setupLogoutButton() {
         Button logoutButton = findViewById(R.id.logoutButton);
         Button applicationStatusButton = findViewById(R.id.applicationStatusButton);
 
         // set onClick listener for the logout button
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // log out
-                mAuth.signOut();
-                Toast.makeText(EmployeeActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
+        logoutButton.setOnClickListener(v -> {
+            // log out
+            mAuth.signOut();
+            Toast.makeText(EmployeeActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
 
-                // clear session data
-                clearSessionData();
+            // clear session data
+            clearSessionData();
 
-                // redirect to LoginActivity
-                Intent intent = new Intent(EmployeeActivity.this, LoginActivity.class);
-                startActivity(intent);
+            // redirect to LoginActivity
+            Intent intent = new Intent(EmployeeActivity.this, LoginActivity.class);
+            startActivity(intent);
 
-                // close the current activity
-                finish();
-            }
+            // close the current activity
+            finish();
         });
 
         // listner for my applications button
@@ -77,5 +100,51 @@ public class EmployeeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();  // clear all data in the user_session file
         editor.apply();
+    }
+
+    private void initializeFirebaseCRUD() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView = findViewById(R.id.employeeRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        jobPostList = new ArrayList<>();
+        jobPostAdapter = new JobPostAdapter(jobPostList, this); // Pass 'this' as the listener
+        recyclerView.setAdapter(jobPostAdapter);
+    }
+
+    private void fetchAllJobPosts() {
+        firebaseCRUD.getDatabaseReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                jobPostList.clear();
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    JobPost jobPost = postSnapshot.getValue(JobPost.class);
+                    if (jobPost != null) {
+                        jobPostList.add(jobPost);
+                    }
+                }
+                jobPostAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Error fetching job posts: " + error.getMessage());
+            }
+        });
+    }
+
+    // Implement the interface method.
+    @Override
+    public void onViewDetailsClick(JobPost jobPost) {
+
+        // Start JobDetailsActivity and pass the jobPost data.
+        Intent intent = new Intent(this, JobDetailsActivity.class);
+        intent.putExtra("jobPost", jobPost);
+        intent.putExtra("role", "employee");
+        startActivity(intent);
     }
 }
