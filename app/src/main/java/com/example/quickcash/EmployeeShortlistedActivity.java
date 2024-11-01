@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class EmployeeActivity extends AppCompatActivity {
+public class EmployeeShortlistedActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
@@ -24,7 +22,7 @@ public class EmployeeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_employee);
+        setContentView(R.layout.activity_employee_shortlisted);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -33,35 +31,16 @@ public class EmployeeActivity extends AppCompatActivity {
 
         // initialize the firebase authorization
         mAuth = FirebaseAuth.getInstance();
-        Button logoutButton = findViewById(R.id.logoutButton);
-        Button applicationStatusButton = findViewById(R.id.applicationStatusButton);
 
-        // set onClick listener for the logout button
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        // make some buttons
+        Button dashboardButton = findViewById(R.id.dashboardButton);
+
+        // listner for dashboard button
+        dashboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // log out
-                mAuth.signOut();
-                Toast.makeText(EmployeeActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
-
-                // clear session data
-                clearSessionData();
-
-                // redirect to LoginActivity
-                Intent intent = new Intent(EmployeeActivity.this, LoginActivity.class);
-                startActivity(intent);
-
-                // close the current activity
-                finish();
-            }
-        });
-
-        // listner for my applications button
-        applicationStatusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // redirect to Applications Activity
-                Intent intent = new Intent(EmployeeActivity.this, EmployeeApplicationsActivity.class);
+                // redirect to employee Activity
+                Intent intent = new Intent(EmployeeShortlistedActivity.this, EmployeeActivity.class);
                 startActivity(intent);
             }
         });

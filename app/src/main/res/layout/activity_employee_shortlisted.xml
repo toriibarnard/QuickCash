@@ -30,7 +30,7 @@
                     android:id="@+id/availableJobsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Available Jobs"
+                    android:text="Shortlisted"
                     android:textColor="#2196F3"
                     android:textSize="30sp"
                     android:textStyle="bold"
@@ -65,27 +65,11 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/job_item_view" />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/dashboardButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="end"
-                android:layout_marginTop="16dp">
-
-                <Button
-                    android:id="@+id/applicationStatusButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Application Status"
-                    android:layout_marginEnd="8dp" />
-
-                <Button
-                    android:id="@+id/logoutButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Logout" />
-
-            </LinearLayout>
+                android:text="Return to Dashboard" />
 
         </LinearLayout>
 
