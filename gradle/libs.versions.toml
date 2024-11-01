@@ -7,6 +7,7 @@ material = "1.12.0"
 activity = "1.9.2"
 constraintLayout = "2.1.4"
 firebaseBom = "33.4.0"
+mockitoCore = "4.11.0"
 playServicesAuth = "21.2.0"
 androidxJunit = "1.2.1"
 testRules = "1.6.1"
@@ -25,6 +26,7 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }

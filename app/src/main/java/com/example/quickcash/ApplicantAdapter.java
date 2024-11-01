@@ -1,6 +1,5 @@
 package com.example.quickcash;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ public class ApplicantAdapter extends RecyclerView.Adapter<ApplicantAdapter.Appl
         // set the applicants details in the TextView
         holder.applicantName.setText(applicant.getApplicantName());
         holder.applicantEmail.setText(applicant.getApplicantEmail());
-        holder.applicantExperience.setText(applicant.getApplicantExperience());
+        holder.applicantPhone.setText(applicant.getApplicantPhone());
 
         // set an OnClickListener for the View Applicant button
         // when clicked, it triggers the listeners onViewApplicantClick method
@@ -59,7 +58,7 @@ public class ApplicantAdapter extends RecyclerView.Adapter<ApplicantAdapter.Appl
         // views in the applicant_item_view layout
         TextView applicantName;
         TextView applicantEmail;
-        TextView applicantExperience;
+        TextView applicantPhone;
         Button viewApplicantButton;
 
         // ViewHolder constructor
@@ -68,7 +67,7 @@ public class ApplicantAdapter extends RecyclerView.Adapter<ApplicantAdapter.Appl
             // find and store references to the views
             applicantName = itemView.findViewById(R.id.applicantName);
             applicantEmail = itemView.findViewById(R.id.applicantEmail);
-            applicantExperience = itemView.findViewById(R.id.applicantExperience);
+            applicantPhone = itemView.findViewById(R.id.applicantPhone);
             viewApplicantButton = itemView.findViewById(R.id.viewApplicantButton);
         }
     }
