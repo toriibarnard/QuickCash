@@ -32,6 +32,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     private LinearLayout buttonLayout;
     private DatabaseReference applicationRef;
     private DatabaseReference applicantStatusesRef;
+    private Button hireButton;
     private Applicant applicant;
 
     @Override
@@ -49,7 +50,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         inputLayout = findViewById(R.id.inputLayout);
         salaryEditText = findViewById(R.id.salaryEditText);
         startDateEditText = findViewById(R.id.startDateEditText);
-        submitButton = findViewById(R.id.submitButton);
+        hireButton = findViewById(R.id.hireButton);
         buttonLayout = findViewById(R.id.buttonLayout);
         Button shortlistButton = findViewById(R.id.shortlistButton);
         Button rejectButton = findViewById(R.id.rejectButton);
@@ -79,7 +80,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         rejectButton.setOnClickListener(view -> onRejectClicked());
         shortlistButton.setOnClickListener(view -> onShortlistClicked());
         startDateEditText.setOnClickListener(view -> showDatePicker());
-        submitButton.setOnClickListener(view -> onSubmitClicked());
+        hireButton.setOnClickListener(view -> onHireClicked());
     }
 
     private void onRejectClicked() {
@@ -109,7 +110,19 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
 
         // Show the input fields and submit button
         inputLayout.setVisibility(View.VISIBLE);
-        submitButton.setVisibility(View.VISIBLE);
+        hireButton.setVisibility(View.VISIBLE);
+
+        applicationRef.child("employerStatus").setValue("Shortlisted");
+
+        // Update applicantStatuses node
+        Map<String, Object> statusUpdate = new HashMap<>();
+        statusUpdate.put("name", applicant.getApplicantName());
+        statusUpdate.put("status", "Shortlisted");
+
+        applicantStatusesRef.child(applicant.getApplicantID()).updateChildren(statusUpdate);
+
+        // Update applicant object
+        applicant.setEmployerStatus("Shortlisted");
     }
 
     private void showDatePicker() {
@@ -126,7 +139,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void onSubmitClicked() {
+    private void onHireClicked() {
         String salaryStr = salaryEditText.getText().toString().trim();
         String startDate = startDateEditText.getText().toString().trim();
 
@@ -148,24 +161,24 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         applicationRef.child("salary").setValue(salary);
         applicationRef.child("startDate").setValue(startDate);
 
-        // Update application status to 'Shortlisted' in Firebase
-        applicationRef.child("employerStatus").setValue("Shortlisted");
+        // Update application status to 'Pending' in Firebase
+        applicationRef.child("employerStatus").setValue("Pending");
 
         // Update applicantStatuses node
         Map<String, Object> statusUpdate = new HashMap<>();
         statusUpdate.put("name", applicant.getApplicantName());
-        statusUpdate.put("status", "Shortlisted");
+        statusUpdate.put("status", "Pending");
 
         applicantStatusesRef.child(applicant.getApplicantID()).updateChildren(statusUpdate);
 
         // Update applicant object
-        applicant.setEmployerStatus("Shortlisted");
+        applicant.setEmployerStatus("Pending");
 
         // Show a confirmation message
-        Toast.makeText(this, "Application updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Application updated to Pending", Toast.LENGTH_SHORT).show();
 
-        // Hide the input fields and submit button
+        // Hide the input fields and hire button
         inputLayout.setVisibility(View.GONE);
-        submitButton.setVisibility(View.GONE);
+        hireButton.setVisibility(View.GONE);
     }
 }
