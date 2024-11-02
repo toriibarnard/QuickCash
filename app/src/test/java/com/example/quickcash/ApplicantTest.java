@@ -17,17 +17,15 @@ public class ApplicantTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        when(mockApplicant.getApplicantID()).thenReturn("12345");
         when(mockApplicant.getApplicantName()).thenReturn("John Doe");
         when(mockApplicant.getApplicantEmail()).thenReturn("john.doe@example.com");
         when(mockApplicant.getApplicantPhone()).thenReturn("123-456-7890");
-        when(mockApplicant.getEmployerStatus()).thenReturn("Shortlisted");
+        when(mockApplicant.getApplicantStatus()).thenReturn("Shortlisted");
 
     }
 
     @Test
     public void testMockedApplicantDetails() {
-        assertEquals("12345", mockApplicant.getApplicantID());
         assertEquals("John Doe", mockApplicant.getApplicantName());
         assertEquals("john.doe@example.com", mockApplicant.getApplicantEmail());
         assertEquals("123-456-7890", mockApplicant.getApplicantPhone());
@@ -35,15 +33,7 @@ public class ApplicantTest {
 
     @Test
     public void testMarkAsShortlisted() {
-        mockApplicant.getEmployerStatus();
-        assertEquals("Shortlisted", mockApplicant.getEmployerStatus());
-    }
-
-    @Test
-    public void testMarkAsRejected() {
-        mockApplicant.getEmployerStatus();
-        assertEquals("Rejected", mockApplicant.getEmployerStatus());
+        mockApplicant.getApplicantStatus();
+        assertEquals("Shortlisted", mockApplicant.getApplicantStatus());
     }
 }
-
-

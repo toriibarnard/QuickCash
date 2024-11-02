@@ -7,46 +7,30 @@ import java.util.UUID;
  * Represents a job posting with relevant details such as title, location, job type, and more.
  */
 public class Applicant implements Serializable {
-    private String applicantID;
-    private String applicantJobID;
+    private String jobId;
     private String applicantName;
     private String applicantEmail;
     private String applicantPhone;
-    private String employerStatus;
-    private Boolean employeeStatus;
+    private String applicantStatus;
+    private String resumeUri;
 
     // default constructor.
     public Applicant() {
     }
 
     // constructor.
-    public Applicant(String applicantID, String applicantJobID, String applicantName, String applicantEmail,
-                     String applicantPhone, String employerStatus, Boolean employeeStatus) {
-        this.applicantID = applicantID;
-        this.applicantJobID = applicantJobID;
+    public Applicant(String jobId, String applicantName, String applicantEmail,
+                     String applicantPhone, String applicantStatus, String resumeUri) {
+        this.jobId = jobId;
         this.applicantName = applicantName;
         this.applicantEmail = applicantEmail;
         this.applicantPhone = applicantPhone;
-        this.employerStatus = employerStatus;
-        this.employeeStatus = employeeStatus;
+        this.applicantStatus = applicantStatus;
+        this.resumeUri = resumeUri;
     }
 
-    // getters and setters
-    public String generateApplicantID(){
-        return UUID.randomUUID().toString(); // generates a unique id for applicant
-    }
-    public void setApplicantID(String applicantJobID){
-        this.applicantID = applicantID;
-    }
-    public String getApplicantID(){
-        return applicantID;
-    }
-
-    public void setApplicantJobID(String applicantJobID){
-        this.applicantJobID = applicantJobID;
-    }
-    public String getApplicantJobID(){
-        return applicantJobID;
+    public String getjobId(){
+        return jobId;
     }
 
     public void setApplicantName(String applicantName){
@@ -70,17 +54,17 @@ public class Applicant implements Serializable {
         return applicantPhone;
     }
 
-    public void setEmployerStatus(String employerStatus){
-        this.employerStatus = employerStatus;
+    public void setApplicantStatus(String applicantStatus){
+        this.applicantStatus = applicantStatus;
     }
-    public String getEmployerStatus(){
-        return employerStatus;
+    public String getApplicantStatus(){
+        return applicantStatus;
     }
 
-    public void setEmployeeStatus(Boolean employeeStatus) {
-        this.employeeStatus = employeeStatus;
+    public void setResumeUri(String resumeUri) {
+        this.resumeUri= resumeUri;
     }
-    public Boolean getEmployeeStatus() {
-        return employeeStatus;
+    public String getResumeUri() {
+        return resumeUri;
     }
 }

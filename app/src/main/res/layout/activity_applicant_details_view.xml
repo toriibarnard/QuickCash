@@ -9,8 +9,10 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:background="#D3E0EA"
+        android:layout_gravity="center">
 
         <!-- Applicant Name -->
         <TextView
@@ -20,7 +22,7 @@
             android:text="Applicant Name"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginVertical="8dp" />
 
         <!-- Applicant Email -->
         <TextView
@@ -28,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Applicant Email"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginVertical="8dp" />
 
         <!-- Applicant Phone -->
         <TextView
@@ -36,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Applicant Phone"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginVertical="8dp" />
 
         <!-- Applicant Job ID -->
         <TextView
@@ -44,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Job ID"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginVertical="8dp" />
 
         <!-- Action Buttons -->
         <LinearLayout
@@ -53,13 +55,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginBottom="16dp">
+            android:layout_marginVertical="16dp">
 
             <Button
                 android:id="@+id/shortlistButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shortlist"
+                android:backgroundTint="#2196F3"
                 android:layout_marginEnd="8dp" />
 
             <Button
@@ -67,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reject"
+                android:backgroundTint="#2196F3"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
@@ -90,6 +94,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
+            android:layout_gravity="center"
             android:layout_marginBottom="16dp">
 
             <EditText
@@ -116,6 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"
+            android:backgroundTint="#2196F3"
             android:visibility="gone"
             android:layout_marginBottom="16dp" />
 

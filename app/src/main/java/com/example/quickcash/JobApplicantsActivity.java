@@ -94,9 +94,9 @@ public class JobApplicantsActivity extends AppCompatActivity implements Applican
                     Applicant applicant = applicantSnapshot.getValue(Applicant.class);
 
                     // Check if the applicant is not null and has the correct jobID
-                    if (applicant != null && jobID.equals(applicant.getApplicantJobID())) {
+                    if (applicant != null && jobID.equals(applicant.getjobId())) {
                         applicantList.add(applicant);  // Add to the list if jobID matches
-                        Log.d("JobApplicantsActivity", "Added applicant: " + applicant.getApplicantName() + " for Job ID: " + applicant.getApplicantJobID());
+                        Log.d("JobApplicantsActivity", "Added applicant: " + applicant.getApplicantName() + " for Job ID: " + applicant.getjobId());
                     }
                 }
 

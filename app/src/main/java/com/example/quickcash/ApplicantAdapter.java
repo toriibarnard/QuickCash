@@ -38,9 +38,9 @@ public class ApplicantAdapter extends RecyclerView.Adapter<ApplicantAdapter.Appl
         Applicant applicant = applicantList.get(position);
 
         // set the applicants details in the TextView
-        holder.applicantName.setText(applicant.getApplicantName());
-        holder.applicantEmail.setText(applicant.getApplicantEmail());
-        holder.applicantPhone.setText(applicant.getApplicantPhone());
+        holder.applicantName.setText("Name: "+applicant.getApplicantName());
+        holder.applicantEmail.setText("Email: "+applicant.getApplicantEmail());
+        holder.applicantPhone.setText("Phone: "+applicant.getApplicantPhone());
 
         // set an OnClickListener for the View Applicant button
         // when clicked, it triggers the listeners onViewApplicantClick method

@@ -2,6 +2,7 @@ package com.example.quickcash;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,13 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -31,8 +36,8 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     private Button submitButton;
     private LinearLayout buttonLayout;
     private DatabaseReference applicationRef;
-    private DatabaseReference applicantStatusesRef;
     private Applicant applicant;
+    private String applicationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +45,6 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_applicant_details_view);
 
-        // Initialize views
-        TextView applicantNameTextView = findViewById(R.id.applicantNameTextView);
-        TextView applicantEmailTextView = findViewById(R.id.applicantEmailTextView);
-        TextView applicantPhoneTextView = findViewById(R.id.applicantPhoneTextView);
-        TextView applicantJobIDTextView = findViewById(R.id.applicantJobIDTextView);
         rejectedTextView = findViewById(R.id.rejectedTextView);
         inputLayout = findViewById(R.id.inputLayout);
         salaryEditText = findViewById(R.id.salaryEditText);
@@ -63,23 +63,57 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         // Get the applicant from the intent
         applicant = (Applicant) getIntent().getSerializableExtra("applicant");
 
-        // Initialize Firebase references
-        String applicationId = applicant.getApplicantID();
-        applicationRef = FirebaseDatabase.getInstance().getReference("applications")
-                .child(applicant.getApplicantID());
-        applicantStatusesRef = FirebaseDatabase.getInstance().getReference("applicantStatuses");
-
-        // Set applicant details in the UI
-        applicantNameTextView.setText(applicant.getApplicantName());
-        applicantEmailTextView.setText(applicant.getApplicantEmail());
-        applicantPhoneTextView.setText(applicant.getApplicantPhone());
-        applicantJobIDTextView.setText(applicant.getApplicantJobID());
+        // From the email, get the associated application node
+        getApplicationNode(applicant.getApplicantEmail());
 
         // Set up click listeners
         rejectButton.setOnClickListener(view -> onRejectClicked());
         shortlistButton.setOnClickListener(view -> onShortlistClicked());
         startDateEditText.setOnClickListener(view -> showDatePicker());
         submitButton.setOnClickListener(view -> onSubmitClicked());
+    }
+
+    private void getApplicationNode(String applicantEmail) {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("applications");
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot applicationSnapshot : snapshot.getChildren()) {
+                    // Retrieve the applicantEmail field within each application node
+                    String email = applicationSnapshot.child("applicantEmail").getValue(String.class);
+
+                    // Check if this email matches the input email
+                    if (applicantEmail.equals(email)) {
+                        applicationId = applicationSnapshot.getKey();  // Set the instance variable
+                        applicationRef = FirebaseDatabase.getInstance().getReference("applications").child(applicationId);
+                        // Proceed with further setup after `applicationId` is retrieved
+                        setupApplicantDetails();
+                        break; // Stop searching once we find the correct application
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Error retrieving application: " + error.getMessage());
+            }
+        });
+    }
+
+    private void setupApplicantDetails() {
+        if (applicant != null) {
+            // Set applicant details in the UI
+            TextView applicantNameTextView = findViewById(R.id.applicantNameTextView);
+            TextView applicantEmailTextView = findViewById(R.id.applicantEmailTextView);
+            TextView applicantPhoneTextView = findViewById(R.id.applicantPhoneTextView);
+            TextView jobIdTextView = findViewById(R.id.applicantJobIDTextView);
+
+            applicantNameTextView.setText("Name: "+applicant.getApplicantName());
+            applicantEmailTextView.setText("Email: "+applicant.getApplicantEmail());
+            applicantPhoneTextView.setText("Phone: "+applicant.getApplicantPhone());
+            jobIdTextView.setText("Job ID: "+applicant.getjobId());
+        }
     }
 
     private void onRejectClicked() {
@@ -90,17 +124,10 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         rejectedTextView.setVisibility(View.VISIBLE);
 
         // Update application status to 'Rejected' in Firebase
-        applicationRef.child("employerStatus").setValue("Rejected");
-
-        // Update applicantStatuses node
-        Map<String, Object> statusUpdate = new HashMap<>();
-        statusUpdate.put("name", applicant.getApplicantName());
-        statusUpdate.put("status", "Rejected");
-
-        applicantStatusesRef.child(applicant.getApplicantID()).updateChildren(statusUpdate);
+        applicationRef.child("applicantStatus").setValue("Rejected");
 
         // Update applicant object
-        applicant.setEmployerStatus("Rejected");
+        applicant.setApplicantStatus("Rejected");
     }
 
     private void onShortlistClicked() {
@@ -149,17 +176,11 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         applicationRef.child("startDate").setValue(startDate);
 
         // Update application status to 'Shortlisted' in Firebase
-        applicationRef.child("employerStatus").setValue("Shortlisted");
+        applicationRef.child("applicantStatus").setValue("Shortlisted");
 
-        // Update applicantStatuses node
-        Map<String, Object> statusUpdate = new HashMap<>();
-        statusUpdate.put("name", applicant.getApplicantName());
-        statusUpdate.put("status", "Shortlisted");
-
-        applicantStatusesRef.child(applicant.getApplicantID()).updateChildren(statusUpdate);
 
         // Update applicant object
-        applicant.setEmployerStatus("Shortlisted");
+        applicant.setApplicantStatus("Shortlisted");
 
         // Show a confirmation message
         Toast.makeText(this, "Application updated", Toast.LENGTH_SHORT).show();
