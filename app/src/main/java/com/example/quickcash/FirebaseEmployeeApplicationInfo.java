@@ -88,4 +88,24 @@ public class FirebaseEmployeeApplicationInfo {
             }
         });
     }
+
+    public void returnEmployeeShortlistedApplications(String employeeEmail, OnApplicationsLoadedListener listener) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<ApplicationData> employeeApplications = new ArrayList<>();
+                for (ApplicationData application : cachedApplications.values()) {
+                    if (employeeEmail.equals(application.getApplicantEmail()) && application.getApplicationStatus().equals("Shortlisted")) {
+                        employeeApplications.add(application);
+                    }
+                }
+                listener.onApplicationsLoaded(employeeApplications);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Error loading applications: " + error.getMessage());
+            }
+        });
+    }
 }
