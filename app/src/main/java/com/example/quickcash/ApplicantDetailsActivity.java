@@ -140,7 +140,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
             applicantNameTextView.setText("Name: "+applicant.getApplicantName());
             applicantEmailTextView.setText("Email: "+applicant.getApplicantEmail());
             applicantPhoneTextView.setText("Phone: "+applicant.getApplicantPhone());
-            jobIdTextView.setText("Job ID: "+applicant.getjobId());
+            jobIdTextView.setText("Job ID: "+applicant.getJobId());
 
             // Retrieve the application status and set the Ui accordingly
             applicationRef.child("applicantStatus").addListenerForSingleValueEvent(new ValueEventListener() {

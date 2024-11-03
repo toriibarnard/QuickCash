@@ -48,6 +48,8 @@
         <activity
             android:name=".ApplicantDetailsActivity"
             android:exported="false" />
+        <activity android:name="EmployeeOffersActivity"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

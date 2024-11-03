@@ -57,12 +57,20 @@
                     android:layout_marginEnd="8dp" />
 
                 <Button
-                    android:id="@+id/dashboardButton"
+                    android:id="@+id/offersButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Return to Dashboard" />
+                    android:text="Offers" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/dashboardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="Return to Dashboard" />
 
         </LinearLayout>
 

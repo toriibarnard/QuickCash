@@ -63,6 +63,7 @@ public class EmployeeApplicationsActivity extends AppCompatActivity {
         // Setup buttons and listeners
         Button dashboardButton = findViewById(R.id.dashboardButton);
         Button shortlistedButton = findViewById(R.id.shortlistedButton);
+        Button offersButton = findViewById(R.id.offersButton);
 
         dashboardButton.setOnClickListener(v -> {
             Intent intent = new Intent(EmployeeApplicationsActivity.this, EmployeeActivity.class);
@@ -71,6 +72,11 @@ public class EmployeeApplicationsActivity extends AppCompatActivity {
 
         shortlistedButton.setOnClickListener(v -> {
             Intent intent = new Intent(EmployeeApplicationsActivity.this, EmployeeShortlistedActivity.class);
+            startActivity(intent);
+        });
+
+        offersButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EmployeeApplicationsActivity.this, EmployeeOffersActivity.class);
             startActivity(intent);
         });
     }
