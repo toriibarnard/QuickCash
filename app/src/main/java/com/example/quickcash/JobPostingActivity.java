@@ -72,7 +72,7 @@ public class JobPostingActivity extends AppCompatActivity {
     }
 
     private void initializeFirebaseCRUD() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_DATABASE_URL);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
     }
 

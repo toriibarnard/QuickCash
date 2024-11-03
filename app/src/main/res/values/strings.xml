@@ -18,6 +18,9 @@
         <item>Manager</item>
     </string-array>
 
+    <string name="RESUME_NOT_SELECTED">Please upload a resume!</string>
+    <string name="SUBMIT_APPLICATION_SUCCESSFUL">Application submitted!</string>
+
     <string name="EMPTY_STRING"></string>
     <string name="INVALID_JOB_TYPE">Invalid job type</string>
     <string name="INVALID_EXPERIENCE_LEVEL">Invalid experience level</string>
@@ -27,7 +30,6 @@
     <string name="EMPTY_JOB_DESCRIPTION">Job description cannot be empty.</string>
     <string name="EMPTY_JOB_LOCATION">Job location cannot be empty.</string>
     <string name="EMPTY_JOB_INDUSTRY">Industry must be selected.</string>
-    <string name="JOB_POSTING_ACTIVITY_TITLE">Create Job Posting</string>
     <string name="SUCCESSFUL_JOB_POST_FEEDBACK">Job post created successfully!</string>
     <string name="UNSUCCESSFUL_JOB_POST_FEEDBACK">Invalid input. Please check your entries.</string>
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.content.SharedPreferences;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -62,27 +61,26 @@ public class EmployerActivity extends AppCompatActivity implements JobPostAdapte
 
         // initialize the firebase authorization
         mAuth = FirebaseAuth.getInstance();
+        setupLogoutButton();
+    }
 
+    private void setupLogoutButton() {
         Button logoutButton = findViewById(R.id.logoutButton);
-
         // set onClick listener for the logout button
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // log out
-                mAuth.signOut();
-                Toast.makeText(EmployerActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
+        logoutButton.setOnClickListener(v -> {
+            // log out
+            mAuth.signOut();
+            Toast.makeText(EmployerActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
 
-                // clear session data
-                clearSessionData();
+            // clear session data
+            clearSessionData();
 
-                // redirect to LoginActivity
-                Intent intent = new Intent(EmployerActivity.this, LoginActivity.class);
-                startActivity(intent);
+            // redirect to LoginActivity
+            Intent intent = new Intent(EmployerActivity.this, LoginActivity.class);
+            startActivity(intent);
 
-                // close the current activity
-                finish();
-            }
+            // close the current activity
+            finish();
         });
     }
 
@@ -99,7 +97,7 @@ public class EmployerActivity extends AppCompatActivity implements JobPostAdapte
     }
 
     private void initializeFirebaseCRUD() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(Constants.FIREBASE_DATABASE_URL);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
     }
 
@@ -146,6 +144,7 @@ public class EmployerActivity extends AppCompatActivity implements JobPostAdapte
         // Start JobDetailsActivity and pass the jobPost data.
         Intent intent = new Intent(this, JobDetailsActivity.class);
         intent.putExtra("jobPost", jobPost);
+        intent.putExtra("role", "employer");
         startActivity(intent);
     }
 }
