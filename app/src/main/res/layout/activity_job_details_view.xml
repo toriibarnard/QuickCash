@@ -16,18 +16,6 @@
             android:orientation="vertical"
             android:padding="15dp">
 
-            <!-- view applicants button -->
-            <Button
-                android:id="@+id/viewApplicantsButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="#2196F3"
-                android:text="View Applicants"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-
             <!-- Title Bar with Job ID and Job Title -->
             <!-- Concatenate title and id -->
             <TextView
@@ -224,6 +212,18 @@
                     android:text="October 10, 2024"
                     android:layout_weight="2" />
             </LinearLayout>
+
+            <!-- view applicants button -->
+            <Button
+                android:id="@+id/viewApplicantsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#2196F3"
+                android:text="View Applicants"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 

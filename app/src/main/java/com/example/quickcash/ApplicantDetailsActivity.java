@@ -31,12 +31,14 @@ import java.util.Map;
 
 public class ApplicantDetailsActivity extends AppCompatActivity {
 
+    // Application Status Strings
     private static final String STATUS_SHORTLISTED = "Shortlisted";
     private static final String STATUS_REJECTED = "Rejected";
     private static final String STATUS_PENDING = "Pending";
     private static final String STATUS_SUBMITTED = "Submitted";
     private static final String STATUS_HIRED = "Hired";
 
+    // Declaring UI elements and instance variables
     private TextView shortlistedTextView, rejectedTextView, pendingTextView;
     private Button offerJobButton, submitButton;
     private LinearLayout inputLayout, buttonLayout;
@@ -66,6 +68,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         getApplicationNode(applicant.getApplicantEmail());
     }
 
+    // This method initializes the declared Ui elements
     private void initializeViews() {
         shortlistedTextView = findViewById(R.id.shortlistedTextView);
         rejectedTextView = findViewById(R.id.rejectedTextView);
@@ -78,6 +81,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         buttonLayout = findViewById(R.id.buttonLayout);
     }
 
+    // This method sets up on click listener for each buttons
     private void setUpButtons() {
         Button shortlistButton = findViewById(R.id.shortlistButton);
         shortlistButton.setOnClickListener(view -> onShortlistClicked());
@@ -93,6 +97,10 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         submitButton.setOnClickListener(view -> onSubmitClicked());
     }
 
+    /*
+     * This method is used to fetch the application node which contains all the application data from
+     * the Firebase by matching the applicant email
+     */
     private void getApplicationNode(String applicantEmail) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("applications");
 
@@ -105,9 +113,9 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
 
                     // Check if this email matches the input email
                     if (applicantEmail.equals(email)) {
-                        applicationId = applicationSnapshot.getKey();  // Set the instance variable
+                        applicationId = applicationSnapshot.getKey();
+                        // Initialize applicationRef to point this node to make for future references
                         applicationRef = FirebaseDatabase.getInstance().getReference("applications").child(applicationId);
-                        // Proceed with further setup after `applicationId` is retrieved
                         setupApplicantDetails();
                         break;
                     }
@@ -121,19 +129,20 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         });
     }
 
+    // This method sets up applicant details in the UI and manages the Ui based on the applicant status
     private void setupApplicantDetails() {
         if (applicant != null) {
-            // Set applicant details in the UI
+            // Set up applicant details
             TextView applicantNameTextView = findViewById(R.id.applicantNameTextView);
             TextView applicantEmailTextView = findViewById(R.id.applicantEmailTextView);
             TextView applicantPhoneTextView = findViewById(R.id.applicantPhoneTextView);
             TextView jobIdTextView = findViewById(R.id.applicantJobIDTextView);
-
             applicantNameTextView.setText("Name: "+applicant.getApplicantName());
             applicantEmailTextView.setText("Email: "+applicant.getApplicantEmail());
             applicantPhoneTextView.setText("Phone: "+applicant.getApplicantPhone());
             jobIdTextView.setText("Job ID: "+applicant.getjobId());
 
+            // Retrieve the application status and set the Ui accordingly
             applicationRef.child("applicantStatus").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,6 +158,24 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         }
     }
 
+    // This method retrieves the resume download Uri from the database and opens it in browser window
+    private void onViewResume() {
+        applicationRef.child("resumeUri").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String resumeUri = snapshot.getValue(String.class);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(resumeUri));
+                startActivity(browserIntent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Resume load fail", "Error downloading resume!", error.toException());
+            }
+        });
+    }
+
+    // This method clears all the previous Ui elements
     private void clearOldDetails() {
         shortlistedTextView.setVisibility(View.GONE);
         rejectedTextView.setVisibility(View.GONE);
@@ -159,6 +186,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         submitButton.setVisibility(View.GONE);
     }
 
+    // This method sets up the Ui elements based on the retrieved status
     private void manageStatusView(String status) {
         clearOldDetails();
         if (status.equals(STATUS_SHORTLISTED)) {
@@ -180,51 +208,33 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void onViewResume() {
-        applicationRef.child("resumeUri").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String resumeUri = snapshot.getValue(String.class);
-
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(resumeUri));
-                startActivity(browserIntent);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Resume load fail", "Error downloading resume!", error.toException());
-            }
-        });
-    }
-
+    // This method sets the applicant Status as "Rejected" in the firebase and updates the Ui
     private void onRejectClicked() {
         // Update application status to 'Rejected' in Firebase
-        applicationRef.child("applicantStatus").setValue("Rejected")
+        applicationRef.child("applicantStatus").setValue(STATUS_REJECTED)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Application marked as Rejected", Toast.LENGTH_SHORT).show();
-                    manageStatusView("Rejected");
+                    manageStatusView(STATUS_REJECTED);
                 });
-
-        // Update applicant object
-        applicant.setApplicantStatus("Rejected");
     }
 
+    // This method sets the applicant Status as "Shortlisted" in the firebase and updates the Ui
     private void onShortlistClicked() {
-        applicationRef.child("applicantStatus").setValue("Shortlisted")
+        applicationRef.child("applicantStatus").setValue(STATUS_SHORTLISTED)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Application marked as Shortlisted", Toast.LENGTH_SHORT).show();
-                    manageStatusView("Shortlisted");
+                    manageStatusView(STATUS_SHORTLISTED);
                 });
-
-        applicant.setApplicantStatus("Shortlisted");
     }
 
+    // This method displays the additional information tab required to send a job offer
     private void onOfferJobClicked() {
         buttonLayout.setVisibility(View.GONE);
         inputLayout.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.VISIBLE);
     }
 
+    // This method allows the employer to choose a date from an in app calender
     private void showDatePicker() {
         // Show a DatePickerDialog and set the selected date to startDateEditText
         Calendar calendar = Calendar.getInstance();
@@ -239,16 +249,22 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /*
+     * This method pushes the new updates to the firebase if an employer chooses to offer the job to
+     * an employee and marks the status as "Pending"
+     */
     private void onSubmitClicked() {
         String salary = salaryEditText.getText().toString().trim();
         String startDate = startDateEditText.getText().toString().trim();
 
+        // Check if both the fields are filled correctly
         if (isValidSalary(salary) && isValidDate(startDate)) {
             HashMap<String, Object> updates = new HashMap<>();
             updates.put("salary", salary);
             updates.put("startDate", startDate);
-            updates.put("applicantStatus", "Pending");
+            updates.put("applicantStatus", STATUS_PENDING);
 
+            // Push the updates to Firebase under the applicant node
             applicationRef.updateChildren(updates)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Job offer sent. Application marked as Pending", Toast.LENGTH_SHORT).show();
@@ -257,6 +273,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         }
     }
 
+    // This method validates the Salary field
     private boolean isValidSalary(String salary) {
         if (salary.isEmpty()) {
             salaryEditText.setError("Salary required");
@@ -266,6 +283,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
         return true;
     }
 
+    // This method validates the Date field
     private boolean isValidDate(String startDate) {
         if (startDate.isEmpty()) {
             startDateEditText.setError("Start date required");
