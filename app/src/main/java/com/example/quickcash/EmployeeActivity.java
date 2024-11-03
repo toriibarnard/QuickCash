@@ -3,6 +3,7 @@ package com.example.quickcash;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         setupRecyclerView();
         fetchAllJobPosts();
         setupLogoutButton();
+        setUpGoogleMapButton();
     }
 
     private void setupLogoutButton() {
@@ -133,5 +135,15 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         intent.putExtra("jobPost", jobPost);
         intent.putExtra("role", "employee");
         startActivity(intent);
+    }
+
+    private void setUpGoogleMapButton() {
+        Button mapsButton = findViewById(R.id.viewOnMapsButton);
+        mapsButton.setOnClickListener(view -> onViewOnMapsClick());
+    }
+
+    public void onViewOnMapsClick() {
+        Intent mapsIntent = new Intent(EmployeeActivity.this, MapsActivity.class);
+        EmployeeActivity.this.startActivity(mapsIntent);
     }
 }

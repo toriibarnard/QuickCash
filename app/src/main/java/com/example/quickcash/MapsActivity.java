@@ -23,17 +23,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    // Declare variables
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private DatabaseReference jobRef;
-    private List<Marker> markers = new ArrayList<>();
-    private HashMap<String, Marker> existingMarkers = new HashMap<>();
+    private HashMap<String, Marker> existingMarkers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +46,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Initialize markers hashmap and job reference
+        existingMarkers = new HashMap<>();
         jobRef = FirebaseDatabase.getInstance().getReference("job_posts");
     }
 
+    // This method is used to get the Lat and Long of a location using Geocoder API
     private LatLng getLatLng(String location) {
         Geocoder geocoder = new Geocoder(getApplicationContext());
         try {
@@ -64,16 +66,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return null;
     }
 
+    // This method displays the map when it gets ready
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        // We will use our custom window to display job details when marker is clicked
         mMap.setInfoWindowAdapter(new JobInfoWindowAdapter(this));
+        placeMarkers();
+    }
 
+    /*
+     * This method is used to get all the job locations from firebase, get their Lat and Long,
+     * initialize the marker info window and place the markers on the map
+     */
+    public void placeMarkers() {
         jobRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot jobSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot jobSnapshot : snapshot.getChildren()) {
                     String jobId = jobSnapshot.getKey();
                     String jobTitle = jobSnapshot.child("jobTitle").getValue(String.class);
                     String companyName = jobSnapshot.child("companyName").getValue(String.class);
@@ -86,7 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String jobSnippet = getSnippet(companyName, jobType);
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(locationLatLng).title(jobTitle).snippet(jobSnippet));
-                        markers.add(marker);
                         existingMarkers.put(jobId, marker);
                     }
                 }
@@ -99,21 +109,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        // Set on click listener for the markers
         mMap.setOnMarkerClickListener(marker -> {
             marker.showInfoWindow();
             return true;
         });
     }
 
+    // This method returns the snippet String for the marker
     public String getSnippet(String companyName, String jobType) {
         return "Company: "+companyName+"\nType: "+jobType;
     }
 
+    // This method returns the Google map
     public GoogleMap getMap() {
         return this.mMap;
-    }
-
-    public List<Marker> getMarkers() {
-        return markers;
     }
 }
