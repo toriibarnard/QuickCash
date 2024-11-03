@@ -1,129 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ApplicantDetailsActivity"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/mainLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:orientation="vertical"
-        android:background="#D3E0EA"
-        android:layout_gravity="center">
-
-        <!-- Applicant Name -->
-        <TextView
-            android:id="@+id/applicantNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Applicant Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginVertical="8dp" />
-
-        <!-- Applicant Email -->
-        <TextView
-            android:id="@+id/applicantEmailTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Applicant Email"
-            android:layout_marginVertical="8dp" />
-
-        <!-- Applicant Phone -->
-        <TextView
-            android:id="@+id/applicantPhoneTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Applicant Phone"
-            android:layout_marginVertical="8dp" />
-
-        <!-- Applicant Job ID -->
-        <TextView
-            android:id="@+id/applicantJobIDTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Job ID"
-            android:layout_marginVertical="8dp" />
-
-        <!-- Action Buttons -->
+        android:layout_height="match_parent" >
         <LinearLayout
-            android:id="@+id/buttonLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginVertical="16dp">
-
-            <Button
-                android:id="@+id/shortlistButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Shortlist"
-                android:backgroundTint="#2196F3"
-                android:layout_marginEnd="8dp" />
-
-            <Button
-                android:id="@+id/rejectButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reject"
-                android:backgroundTint="#2196F3"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <!-- Rejected TextView -->
-        <TextView
-            android:id="@+id/rejectedTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Rejected"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#FF0000"
-            android:gravity="center"
-            android:visibility="gone"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Input Layout for Shortlisting -->
-        <LinearLayout
-            android:id="@+id/inputLayout"
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:background="#D3E0EA"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp">
+            android:paddingHorizontal="20dp" >
 
-            <EditText
-                android:id="@+id/salaryEditText"
+            <!-- Applicant Name -->
+            <TextView
+                android:id="@+id/applicantNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Applicant Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginVertical="8dp" />
+
+            <!-- Applicant Email -->
+            <TextView
+                android:id="@+id/applicantEmailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Applicant Email"
+                android:layout_marginVertical="8dp" />
+
+            <!-- Applicant Phone -->
+            <TextView
+                android:id="@+id/applicantPhoneTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Applicant Phone"
+                android:layout_marginVertical="8dp" />
+
+            <!-- Applicant Job ID -->
+            <TextView
+                android:id="@+id/applicantJobIDTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job ID"
+                android:layout_marginVertical="8dp" />
+
+            <Button
+                android:id="@+id/viewResumeButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Salary"
-                android:inputType="numberDecimal"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="16dp"
+                android:text="View Resume"
+                android:backgroundTint="#677676"
+                android:layout_gravity="center_horizontal" />
 
-            <EditText
-                android:id="@+id/startDateEditText"
+            <!-- Rejected TextView -->
+            <TextView
+                android:id="@+id/rejectedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Start Date"
-                android:focusable="false"
-                android:clickable="true"
-                android:layout_marginBottom="8dp" />
+                android:text="Rejected"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FF0000"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Shortlisted TextView -->
+            <TextView
+                android:id="@+id/shortlistedTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shortlisted"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#D9C711"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Pending TextView -->
+            <TextView
+                android:id="@+id/pendingTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#1EAB0E"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:id="@+id/buttonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginVertical="16dp">
+
+                <Button
+                    android:id="@+id/shortlistButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Shortlist"
+                    android:backgroundTint="#D9C711"
+                    android:layout_marginHorizontal="8dp"/>
+
+                <Button
+                    android:id="@+id/rejectButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Reject"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FF0000"
+                    android:layout_marginHorizontal="8dp"/>
+
+                <Button
+                    android:id="@+id/offerJobButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Offer"
+                    android:layout_weight="1"
+                    android:backgroundTint="#1EAB0E"
+                    android:visibility="gone"
+                    android:layout_marginHorizontal="8dp"/>
+            </LinearLayout>
+
+            <!-- Input Layout for Shortlisting -->
+            <LinearLayout
+                android:id="@+id/inputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/salaryEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Salary"
+                    android:inputType="numberDecimal"
+                    android:layout_marginBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/startDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Start Date"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:layout_marginBottom="8dp" />
+            </LinearLayout>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:backgroundTint="#2196F3"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp" />
+
         </LinearLayout>
-
-        <!-- Submit Button -->
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:backgroundTint="#2196F3"
-            android:visibility="gone"
-            android:layout_marginBottom="16dp" />
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

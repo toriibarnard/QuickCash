@@ -1,6 +1,8 @@
 package com.example.quickcash;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,30 +31,25 @@ import java.util.Map;
 
 public class ApplicantDetailsActivity extends AppCompatActivity {
 
-    private TextView rejectedTextView;
-    private LinearLayout inputLayout;
-    private EditText salaryEditText;
-    private EditText startDateEditText;
-    private Button submitButton;
-    private LinearLayout buttonLayout;
+    private static final String STATUS_SHORTLISTED = "Shortlisted";
+    private static final String STATUS_REJECTED = "Rejected";
+    private static final String STATUS_PENDING = "Pending";
+    private static final String STATUS_SUBMITTED = "Submitted";
+    private static final String STATUS_HIRED = "Hired";
+
+    private TextView shortlistedTextView, rejectedTextView, pendingTextView;
+    private Button offerJobButton, submitButton;
+    private LinearLayout inputLayout, buttonLayout;
+    private EditText salaryEditText, startDateEditText;
     private DatabaseReference applicationRef;
     private Applicant applicant;
     private String applicationId;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_applicant_details_view);
-
-        rejectedTextView = findViewById(R.id.rejectedTextView);
-        inputLayout = findViewById(R.id.inputLayout);
-        salaryEditText = findViewById(R.id.salaryEditText);
-        startDateEditText = findViewById(R.id.startDateEditText);
-        submitButton = findViewById(R.id.submitButton);
-        buttonLayout = findViewById(R.id.buttonLayout);
-        Button shortlistButton = findViewById(R.id.shortlistButton);
-        Button rejectButton = findViewById(R.id.rejectButton);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -60,15 +57,38 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
+        initializeViews();
+        setUpButtons();
+
         // Get the applicant from the intent
         applicant = (Applicant) getIntent().getSerializableExtra("applicant");
-
         // From the email, get the associated application node
         getApplicationNode(applicant.getApplicantEmail());
+    }
 
-        // Set up click listeners
-        rejectButton.setOnClickListener(view -> onRejectClicked());
+    private void initializeViews() {
+        shortlistedTextView = findViewById(R.id.shortlistedTextView);
+        rejectedTextView = findViewById(R.id.rejectedTextView);
+        pendingTextView = findViewById(R.id.pendingTextView);
+        offerJobButton = findViewById(R.id.offerJobButton);
+        inputLayout = findViewById(R.id.inputLayout);
+        salaryEditText = findViewById(R.id.salaryEditText);
+        startDateEditText = findViewById(R.id.startDateEditText);
+        submitButton = findViewById(R.id.submitButton);
+        buttonLayout = findViewById(R.id.buttonLayout);
+    }
+
+    private void setUpButtons() {
+        Button shortlistButton = findViewById(R.id.shortlistButton);
         shortlistButton.setOnClickListener(view -> onShortlistClicked());
+
+        Button rejectButton = findViewById(R.id.rejectButton);
+        rejectButton.setOnClickListener(view -> onRejectClicked());
+
+        Button viewResume = findViewById(R.id.viewResumeButton);
+        viewResume.setOnClickListener(view -> onViewResume());
+
+        offerJobButton.setOnClickListener(view -> onOfferJobClicked());
         startDateEditText.setOnClickListener(view -> showDatePicker());
         submitButton.setOnClickListener(view -> onSubmitClicked());
     }
@@ -89,7 +109,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
                         applicationRef = FirebaseDatabase.getInstance().getReference("applications").child(applicationId);
                         // Proceed with further setup after `applicationId` is retrieved
                         setupApplicantDetails();
-                        break; // Stop searching once we find the correct application
+                        break;
                     }
                 }
             }
@@ -113,28 +133,94 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
             applicantEmailTextView.setText("Email: "+applicant.getApplicantEmail());
             applicantPhoneTextView.setText("Phone: "+applicant.getApplicantPhone());
             jobIdTextView.setText("Job ID: "+applicant.getjobId());
+
+            applicationRef.child("applicantStatus").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String status = snapshot.getValue(String.class);
+                    manageStatusView(status);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 
-    private void onRejectClicked() {
-        // Hide the buttons
+    private void clearOldDetails() {
+        shortlistedTextView.setVisibility(View.GONE);
+        rejectedTextView.setVisibility(View.GONE);
+        pendingTextView.setVisibility(View.GONE);
+        offerJobButton.setVisibility(View.GONE);
         buttonLayout.setVisibility(View.GONE);
+        inputLayout.setVisibility(View.GONE);
+        submitButton.setVisibility(View.GONE);
+    }
 
-        // Show the 'Rejected' TextView
-        rejectedTextView.setVisibility(View.VISIBLE);
+    private void manageStatusView(String status) {
+        clearOldDetails();
+        if (status.equals(STATUS_SHORTLISTED)) {
+            buttonLayout.setVisibility(View.VISIBLE);
+            findViewById(R.id.shortlistButton).setVisibility(View.GONE);
+            shortlistedTextView.setVisibility(View.VISIBLE);
+            offerJobButton.setVisibility(View.VISIBLE);
+        } else if (status.equals(STATUS_REJECTED)) {
+            rejectedTextView.setVisibility(View.VISIBLE);
+        } else if (status.equals(STATUS_PENDING)) {
+            buttonLayout.setVisibility(View.VISIBLE);
+            findViewById(R.id.shortlistButton).setVisibility(View.GONE);
+            pendingTextView.setVisibility(View.VISIBLE);
+        } else if (status.equals(STATUS_SUBMITTED)) {
+            buttonLayout.setVisibility(View.VISIBLE);
+        } else if (status.equals(STATUS_HIRED)) {
+            pendingTextView.setText("Hired!");
+            pendingTextView.setVisibility(View.VISIBLE);
+        }
+    }
 
+    private void onViewResume() {
+        applicationRef.child("resumeUri").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String resumeUri = snapshot.getValue(String.class);
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(resumeUri));
+                startActivity(browserIntent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Resume load fail", "Error downloading resume!", error.toException());
+            }
+        });
+    }
+
+    private void onRejectClicked() {
         // Update application status to 'Rejected' in Firebase
-        applicationRef.child("applicantStatus").setValue("Rejected");
+        applicationRef.child("applicantStatus").setValue("Rejected")
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Application marked as Rejected", Toast.LENGTH_SHORT).show();
+                    manageStatusView("Rejected");
+                });
 
         // Update applicant object
         applicant.setApplicantStatus("Rejected");
     }
 
     private void onShortlistClicked() {
-        // Hide the buttons
-        buttonLayout.setVisibility(View.GONE);
+        applicationRef.child("applicantStatus").setValue("Shortlisted")
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Application marked as Shortlisted", Toast.LENGTH_SHORT).show();
+                    manageStatusView("Shortlisted");
+                });
 
-        // Show the input fields and submit button
+        applicant.setApplicantStatus("Shortlisted");
+    }
+
+    private void onOfferJobClicked() {
+        buttonLayout.setVisibility(View.GONE);
         inputLayout.setVisibility(View.VISIBLE);
         submitButton.setVisibility(View.VISIBLE);
     }
@@ -154,39 +240,38 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     }
 
     private void onSubmitClicked() {
-        String salaryStr = salaryEditText.getText().toString().trim();
+        String salary = salaryEditText.getText().toString().trim();
         String startDate = startDateEditText.getText().toString().trim();
 
-        if (salaryStr.isEmpty()) {
+        if (isValidSalary(salary) && isValidDate(startDate)) {
+            HashMap<String, Object> updates = new HashMap<>();
+            updates.put("salary", salary);
+            updates.put("startDate", startDate);
+            updates.put("applicantStatus", "Pending");
+
+            applicationRef.updateChildren(updates)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(this, "Job offer sent. Application marked as Pending", Toast.LENGTH_SHORT).show();
+                        manageStatusView("Pending");
+                    });
+        }
+    }
+
+    private boolean isValidSalary(String salary) {
+        if (salary.isEmpty()) {
             salaryEditText.setError("Salary required");
             salaryEditText.requestFocus();
-            return;
+            return false;
         }
+        return true;
+    }
 
+    private boolean isValidDate(String startDate) {
         if (startDate.isEmpty()) {
             startDateEditText.setError("Start date required");
             startDateEditText.requestFocus();
-            return;
+            return false;
         }
-
-        double salary = Double.parseDouble(salaryStr);
-
-        // Push salary and start date to Firebase
-        applicationRef.child("salary").setValue(salary);
-        applicationRef.child("startDate").setValue(startDate);
-
-        // Update application status to 'Shortlisted' in Firebase
-        applicationRef.child("applicantStatus").setValue("Shortlisted");
-
-
-        // Update applicant object
-        applicant.setApplicantStatus("Shortlisted");
-
-        // Show a confirmation message
-        Toast.makeText(this, "Application updated", Toast.LENGTH_SHORT).show();
-
-        // Hide the input fields and submit button
-        inputLayout.setVisibility(View.GONE);
-        submitButton.setVisibility(View.GONE);
+        return true;
     }
 }
