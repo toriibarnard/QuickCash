@@ -144,6 +144,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
 
     public void onViewOnMapsClick() {
         Intent mapsIntent = new Intent(EmployeeActivity.this, MapsActivity.class);
-        EmployeeActivity.this.startActivity(mapsIntent);
+        startActivity(mapsIntent);
     }
 }
