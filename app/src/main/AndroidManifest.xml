@@ -37,6 +37,12 @@
             android:name=".JobPostingActivity"
             android:exported="false" />
         <activity
+            android:name=".JobApplicantsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ApplicantDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

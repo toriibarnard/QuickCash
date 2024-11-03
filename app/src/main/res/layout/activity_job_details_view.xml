@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -216,13 +215,25 @@
 
             <Button
                 android:id="@+id/applyButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="#2196F3"
                 android:text="Apply"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- view applicants button -->
+            <Button
+                android:id="@+id/viewApplicantsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#2196F3"
+                android:text="View Applicants"
+                android:textSize="16sp"
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>

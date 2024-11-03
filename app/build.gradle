@@ -51,6 +51,8 @@ dependencies {
     implementation libs.firebase.storage
 
     testImplementation libs.junit
+    testImplementation libs.mockito.core
+
     testImplementation libs.androidx.core
     testImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.junit

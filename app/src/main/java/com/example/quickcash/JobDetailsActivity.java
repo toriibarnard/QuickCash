@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,17 +22,23 @@ public class JobDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_job_details_view);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        setUpApplyButton();
+        // Get the jobPost from the intent and initialize views
+        jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
+        initializeViews();
 
-        // Get the jobPost from the intent.
-        this.jobPost = getIntent().getSerializableExtra("jobPost", JobPost.class);
+        // Manage buttons based on the role of user
+        String role = getIntent().getStringExtra("role");
+        manageButtons(role);
+    }
 
+    protected void initializeViews() {
         TextView jobID = findViewById(R.id.jobIDDetails);
         jobID.setText(jobPost.getJobID());
 
@@ -60,20 +67,34 @@ public class JobDetailsActivity extends AppCompatActivity {
         postedDate.setText(jobPost.getPostedDate());
     }
 
-    // Set apply button only for an employee. Employer cannot apply to a job
-    protected void setUpApplyButton() {
-        String role = getIntent().getStringExtra("role");
+    protected void manageButtons(String role) {
         if (role != null && role.equals("employee")) {
             Button applyButton = findViewById(R.id.applyButton);
             applyButton.setVisibility(View.VISIBLE);
-            applyButton.setOnClickListener(view -> handelApplication());
+            applyButton.setOnClickListener(view -> handelApply());
+        } else {
+            Button viewApplicantsButton = findViewById(R.id.viewApplicantsButton);
+            viewApplicantsButton.setVisibility(View.VISIBLE);
+            viewApplicantsButton.setOnClickListener(view -> handelViewApplicants());
         }
     }
 
-    protected void handelApplication() {
+    protected void handelApply() {
         Intent apply = new Intent(JobDetailsActivity.this, JobApplicationActivity.class);
         apply.putExtra("jobId", jobPost.getJobID());
         apply.putExtra("jobTitle", jobPost.getJobTitle());
-        JobDetailsActivity.this.startActivity(apply);
+        startActivity(apply);
+    }
+
+    protected void handelViewApplicants() {
+        String jobIDStr = jobPost.getJobID();
+
+        if (jobIDStr != null) {
+            Intent intent = new Intent(JobDetailsActivity.this, JobApplicantsActivity.class);
+            intent.putExtra("jobID", jobIDStr);  // pass jobID to the next activity
+            startActivity(intent);
+        } else {
+            Toast.makeText(JobDetailsActivity.this, "No Job ID available", Toast.LENGTH_SHORT).show();
+        }
     }
 }
