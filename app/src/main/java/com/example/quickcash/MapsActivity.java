@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private DatabaseReference jobRef;
+    private List<Marker> markers = new ArrayList<>();
     private HashMap<String, Marker> existingMarkers = new HashMap<>();
 
     @Override
@@ -84,6 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String jobSnippet = getSnippet(companyName, jobType);
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(locationLatLng).title(jobTitle).snippet(jobSnippet));
+                        markers.add(marker);
                         existingMarkers.put(jobId, marker);
                     }
                 }
@@ -108,5 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public GoogleMap getMap() {
         return this.mMap;
+    }
+
+    public List<Marker> getMarkers() {
+        return markers;
     }
 }
