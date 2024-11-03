@@ -21,14 +21,14 @@ import static org.junit.Assert.assertTrue;
 public class GoogleMapsEspressoTest {
 
     @Rule
-    public ActivityScenarioRule<MapActivity> activityRule
-            = new ActivityScenarioRule<>(MapActivity.class);
+    public ActivityScenarioRule<MapsActivity> activityRule
+            = new ActivityScenarioRule<>(MapsActivity.class);
 
 
     @Test
     public void testJobLocationsDisplayedOnMap() {
         // Check that the map is displayed
-        onView(ViewMatchers.withId(R.id.mapView))
+        onView(ViewMatchers.withId(R.id.map))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         // Check that job markers are displayed on the map
