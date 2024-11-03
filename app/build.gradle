@@ -49,6 +49,7 @@ dependencies {
     // Google Play Services Auth
     implementation libs.play.services.auth
     implementation libs.firebase.storage
+    implementation libs.play.services.maps
 
     testImplementation libs.junit
     testImplementation libs.mockito.core
