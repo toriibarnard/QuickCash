@@ -1,7 +1,6 @@
 package com.example.quickcash;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class Applicant implements Serializable {
     private String jobId;
