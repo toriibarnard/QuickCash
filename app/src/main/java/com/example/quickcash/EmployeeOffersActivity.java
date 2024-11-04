@@ -66,27 +66,24 @@ public class EmployeeOffersActivity extends AppCompatActivity implements OfferAd
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 offerList.clear();
 
-                // iterate over each application in applications node
                 for (DataSnapshot applicationSnapshot : snapshot.getChildren()) {
                     Applicant applicant = applicationSnapshot.getValue(Applicant.class);
 
-                    // log and check the applicant object to troubleshoot
                     if (applicant == null) {
                         Log.e("EmployeeOffersActivity", "Applicant data is null.");
                         continue;
                     }
-                    Log.d("EmployeeOffersActivity", "Fetched applicant: " + applicant.getApplicantEmail());
 
-                    // check if application has correct email and application status of 'pending'
+                    // set applicationId for the applicant
+                    applicant.setApplicationId(applicationSnapshot.getKey());
+
                     if (applicant.getApplicantEmail() != null && applicant.getApplicantEmail().equals(employeeEmail)
                             && "Pending".equals(applicant.getApplicantStatus())) {
 
-                        // add to the list of offers
                         offerList.add(applicant);
                     }
                 }
 
-                // notify adapter of data changes
                 if (offerList.isEmpty()) {
                     Toast.makeText(EmployeeOffersActivity.this, "No job offers available.", Toast.LENGTH_SHORT).show();
                 } else {
@@ -104,29 +101,30 @@ public class EmployeeOffersActivity extends AppCompatActivity implements OfferAd
 
     @Override
     public void onAcceptClick(Applicant offer) {
-        if (offer.getJobId() == null) {
+        if (offer.getApplicationId() == null) {
             Toast.makeText(this, "Offer data is invalid. Please try again later.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // update the application status to "Hired" when accepted
-        applicationsRef.child(offer.getJobId()).child("applicantStatus").setValue("Hired")
+        applicationsRef.child(offer.getApplicationId()).child("applicantStatus").setValue("Hired")
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Offer accepted.", Toast.LENGTH_SHORT).show();
-                    fetchJobOffers(); // Refresh the list after acceptance
+                    fetchJobOffers(); // refresh the list after acceptance
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Failed to accept offer.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to accept offer.", Toast.LENGTH_SHORT).show();
+                    Log.e("EmployeeOffersActivity", "Failed to update status", e);
+                });
     }
 
     @Override
     public void onRejectClick(Applicant offer) {
-        if (offer.getJobId() == null) {
+        if (offer.getApplicationId() == null) {
             Toast.makeText(this, "Offer data is invalid. Please try again later.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // update the application status to "Rejected" when rejected
-        applicationsRef.child(offer.getJobId()).child("applicantStatus").setValue("Rejected")
+        applicationsRef.child(offer.getApplicationId()).child("applicantStatus").setValue("Rejected")
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Offer rejected.", Toast.LENGTH_SHORT).show();
                     fetchJobOffers(); // refresh the list after rejection

@@ -8,14 +8,15 @@ public class Applicant implements Serializable {
     private String applicantEmail;
     private String applicantPhone;
     private String applicantStatus;
-    private String salary;       // new field for salary
-    private String startDate;    // new field for start date
+    private String salary;
+    private String startDate;
+    private String applicationId; // field for Firebase key (unique ID)
 
-    // Default constructor.
+    // default constructor.
     public Applicant() {
     }
 
-    // Constructor with all fields.
+    // constructor with all fields.
     public Applicant(String jobId, String applicantName, String applicantEmail,
                      String applicantPhone, String applicantStatus, String salary, String startDate) {
         this.jobId = jobId;
@@ -27,7 +28,7 @@ public class Applicant implements Serializable {
         this.startDate = startDate;
     }
 
-    // Getter methods
+    // getters
     public String getJobId() {
         return jobId;
     }
@@ -56,12 +57,20 @@ public class Applicant implements Serializable {
         return startDate;
     }
 
-    // Setter methods (optional, if you need to set values after instantiation)
+    public String getApplicationId() {
+        return applicationId;
+    }
+
+    // setters
     public void setSalary(String salary) {
         this.salary = salary;
     }
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
     }
 }
