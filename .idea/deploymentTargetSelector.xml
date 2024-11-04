@@ -5,13 +5,10 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="JobApplicationActivity">
+      <SelectionState runConfigName="UIAutomatorTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MainActivity">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="EmployerActivity">
+      <SelectionState runConfigName="testLogoutEmployee()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

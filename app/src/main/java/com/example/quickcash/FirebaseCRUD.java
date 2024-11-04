@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class FirebaseCRUD {
 
+    public static final String FIREBASE_DATABASE_URL = "https://quick-cash-64e58-default-rtdb.firebaseio.com/";
+
     private final DatabaseReference databaseReference;
     private final Map<String, JobPost> cachedJobPosts;
 
