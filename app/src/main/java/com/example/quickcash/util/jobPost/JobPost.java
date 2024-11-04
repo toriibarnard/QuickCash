@@ -1,6 +1,7 @@
 package com.example.quickcash.util.jobPost;
 
 import java.io.Serializable;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -42,7 +43,10 @@ public class JobPost implements Serializable {
      * @return a string representing the generated unique job ID.
      */
     public static String generateJobID() {
-        return UUID.randomUUID().toString();
+        Random random = new Random();
+        String timeStamp = String.valueOf(System.currentTimeMillis()).substring(7);
+        int randomPart = random.nextInt(90)+10;
+        return timeStamp + randomPart;
     }
 
     /**
