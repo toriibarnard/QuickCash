@@ -131,7 +131,7 @@ public class FirebaseCRUD {
         } else {
 
             // Handle the case where jobID does not exist.
-            System.err.println("JobID " + jobID + " does not exist. Cannot update.");
+            throw new IllegalArgumentException("JobID " + jobID + " does not exist. Cannot update.");
         }
     }
 
