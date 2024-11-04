@@ -39,10 +39,15 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     private static final String STATUS_HIRED = "Hired";
 
     // Declaring UI elements and instance variables
-    private TextView shortlistedTextView, rejectedTextView, pendingTextView;
-    private Button offerJobButton, submitButton;
-    private LinearLayout inputLayout, buttonLayout;
-    private EditText salaryEditText, startDateEditText;
+    private TextView shortlistedTextView;
+    private TextView rejectedTextView;
+    private TextView pendingTextView;
+    private Button offerJobButton;
+    private Button submitButton;
+    private LinearLayout inputLayout;
+    private LinearLayout buttonLayout;
+    private EditText salaryEditText;
+    private EditText startDateEditText;
     private DatabaseReference applicationRef;
     private Applicant applicant;
     private String applicationId;
