@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.example.quickcash.validator.CredentialsValidator;
+
 public class CredentialsValidatorTest {
     CredentialsValidator validator;
 

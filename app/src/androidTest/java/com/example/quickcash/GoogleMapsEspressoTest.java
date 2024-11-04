@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 
+import com.example.quickcash.maps.MapsActivity;
 import com.google.android.gms.maps.GoogleMap;
 
 import org.junit.Rule;

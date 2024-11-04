@@ -19,6 +19,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import static org.hamcrest.Matchers.*;
 
+import com.example.quickcash.util.jobPost.JobPostingActivity;
+
 @RunWith(AndroidJUnit4.class)
 public class JobPostingEspressoTest {
 
