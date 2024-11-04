@@ -59,6 +59,7 @@ dependencies {
     testImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.espresso.core
+    androidTestImplementation libs.espresso.intents
 
     // AndroidX Test Rules and Runner
     androidTestImplementation libs.androidx.test.rules
