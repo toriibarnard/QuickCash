@@ -141,6 +141,14 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/viewOnMapsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#677676"
+                android:text="View On Maps "
+                android:layout_marginVertical="10dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/employeeRecyclerView"
                 android:layout_width="match_parent"

@@ -35,6 +35,8 @@ import java.util.ArrayList;
 
 public class EmployeeActivity extends AppCompatActivity implements JobPostAdapter.OnItemClickListener {
     FirebaseCRUD firebaseCRUD;
+    String jobSeekerID;
+
     RecyclerView recyclerView;
     JobPostAdapter jobPostAdapter;
     ArrayList<JobPost> jobPostList;
@@ -56,9 +58,11 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
             return insets;
         });
 
-        // Initialize Firebase authorization and UI elements
+        // Extract employerID.
+        jobSeekerID = getIntent().getStringExtra("jobSeekerID");
+
+        // initialize the firebase authorization
         mAuth = FirebaseAuth.getInstance();
-        Button logoutButton = findViewById(R.id.logoutButton);
         Button applicationStatusButton = findViewById(R.id.applicationStatusButton);
         EditText jobTitleEditText = findViewById(R.id.searchEditText);
         dropdownContent = findViewById(R.id.dropdownContent);
@@ -113,16 +117,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
             jobPostAdapter.notifyDataSetChanged();
         });
 
-        // Logout button
-        logoutButton.setOnClickListener(v -> {
-            mAuth.signOut();
-            Toast.makeText(EmployeeActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
-            clearSessionData();
-            Intent intent = new Intent(EmployeeActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
         // Application status button
         applicationStatusButton.setOnClickListener(v -> {
             Intent intent = new Intent(EmployeeActivity.this, EmployeeApplicationsActivity.class);
@@ -133,6 +127,28 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         initializeFirebaseCRUD();
         setupRecyclerView();
         fetchJobPosts();
+        setupLogoutButton();
+        setUpGoogleMapButton();
+    }
+
+    private void setupLogoutButton() {
+        Button logoutButton = findViewById(R.id.logoutButton);
+        // Logout button
+        logoutButton.setOnClickListener(v -> {
+            // log out
+            mAuth.signOut();
+            Toast.makeText(EmployeeActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
+
+            // clear session data
+            clearSessionData();
+
+            // redirect to LoginActivity
+            Intent intent = new Intent(EmployeeActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+            // close the current activity
+            finish();
+        });
     }
 
     private void toggleDropdown() {
@@ -155,15 +171,18 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
     }
 
     private void clearSessionData() {
+        // clear Firebase session
         FirebaseAuth.getInstance().signOut();
+
+        // clear SharedPreferences session ( the locally stored data)
         SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+        editor.clear();  // clear all data in the user_session file
         editor.apply();
     }
 
     private void initializeFirebaseCRUD() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(FirebaseCRUD.FIREBASE_DATABASE_URL);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseCRUD = new FirebaseCRUD(firebaseDatabase);
     }
 
@@ -184,6 +203,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
     private void setupRecyclerView() {
         recyclerView = findViewById(R.id.employeeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         jobPostList = new ArrayList<>();
         jobPostAdapter = new JobPostAdapter(jobPostList, this);
         recyclerView.setAdapter(jobPostAdapter);
@@ -209,11 +229,24 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         });
     }
 
+    // Implement the interface method.
     @Override
     public void onViewDetailsClick(JobPost jobPost) {
+
+        // Start JobDetailsActivity and pass the jobPost data.
         Intent intent = new Intent(this, JobDetailsActivity.class);
         intent.putExtra("jobPost", jobPost);
         intent.putExtra("role", "employee");
         startActivity(intent);
+    }
+
+    private void setUpGoogleMapButton() {
+        Button mapsButton = findViewById(R.id.viewOnMapsButton);
+        mapsButton.setOnClickListener(view -> onViewOnMapsClick());
+    }
+
+    public void onViewOnMapsClick() {
+        Intent mapsIntent = new Intent(EmployeeActivity.this, MapsActivity.class);
+        startActivity(mapsIntent);
     }
 }

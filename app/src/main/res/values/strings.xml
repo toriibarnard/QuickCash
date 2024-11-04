@@ -49,4 +49,5 @@
         <item>Employee</item>
         <item>Employer</item>
     </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
