@@ -3,6 +3,8 @@ package com.example.quickcash;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import com.example.quickcash.util.jobPost.JobPost;
+
 public class JobPostTest {
 
     @Test

@@ -14,6 +14,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import com.example.quickcash.ui.RegistrationActivity;
+
 @RunWith(AndroidJUnit4.class)
 public class RegistrationEspressoTest {
 
@@ -34,6 +36,7 @@ public class RegistrationEspressoTest {
 
         onView(withId(R.id.roleSpinner)).perform(click());
         onView(withText("Employee")).perform(click());
+        
 
         onView(withId(R.id.registerButton)).perform(click());
         onView(withId(R.id.statusLabel)).check(matches(withText(R.string.EMPTY_STRING)));

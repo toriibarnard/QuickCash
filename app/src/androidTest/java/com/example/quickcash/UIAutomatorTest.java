@@ -6,6 +6,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiScrollable;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
@@ -60,7 +62,7 @@ public class UIAutomatorTest {
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employee")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("ab278106@dal.ca"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("roni.abusayeed@gmail.com"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("SecretPassword"));
@@ -114,31 +116,31 @@ public class UIAutomatorTest {
         assertTrue("Reset label exists", resetText.exists());
     }
 
-    // Test when a user logs out as an employee
     @Test
-    public void testLogoutEmployee() {
-        // log in as Employee
+    public void testLogoutEmployee() throws UiObjectNotFoundException {
+        // Log in as Employee
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employee")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("ABC@gmail.com"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("roni.abusayeed@gmail.com"));
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("SecretPassword"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
 
-        // wait for the Employee UI to appear
-        device.wait(Until.hasObject(By.textContains("This will be Employee UI")), 5000);
+        // Wait for the Employee UI to appear
+        device.wait(Until.hasObject(By.textContains("Available Jobs")), 5000);
 
-        UiObject employeeText = new UiObject(new UiSelector().textContains("This will be Employee UI"));
-        assertTrue("Employee label exists", employeeText.exists());
+        // Scroll up to reveal the logout button
+        UiScrollable scrollable = new UiScrollable(new UiSelector().scrollable(true));
+        scrollable.scrollIntoView(new UiSelector().resourceIdMatches(".*:id/logoutButton"));
 
-        // log out
+        // Log out
         Espresso.onView(withId(R.id.logoutButton)).perform(click());
 
-        // wait for the Login UI to reappear
+        // Wait for the Login UI to reappear
         device.wait(Until.hasObject(By.textContains("Login")), 5000);
 
         UiObject loginText = new UiObject(new UiSelector().textContains("Login"));
@@ -152,19 +154,16 @@ public class UIAutomatorTest {
         Espresso.onView(withId(R.id.roleSelectionSpinner)).perform(click());
         Espresso.onView(withText("Employer")).perform(click());
 
-        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("vbn@gmail.com"));
+        Espresso.onView(withId(R.id.emailAddressEditField)).perform(typeText("roni@dal.ca"));
         Espresso.closeSoftKeyboard();
 
-        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("Pass12345"));
+        Espresso.onView(withId(R.id.passwordEditField)).perform(typeText("SecretPassword"));
         Espresso.closeSoftKeyboard();
 
         Espresso.onView(withId(R.id.loginButton)).perform(click());
 
         // wait for the Employer UI to appear
-        device.wait(Until.hasObject(By.textContains("This will be Employer UI")), 5000);
-
-        UiObject employerText = new UiObject(new UiSelector().textContains("This will be Employer UI"));
-        assertTrue("Employer label exists", employerText.exists());
+        device.wait(Until.hasObject(By.textContains("My Postings")), 5000);
 
         // log out
         Espresso.onView(withId(R.id.logoutButton)).perform(click());

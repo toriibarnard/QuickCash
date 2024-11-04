@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JobDetailsActivity">
+    tools:context=".ui.JobDetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -212,6 +212,29 @@
                     android:text="October 10, 2024"
                     android:layout_weight="2" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/applyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#2196F3"
+                android:text="Apply"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- view applicants button -->
+            <Button
+                android:id="@+id/viewApplicantsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#2196F3"
+                android:text="View Applicants"
+                android:textSize="16sp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
