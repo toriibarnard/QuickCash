@@ -8,6 +8,8 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
 
+import com.example.quickcash.util.employerView.Applicant;
+
 public class ApplicantTest {
 
     @Mock

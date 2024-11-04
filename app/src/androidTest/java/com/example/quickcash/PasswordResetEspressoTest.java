@@ -8,6 +8,8 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.quickcash.ui.ResetPasswordActivity;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

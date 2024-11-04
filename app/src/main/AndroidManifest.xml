@@ -18,49 +18,49 @@
             android:value="AIzaSyBT-R7ng5ZRVcxk7cWhj6CdYapSI6VnQGA" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".maps.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".EmployeeShortlistedActivity"
+            android:name=".util.employeeView.EmployeeShortlistedActivity"
             android:exported="false" />
         <activity
-            android:name=".EmployeeApplicationsActivity"
+            android:name=".util.employeeView.EmployeeApplicationsActivity"
             android:exported="false" />
         <activity
-            android:name=".JobApplicationActivity"
+            android:name=".ui.JobApplicationActivity"
             android:exported="false" />
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".ui.ResetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".EmployeeActivity"
+            android:name=".ui.EmployeeActivity"
             android:exported="false" />
         <activity
-            android:name=".EmployerActivity"
+            android:name=".ui.EmployerActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".ui.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".JobDetailsActivity"
+            android:name=".ui.JobDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".JobPostingActivity"
+            android:name=".util.jobPost.JobPostingActivity"
             android:exported="false" />
         <activity
-            android:name=".JobApplicantsActivity"
+            android:name=".util.employerView.JobApplicantsActivity"
             android:exported="false" />
         <activity
-            android:name=".ApplicantDetailsActivity"
+            android:name=".util.employerView.ApplicantDetailsActivity"
             android:exported="false" />
-        <activity android:name="EmployeeOffersActivity"
+        <activity android:name=".util.employeeView.EmployeeOffersActivity"
             android:exported="false"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
