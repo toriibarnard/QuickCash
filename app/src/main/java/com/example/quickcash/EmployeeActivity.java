@@ -72,19 +72,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         triangleIcon = findViewById(R.id.triangleIcon);
 
         // Filter checkboxes.
-//        CheckBox salaryCheckBox = findViewById(R.id.salaryCheckBox);
-//        CheckBox locationCheckBox = findViewById(R.id.locationCheckBox);
         CheckBox jobtypeCheckBox = findViewById(R.id.jobtypeCheckBox);
-
-        // Salary filter UI.
-//        LinearLayout salaryInputLayout = findViewById(R.id.salaryInputLayout);
-//        EditText highEditText = findViewById(R.id.highEditText);
-//        EditText lowEditText = findViewById(R.id.lowEditText);
-
-        // Location filter UI.
-//        TextView radiusTextView = findViewById(R.id.radiusTextView);
-//        EditText locationEditText = findViewById(R.id.locationEditText);
-//        EditText radiusEditText = findViewById(R.id.radiusEditText);
 
         // JobType Filter UI.
         Spinner jobtypeSpinner = findViewById(R.id.jobtypeSpinner);
@@ -106,33 +94,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
             }
         });
 
-        // Set listeners for checkboxes.
-//        salaryCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // Show the High and Low inputs if checked, hide them otherwise
-//                if (isChecked) {
-//                    salaryInputLayout.setVisibility(View.VISIBLE);
-//                } else {
-//                    salaryInputLayout.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//        locationCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // Show the High and Low inputs if checked, hide them otherwise
-//                if (isChecked) {
-//                    radiusTextView.setVisibility(View.VISIBLE);
-////                    locationEditText.setVisibility(View.VISIBLE);
-//                    radiusEditText.setVisibility(View.VISIBLE);
-//                } else {
-//                    radiusTextView.setVisibility(View.GONE);
-////                    locationEditText.setVisibility(View.GONE);
-//                    radiusEditText.setVisibility(View.GONE);
-//                }
-//            }
-//        });
         jobtypeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -158,24 +119,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 // Clear existing filters.
                 jobPostFilter.clear();
 
-                // Add salary filter if checked.
-//                if (salaryCheckBox.isChecked()) {
-//                    try {
-//
-//                        double highSalary = Double.parseDouble(highEditText.getText().toString().trim());
-//                        double lowSalary = Double.parseDouble(lowEditText.getText().toString().trim());
-//                        if (highSalary < lowSalary) {
-//                            throw new IllegalArgumentException();
-//                        }
-//
-//                        jobPostFilter.add(new SalaryFilter(lowSalary, highSalary));
-//                    } catch (NumberFormatException e) {
-//                        // TODO: Handle invalid salary filter input.
-//                    } catch (IllegalArgumentException e) {
-//                        // TODO: handle if highSalary < lowSalary.
-//                    }
-//                }
-
                 // Add job-type filter if checked.
                 if (jobtypeCheckBox.isChecked()) {
                     String selectedJobType = jobtypeSpinner.getSelectedItem().toString().trim();
@@ -185,22 +128,6 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
                 // Add job-title filter if typed.
                 if (!jobTitleEditText.getText().toString().trim().isEmpty())
                     jobPostFilter.add(new JobTitleFilter(jobTitleEditText.getText().toString().trim()));
-
-                // Add location filter if checked.
-//                if (locationCheckBox.isChecked()) {
-//
-//                    try {
-//                        String address = locationEditText.getText().toString().trim();
-//                        Location location = Location.convertAddressToLocation(EmployeeActivity.this, address);
-//
-//                        double radius = Double.parseDouble(radiusEditText.getText().toString().trim());
-//                        if (radius < 0) {
-//                            throw new NumberFormatException();
-//                        }
-//
-//                        jobPostFilter.add(new LocationFilter(location, radius));
-//                    } catch (Exception ignored) {}
-//                }
 
                 // Apply all added filters.
                 filterJobPostList();
@@ -214,11 +141,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
             public void onClick(View v) {
 
                 // Reset UI.
-//                salaryCheckBox.setChecked(false);
-//                locationCheckBox.setChecked(false);
                 jobtypeCheckBox.setChecked(false);
-//                highEditText.setText("");
-//                lowEditText.setText("");
                 jobtypeSpinner.setSelection(0);
                 jobTitleEditText.setText("");
 
@@ -233,6 +156,7 @@ public class EmployeeActivity extends AppCompatActivity implements JobPostAdapte
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // log out
                 mAuth.signOut();
                 Toast.makeText(EmployeeActivity.this, "You have been logged out.", Toast.LENGTH_SHORT).show();
