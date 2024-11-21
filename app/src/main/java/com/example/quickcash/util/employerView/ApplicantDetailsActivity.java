@@ -109,15 +109,16 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
     private void getApplicationNode(String applicantEmail) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("applications");
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot applicationSnapshot : snapshot.getChildren()) {
                     // Retrieve the applicantEmail field within each application node
                     String email = applicationSnapshot.child("applicantEmail").getValue(String.class);
+                    String jobId = applicationSnapshot.child("jobId").getValue(String.class);
 
                     // Check if this email matches the input email
-                    if (applicantEmail.equals(email)) {
+                    if (applicantEmail.equals(email) && applicant.getJobId().equals(jobId)) {
                         applicationId = applicationSnapshot.getKey();
                         // Initialize applicationRef to point this node to make for future references
                         applicationRef = FirebaseDatabase.getInstance().getReference("applications").child(applicationId);
@@ -148,7 +149,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
             jobIdTextView.setText("Job ID: "+applicant.getJobId());
 
             // Retrieve the application status and set the Ui accordingly
-            applicationRef.child("applicantStatus").addListenerForSingleValueEvent(new ValueEventListener() {
+            applicationRef.child("applicantStatus").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String status = snapshot.getValue(String.class);
@@ -157,7 +158,7 @@ public class ApplicantDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.d("Status fetch failed", "Error fetching Status!", error.toException());
                 }
             });
         }
