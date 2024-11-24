@@ -172,12 +172,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Application Status"
+                    android:backgroundTint="#677676"
                     android:layout_marginEnd="8dp" />
 
                 <Button
                     android:id="@+id/logoutButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#677676"
                     android:text="Logout" />
             </LinearLayout>
         </LinearLayout>

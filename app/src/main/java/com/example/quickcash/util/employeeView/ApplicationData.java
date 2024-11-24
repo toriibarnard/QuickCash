@@ -7,126 +7,57 @@ import java.util.UUID;
  * Represents an application
  */
 public class ApplicationData implements Serializable {
-    private String applicationID;
-    private String jobID;
-    private String applicantEmail;
-    private String applicantPhone;
-    private String applicantName;
-    private String applicationStatus;
+    private String jobIdAndTitle;
+    private String companyName;
+    private String jobLocation;
+    private String applicationDate;
+    private String status;
 
-    public ApplicationData() {}
-
-    public ApplicationData(String applicationID,
-                           String applicantEmail,
-                           String applicantPhone,
-                           String applicantName,
-                           String applicationStatus,
-                           String jobID) {
-        this.applicationID = applicationID;
-        this.applicantEmail = applicantEmail;
-        this.applicantPhone = applicantPhone;
-        this.applicantName = applicantName;
-        this.applicationStatus = applicationStatus;
-        this.jobID = jobID;
+    public ApplicationData(String jobIdAndTitle, String companyName, String jobLocation, String applicationDate, String status) {
+        this.jobIdAndTitle = jobIdAndTitle;
+        this.companyName = companyName;
+        this.jobLocation = jobLocation;
+        this.applicationDate = applicationDate;
+        this.status = status;
     }
 
-    public static String generateApplicationID() {
-        return UUID.randomUUID().toString();
+    public String getJobIdAndTitle() {
+        return jobIdAndTitle;
     }
 
-    /**
-     * Get application ID
-     * @return application ID
-     */
-    public String getApplicationID() {
-        return applicationID;
+    public void setJobIdAndTitle(String jobIdAndTitle) {
+        this.jobIdAndTitle = jobIdAndTitle;
     }
 
-    /**
-     * Set application ID
-     * @param applicationID application ID
-     */
-    public void setApplicationID(String applicationID) {
-        this.applicationID = applicationID;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    /**
-     * Get job ID
-     * @return job ID
-     */
-    public String getJobID() {
-        return jobID;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    /**
-     * Set job ID
-     * @param jobID job ID
-     */
-    public void setJobID(String jobID) {
-        this.jobID = jobID;
+    public String getJobLocation() {
+        return jobLocation;
     }
 
-    /**
-     * Get applicant email
-     * @return applicant email
-     */
-    public String getApplicantEmail() {
-        return applicantEmail;
+    public void setJobLocation(String jobLocation) {
+        this.jobLocation = jobLocation;
     }
 
-    /**
-     * Set applicant email
-     * @param applicantEmail applicant email
-     */
-    public void setApplicantEmail(String applicantEmail) {
-        this.applicantEmail = applicantEmail;
+    public String getApplicationDate() {
+        return applicationDate;
     }
 
-    /**
-     * Get applicant phone
-     * @return applicant phone
-     */
-    public String getApplicantPhone() {
-        return applicantPhone;
+    public void setApplicationDate(String applicationDate) {
+        this.applicationDate = applicationDate;
     }
 
-    /**
-     * Set applicant phone
-     * @param applicantPhone applicant phone
-     */
-    public void setApplicantPhone(String applicantPhone) {
-        this.applicantPhone = applicantPhone;
+    public String getStatus() {
+        return status;
     }
 
-    /**
-     * Get applicant name
-     * @return applicant name
-     */
-    public String getApplicantName() {
-        return applicantName;
-    }
-
-    /**
-     * Set applicant name
-     * @param applicantName applicant name
-     */
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
-    }
-
-    /**
-     * Get application status
-     * @return application status
-     */
-    public String getApplicationStatus() {
-        return applicationStatus;
-    }
-
-    /**
-     * Set application status
-     * @param applicationStatus application status
-     */
-    public void setApplicationStatus(String applicationStatus) {
-        this.applicationStatus = applicationStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
