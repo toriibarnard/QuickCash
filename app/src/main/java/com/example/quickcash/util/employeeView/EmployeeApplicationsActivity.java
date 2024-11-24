@@ -1,9 +1,7 @@
 package com.example.quickcash.util.employeeView;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -14,19 +12,16 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.quickcash.util.employerView.ApplicationAdapter;
 import com.example.quickcash.R;
 import com.example.quickcash.firebase.FirebaseEmployeeApplicationInfo;
 import com.example.quickcash.ui.EmployeeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
-public class EmployeeApplicationsActivity extends AppCompatActivity {
+public class EmployeeApplicationsActivity extends AppCompatActivity implements ApplicationAdapter.OnItemClickListener {
 
-    private FirebaseAuth mAuth;
-    RecyclerView recyclerView;
     String employeeEmail;
+    FirebaseEmployeeApplicationInfo firebaseEmployeeApplicationInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,57 +35,42 @@ public class EmployeeApplicationsActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Firebase authorization
-        mAuth = FirebaseAuth.getInstance();
+        initializeFirebase();
+        setUpRecyclerView();
+        setUpDashboardButton();
+    }
+
+    private void initializeFirebase() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             employeeEmail = currentUser.getEmail();
         }
+        firebaseEmployeeApplicationInfo = new FirebaseEmployeeApplicationInfo();
+    }
 
-        // Initialize FirebaseEmployeeApplicationInfo
-        FirebaseEmployeeApplicationInfo firebaseEmployeeApplicationInfo = new FirebaseEmployeeApplicationInfo(FirebaseDatabase.getInstance());
-
-        // Initialize the RecyclerView and set LayoutManager
-        recyclerView = findViewById(R.id.employeeRecyclerView);
+    private void setUpRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.employeeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Fetch data asynchronously and set up RecyclerView once data is available
         firebaseEmployeeApplicationInfo.returnEmployeeApplications(employeeEmail, applications -> {
-            Log.d("EmployeeApplicationsActivity", "Number of applications loaded: " + applications.size());
-            ApplicationAdapter applicationAdapter = new ApplicationAdapter(applications);
+            ApplicationAdapter applicationAdapter = new ApplicationAdapter(applications, this);
             recyclerView.setAdapter(applicationAdapter);
         });
+    }
 
-        // Setup buttons and listeners
+    private void setUpDashboardButton() {
         Button dashboardButton = findViewById(R.id.dashboardButton);
-        Button shortlistedButton = findViewById(R.id.shortlistedButton);
-        Button offersButton = findViewById(R.id.offersButton);
-
         dashboardButton.setOnClickListener(v -> {
             Intent intent = new Intent(EmployeeApplicationsActivity.this, EmployeeActivity.class);
             startActivity(intent);
         });
-
-        shortlistedButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EmployeeApplicationsActivity.this, EmployeeShortlistedActivity.class);
-            startActivity(intent);
-        });
-
-        offersButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EmployeeApplicationsActivity.this, EmployeeOffersActivity.class);
-            startActivity(intent);
-        });
     }
 
-    // Method to clear session data
-    private void clearSessionData() {
-        // Clear Firebase session
-        FirebaseAuth.getInstance().signOut();
-
-        // Clear SharedPreferences session (the locally stored data)
-        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();  // Clear all data in the user_session file
-        editor.apply();
+    @Override
+    public void onViewOfferClick(ApplicationData applicationData) {
+        OfferDialog offerDialog = new OfferDialog(this, applicationData);
+        offerDialog.show();
     }
 }

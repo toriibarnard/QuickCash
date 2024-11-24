@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="#D3E0EA"
+    android:layout_marginVertical="7.5dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -38,51 +39,33 @@
             android:textColor="#757575" />
 
         <TextView
-            android:id="@+id/startDateTextView"
+            android:id="@+id/applicationDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="8dp"
-            android:text="Start Date: October 10, 2024"
-            android:textStyle="bold"
+            android:layout_marginVertical="2dp"
+            android:text="Applied Date: October 10, 2024"
             android:textColor="#757575" />
 
         <TextView
-            android:id="@+id/salaryTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salary: $45/hr"
-            android:textStyle="bold"
-            android:textColor="#757575" />
-
-        <!-- Action Buttons -->
-        <LinearLayout
-            android:id="@+id/buttonLayout"
+            android:id="@+id/statusTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:text="Status"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginVertical="16dp">
+            android:textColor="#E47934"
+            android:layout_marginTop="8dp" />
 
-            <Button
-                android:id="@+id/acceptOfferButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_weight="1"
-                android:backgroundTint="#1EAB0E"
-                android:text="Accept"
-                android:textSize="14sp" />
+        <Button
+            android:id="@+id/viewOfferButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#1EAB0E"
+            android:text="View Offer"
+            android:visibility="gone"
+            android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/rejectOfferButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_weight="1"
-                android:backgroundTint="#FF0000"
-                android:text="Reject"
-                android:textSize="14sp" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
