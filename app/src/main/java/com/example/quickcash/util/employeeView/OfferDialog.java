@@ -86,6 +86,9 @@ public class OfferDialog extends Dialog {
 
     private void handleAcceptJob() {
         applicationsRef.child(applicationNode).child("applicantStatus").setValue("Hired");
+        applicationsRef.child(applicationNode).child("paymentStatus").setValue("Not Paid");
+        applicationsRef.child(applicationNode).child("employeeReview").setValue("Not Reviewed");
+        applicationsRef.child(applicationNode).child("employerReview").setValue("Not Reviewed");
         dismiss();
     }
 
