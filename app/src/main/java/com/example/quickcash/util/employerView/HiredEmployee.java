@@ -9,9 +9,11 @@ public class HiredEmployee {
     private String employeeName;
     private String jobStatus;
 
+    private String applicationID;
+
     // constructor with all fields.
     public HiredEmployee(String jobTitleAndId, String jobCompany, String startDate,
-                         String salary, String employeeName, String employeeEmail, String jobStatus) {
+                         String salary, String employeeName, String employeeEmail, String jobStatus, String applicationID) {
         this.jobTitleAndId = jobTitleAndId;
         this.jobCompany = jobCompany;
         this.salary = salary;
@@ -19,11 +21,16 @@ public class HiredEmployee {
         this.employeeEmail = employeeEmail;
         this.employeeName = employeeName;
         this.jobStatus = jobStatus;
+        this.applicationID = applicationID;
     }
 
     // getters
     public String getJobTitleAndId() {
         return jobTitleAndId;
+    }
+
+    public String getApplicationID() {
+        return applicationID;
     }
 
     public String getJobCompany() {
