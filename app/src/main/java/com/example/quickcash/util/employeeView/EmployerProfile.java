@@ -4,13 +4,15 @@ public class EmployerProfile {
     private String name;
     private String email;
     private String phone;
-    private String rating;
+    private String ratingValue;
+    private String ratingCount;
 
-    public EmployerProfile(String name, String email, String phone, String rating) {
+    public EmployerProfile(String name, String email, String phone, String ratingValue, String ratingCount) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.rating = rating != null ? rating : "No rating available";
+        this.ratingValue = ratingValue;
+        this.ratingCount = ratingCount;
     }
 
     public String getName() {
@@ -25,7 +27,11 @@ public class EmployerProfile {
         return phone;
     }
 
-    public String getRating() {
-        return rating;
+    public String getRatingValue() {
+        return ratingValue;
+    }
+
+    public String getRatingCount() {
+        return ratingCount;
     }
 }

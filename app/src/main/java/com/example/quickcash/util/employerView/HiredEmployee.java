@@ -8,12 +8,14 @@ public class HiredEmployee {
     private String employeeEmail;
     private String employeeName;
     private String jobStatus;
+    private String ratingStatus;
 
     private String applicationID;
 
     // constructor with all fields.
-    public HiredEmployee(String jobTitleAndId, String jobCompany, String startDate,
-                         String salary, String employeeName, String employeeEmail, String jobStatus, String applicationID) {
+    public HiredEmployee(String jobTitleAndId, String jobCompany, String startDate, String salary,
+                         String employeeName, String employeeEmail, String jobStatus,
+                         String ratingStatus, String applicationID) {
         this.jobTitleAndId = jobTitleAndId;
         this.jobCompany = jobCompany;
         this.salary = salary;
@@ -21,6 +23,7 @@ public class HiredEmployee {
         this.employeeEmail = employeeEmail;
         this.employeeName = employeeName;
         this.jobStatus = jobStatus;
+        this.ratingStatus = ratingStatus;
         this.applicationID = applicationID;
     }
 
@@ -57,7 +60,8 @@ public class HiredEmployee {
         return jobStatus;
     }
 
-    public void setJobStatus(String jobStatus) {
-        this.jobStatus = jobStatus;
+    public String getRatingStatus() {
+        return ratingStatus;
     }
+
 }

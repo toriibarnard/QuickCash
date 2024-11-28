@@ -47,6 +47,7 @@ public class FirebaseHiredEmployees {
                                     String employeeEmail = applicationSnapshot.child("applicantEmail").getValue(String.class);
                                     String startDate = applicationSnapshot.child("startDate").getValue(String.class);
                                     String salary = applicationSnapshot.child("salary").getValue(String.class);
+                                    String reviewStatus = applicationSnapshot.child("employeeReview").getValue(String.class);
                                     String applicationID = applicationSnapshot.getKey();
 
                                     String jobTitleAndId = jobTitle + " - #" + jobId;
@@ -58,6 +59,7 @@ public class FirebaseHiredEmployees {
                                             employeeName,
                                             employeeEmail,
                                             status,
+                                            reviewStatus,
                                             applicationID
                                     );
                                     hiredEmployees.add(hiredEmployee);

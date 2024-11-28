@@ -45,10 +45,19 @@ public class EmployerProfileActivity extends AppCompatActivity {
             @Override
             public void onProfileFetched(EmployerProfile employerProfile) {
                 // Set the profile data to the TextViews
-                nameTextView.setText(employerProfile.getName());
-                emailTextView.setText(employerProfile.getEmail());
-                phoneTextView.setText(employerProfile.getPhone());
-                ratingTextView.setText(employerProfile.getRating());
+                nameTextView.setText("Name: "+employerProfile.getName());
+                emailTextView.setText("Email: "+employerProfile.getEmail());
+                phoneTextView.setText("Phone: "+employerProfile.getPhone());
+
+                if (employerProfile.getRatingValue() != null && employerProfile.getRatingCount() != null) {
+                    double ratingValue = Integer.parseInt(employerProfile.getRatingValue());
+                    int ratingCount = Integer.parseInt(employerProfile.getRatingCount());
+                    double rating = ratingValue / ratingCount;
+                    ratingTextView.setText("Rating: "+ String.format("%.1f", rating));
+                } else {
+                    ratingTextView.setText("No reviews yet!");
+                }
+
             }
 
             @Override

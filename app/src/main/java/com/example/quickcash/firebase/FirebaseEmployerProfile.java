@@ -45,8 +45,9 @@ public class FirebaseEmployerProfile {
                                 String name = employerNode.child("name").getValue(String.class);
                                 String email = employerNode.child("email").getValue(String.class);
                                 String phone = employerNode.child("phone").getValue(String.class);
-                                String rating = employerNode.child("rating").getValue(String.class);
-                                EmployerProfile employerProfile = new EmployerProfile(name, email, phone, rating);
+                                String ratingValue = employerNode.child("ratingValue").getValue(String.class);
+                                String ratingCount = employerNode.child("ratingCount").getValue(String.class);
+                                EmployerProfile employerProfile = new EmployerProfile(name, email, phone, ratingValue, ratingCount);
                                 listener.onProfileFetched(employerProfile);
                             }
                         } else {

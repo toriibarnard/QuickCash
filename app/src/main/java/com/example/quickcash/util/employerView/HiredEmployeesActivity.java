@@ -1,5 +1,6 @@
 package com.example.quickcash.util.employerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.example.quickcash.firebase.FirebaseApplicationSubmission;
 import com.example.quickcash.firebase.FirebaseCRUD;
 import com.example.quickcash.firebase.FirebaseHiredEmployees;
 import com.example.quickcash.util.employeeView.ApplicationAdapter;
+import com.example.quickcash.util.ratingSystem.RatingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -79,5 +81,14 @@ public class HiredEmployeesActivity extends AppCompatActivity implements HiredEm
             // Handle the error
             Toast.makeText(this, "Failed to update status", Toast.LENGTH_LONG).show();
         });
+
+    }
+
+    @Override
+    public void onRateEmployeeClick(HiredEmployee employee){
+        Intent intent = new Intent(HiredEmployeesActivity.this, RatingActivity.class);
+        intent.putExtra("employeeID", employee.getEmployeeEmail());
+        intent.putExtra("applicationID", employee.getApplicationID());
+        startActivity(intent);
     }
 }
