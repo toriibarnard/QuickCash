@@ -53,7 +53,7 @@ dependencies {
     implementation libs.play.services.maps
 
     // Paypal dependencies
-    implementation libs.sdk.paypal.android.sdk
+    implementation 'com.paypal.android.sdk:paypal-android-sdk:2.16.0'
     implementation libs.converter.gson
 
     testImplementation libs.junit

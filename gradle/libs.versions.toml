@@ -1,5 +1,6 @@
 [versions]
 agp = "8.2.2"
+converterGson = "2.5.0"
 junit = "4.13.2"
 espressoCore = "3.6.1"
 espressoIntents = "3.6.1"  # Added for espresso-intents
@@ -9,6 +10,8 @@ activity = "1.9.2"
 constraintLayout = "2.1.4"
 firebaseBom = "33.4.0"
 mockitoCore = "4.11.0"
+paypalAndroidSdk = "2.15.3"
+paypalAndroidSdkVersion = "2.16.0"
 playServicesAuth = "21.2.0"
 androidxJunit = "1.2.1"
 testRules = "1.6.1"
@@ -22,6 +25,7 @@ googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 [libraries]
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
@@ -31,6 +35,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database" 
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+paypal-android-sdk = { module = "com.paypal.skd:paypal-android-sdk", version.ref = "paypalAndroidSdk" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -41,6 +46,7 @@ espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents"
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "testRules" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
 
+sdk-paypal-android-sdk = { module = "com.paypal.sdk:paypal-android-sdk", version.ref = "paypalAndroidSdkVersion" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
