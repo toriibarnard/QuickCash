@@ -19,7 +19,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBT-R7ng5ZRVcxk7cWhj6CdYapSI6VnQGA" />
-
+        <activity
+            android:name=".util.employeeView.EmployerProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".maps.MapsActivity"
             android:exported="true"
